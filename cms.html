@@ -1330,7 +1330,7 @@
 
         // Handle product form submission
         function setupProductFormHandler() {
-            document.getElementById('product-form').addEventListener('submit', function(e) {
+            document.getElementById('product-form').addEventListener('submit', async function(e) {
                 e.preventDefault();
                 
                 const id = document.getElementById('product-id').value.trim();
