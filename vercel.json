@@ -1,6 +1,11 @@
 {
   "buildCommand": "echo 'Static site - no build needed'",
   "outputDirectory": ".",
+  "functions": {
+    "api/upload.js": {
+      "runtime": "nodejs18.x"
+    }
+  },
   "rewrites": [
     {
       "source": "/cms",

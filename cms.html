@@ -1294,6 +1294,29 @@
             }
         }
 
+        // Upload image to Vercel Blob Storage
+        async function uploadImageToVercel(file) {
+            try {
+                const formData = new FormData();
+                formData.append('file', file);
+                
+                const response = await fetch('/api/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Upload failed');
+                }
+                
+                const result = await response.json();
+                return result.url;
+            } catch (error) {
+                console.error('Upload error:', error);
+                throw error;
+            }
+        }
+
         function previewImageFromUrl() {
             const url = document.getElementById('product-image-url').value;
             if (url) {
@@ -1321,13 +1344,17 @@
                 const fileInput = document.getElementById('product-image-file');
                 
                 if (fileInput.files && fileInput.files[0]) {
-                    // Convert file to base64 for storage (not ideal for production, but works for demo)
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        imageUrl = e.target.result;
+                    // Upload to Vercel Blob Storage
+                    try {
+                        showNotification('Đang upload ảnh...', 'info');
+                        const uploadedUrl = await uploadImageToVercel(fileInput.files[0]);
+                        imageUrl = uploadedUrl;
                         saveProduct(id, name, category, price, stock, imageUrl);
-                    };
-                    reader.readAsDataURL(fileInput.files[0]);
+                        showNotification('Upload ảnh thành công!', 'success');
+                    } catch (error) {
+                        showNotification('Lỗi upload ảnh: ' + error.message, 'error');
+                        return;
+                    }
                 } else if (imageUrl) {
                     saveProduct(id, name, category, price, stock, imageUrl);
                 } else {

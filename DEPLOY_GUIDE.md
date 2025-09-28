@@ -18,6 +18,26 @@ new web/
 └── SETUP_GUIDE.md       # Hướng dẫn setup
 ```
 
+## 🔧 Vercel Blob Storage Setup
+
+### Enable Vercel Blob Storage
+
+1. **Go to Vercel Dashboard** → Your Project → Storage
+2. **Click "Create Database"** → Select "Blob"
+3. **Copy the token** (starts with `vercel_blob_rw_`)
+4. **Add Environment Variable**:
+   - Go to Project Settings → Environment Variables
+   - Add: `BLOB_READ_WRITE_TOKEN` = your_token_here
+   - Redeploy the project
+
+### Test Image Upload
+
+After deployment, test the image upload in CMS:
+1. Go to `/cms` → Inventory tab
+2. Click "Thêm sản phẩm mới"
+3. Upload an image file
+4. The image will be stored in Vercel Blob Storage
+
 ## ☁️ Các cách deploy lên Vercel
 
 ### 🥇 Cách 1: Deploy từ GitHub (Khuyến nghị)
