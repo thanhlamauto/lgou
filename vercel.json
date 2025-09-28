@@ -1,35 +1,12 @@
 {
-  "version": 2,
-  "name": "lgou-website",
-  "builds": [
-    {
-      "src": "**/*",
-      "use": "@vercel/static"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/cms",
-      "dest": "/cms.html"
-    },
-    {
-      "src": "/cms.html",
-      "dest": "/cms.html"
-    },
-    {
-      "src": "/(.*\\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot))",
-      "dest": "/$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
-    }
-  ],
-  "functions": {},
   "rewrites": [
     {
       "source": "/cms",
       "destination": "/cms.html"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }
