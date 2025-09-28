@@ -1,0 +1,4092 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L'Gôu - Tranh Lego Quà Tặng Cá Nhân Hóa Cho Mọi Dịp</title>
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://lgou.com/">
+    <meta property="og:title" content="L'Gôu - Tranh Lego Quà Tặng Cá Nhân Hóa Cho Mọi Dịp">
+    <meta property="og:description" content="Món quà ý nghĩa cho Anniversary, Tốt nghiệp, Sinh nhật... thể hiện cá tính riêng của bạn!"
+    <meta property="og:image" content="https://i.postimg.cc/7YKWGsqK/logo-L-Go-u-tra-ng-page-0001.jpg">
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="L'Gôu - Tranh Lego Quà Tặng Cá Nhân Hóa Cho Mọi Dịp">
+    <meta name="twitter:description" content="Món quà ý nghĩa cho Anniversary, Tốt nghiệp, Sinh nhật... thể hiện cá tính riêng của bạn!">
+    <meta name="twitter:image" content="https://i.postimg.cc/7YKWGsqK/logo-L-Go-u-tra-ng-page-0001.jpg">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-blue: #4a90a4;
+            --primary-blue-dark: #2c5f73;
+            --primary-blue-light: #6bb6cc;
+            --accent-yellow: #f4e4a6;
+            --accent-yellow-light: #f9f0c4;
+            --white: #ffffff;
+            --off-white: #f8f9fa;
+            --text-dark: #2c5f73;
+            --text-light: #6c757d;
+            --background-gradient: linear-gradient(135deg, #f9f0c4 0%, #f4e4a6 20%, #e8d5a3 40%, #d4c5a0 60%, #a4b8c4 80%, #4a90a4 100%);
+            --card-background: rgba(244, 228, 166, 0.3);
+            --card-background-hover: rgba(244, 228, 166, 0.5);
+            --button-gradient: linear-gradient(135deg, var(--primary-blue), var(--primary-blue-dark));
+            --light-gray-bg: #f8f9fa;
+            --light-gray-border: #dee2e6;
+            --free-ship-threshold: 349000;
+            --zalo-blue: #0068ff;
+            --facebook-blue: #4267B2;
+            --instagram-purple: #833AB4;
+            --error-red: #dc3545;
+            --success-green: #28a745;
+            --step-active: var(--primary-blue);
+            --step-inactive: #6c757d;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            background: var(--background-gradient);
+            background-attachment: fixed;
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--background-gradient);
+            background-attachment: fixed;
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            color: var(--text-dark);
+            line-height: 1.6;
+            padding-bottom: 70px;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            position: relative;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0 15px;
+        }
+
+        .logo-image {
+            height: 80px;
+            transition: transform 0.3s ease;
+        }
+        
+        .logo-image:hover {
+            transform: scale(1.05);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            position: relative;
+            padding: 80px 15px;
+            text-align: center;
+            overflow: hidden;
+            background: transparent;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--primary-blue);
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.2;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: var(--text-dark);
+            font-weight: 400;
+            line-height: 1.6;
+        }
+
+        .btn-primary-custom {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--button-gradient);
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            box-shadow: 0 8px 25px rgba(74, 144, 164, 0.3);
+        }
+
+        .btn-primary-custom:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(74, 144, 164, 0.4);
+            color: white;
+            background: linear-gradient(135deg, var(--primary-blue-light), var(--primary-blue));
+        }
+
+        .hero-icons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .hero-icon {
+            font-size: 2rem;
+            color: var(--primary-blue);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .hero-icon:nth-child(2) { animation-delay: 0.5s; }
+        .hero-icon:nth-child(3) { animation-delay: 1s; }
+        .hero-icon:nth-child(4) { animation-delay: 1.5s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Sparkle Animation */
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--primary-blue);
+            border-radius: 50%;
+            animation: sparkle 2s linear infinite;
+        }
+
+        .sparkle:nth-child(1) {
+            top: 20%;
+            left: 20%;
+            animation-delay: 0s;
+        }
+
+        .sparkle:nth-child(2) {
+            top: 30%;
+            right: 20%;
+            animation-delay: 0.5s;
+        }
+
+        .sparkle:nth-child(3) {
+            bottom: 30%;
+            left: 30%;
+            animation-delay: 1s;
+        }
+
+        .sparkle:nth-child(4) {
+            bottom: 20%;
+            right: 30%;
+            animation-delay: 1.5s;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: scale(0); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+
+        /* Featured Section */
+        .featured-section {
+            padding: 60px 15px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(5px);
+        }
+
+        .featured-title {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 40px;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .featured-title i {
+            color: var(--primary-blue);
+            margin-right: 10px;
+        }
+
+        .featured-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .product-card {
+            background: var(--card-background);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--button-gradient);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(74, 144, 164, 0.2);
+            background: var(--card-background-hover);
+        }
+
+        .product-image {
+            width: 80px;
+            height: 80px;
+            background: var(--button-gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2rem;
+            color: white;
+        }
+
+        .product-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--primary-blue);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .product-desc {
+            color: var(--text-dark);
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+        }
+
+        .product-price {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary-blue-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        /* Features Section */
+        .features-section {
+            padding: 60px 15px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(5px);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-item {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: var(--button-gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2rem;
+            color: white;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .feature-item:nth-child(2) .feature-icon { animation-delay: 0.5s; }
+        .feature-item:nth-child(3) .feature-icon { animation-delay: 1s; }
+        .feature-item:nth-child(4) .feature-icon { animation-delay: 1.5s; }
+
+        .feature-item h4 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary-blue);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .feature-item h4 i {
+            color: var(--primary-blue);
+        }
+
+        .feature-item p {
+            color: var(--text-dark);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px 15px;
+            text-align: center;
+        }
+
+        .tagline {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            max-width: 100%;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .sub-tagline {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            color: var(--accent-light);
+            font-weight: 500;
+            max-width: 800px;
+            line-height: 1.7;
+        }
+
+        .benefits-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 25px 0;
+            width: 100%;
+        }
+
+        .benefit-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            max-width: 120px;
+            padding: 10px;
+        }
+
+        .benefit-icon {
+            width: 45px;
+            height: 45px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 8px;
+            font-size: 1.3rem;
+            color: white;
+            box-shadow: 0 4px 10px rgba(44, 62, 80, 0.3);
+        }
+
+        .benefit-text {
+            font-size: 0.75rem;
+            color: var(--light-pastel-pink);
+            line-height: 1.4;
+        }
+
+        .section {
+            padding: 40px 0;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            margin: 20px 15px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .section-title {
+            font-size: 1.6rem;
+            text-align: center;
+            margin-bottom: 25px;
+            color: var(--primary-blue-dark);
+            position: relative;
+            font-family: 'Montserrat', sans-serif;
+            text-shadow: 0 1px 3px rgba(255,255,255,0.8);
+            font-weight: 700;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: var(--gradient-pink);
+        }
+
+        /* Bước điều hướng */
+        .steps-container {
+            display: flex;
+            justify-content: space-between;
+            margin: 30px auto;
+            max-width: 800px;
+            position: relative;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .steps-container::before {
+            content: '';
+            position: absolute;
+            top: 25px;
+            left: 10%;
+            width: 80%;
+            height: 3px;
+            background: var(--light-gray);
+            z-index: 1;
+        }
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 20%;
+        }
+
+        .step-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--step-inactive);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .step.active .step-icon {
+            background: var(--step-active);
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(233, 30, 99, 0.5);
+        }
+
+        .step-title {
+            font-size: 0.85rem;
+            text-align: center;
+            color: var(--primary-blue-dark);
+            font-weight: 500;
+            transition: color 0.3s ease;
+            text-shadow: 0 1px 2px rgba(255,255,255,0.8);
+        }
+
+        .step.active .step-title {
+            color: var(--primary-blue);
+            font-weight: 600;
+        }
+
+        .step-content {
+            margin-top: 30px;
+        }
+
+        .step-pane {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .step-pane.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .step-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--light-gray);
+        }
+
+        .step-btn {
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            font-size: 1rem;
+        }
+
+        .prev-btn {
+            background: transparent;
+            color: var(--light-pastel-pink);
+            border: 2px solid var(--light-pastel-pink);
+        }
+
+        .prev-btn:hover {
+            background: rgba(255, 204, 203, 0.1);
+        }
+
+        .next-btn {
+            background: var(--gradient-pink);
+            color: white;
+            box-shadow: 0 3px 10px rgba(233, 30, 99, 0.3);
+        }
+
+        .next-btn:hover {
+            background: var(--gradient-light);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(233, 30, 99, 0.5);
+        }
+
+        .step-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        /* Collection Selector Styles */
+        .collection-selector {
+            width: 100%;
+            margin-bottom: 25px;
+        }
+        
+        .collection-title {
+            font-size: 1.8rem;
+            text-align: center;
+            margin-bottom: 10px;
+            color: var(--primary-blue-dark);
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            text-shadow: 0 1px 3px rgba(255,255,255,0.8);
+        }
+        
+        .collection-subtitle {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--text-dark);
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+        
+        .collection-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .collection-card {
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            border-radius: 15px;
+            padding: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .collection-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(74, 144, 164, 0.2);
+            border-color: var(--primary-blue-light);
+        }
+        
+        .collection-card.active {
+            border-color: var(--primary-blue);
+            background: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 10px 30px rgba(74, 144, 164, 0.3);
+            transform: translateY(-3px);
+        }
+        
+        .collection-card.limited {
+            background: linear-gradient(135deg, rgba(233, 30, 99, 0.1), rgba(255, 193, 7, 0.1));
+            border-color: #e91e63;
+        }
+        
+        .collection-card.expired {
+            opacity: 0.6;
+            cursor: not-allowed;
+            background: rgba(128, 128, 128, 0.2);
+        }
+        
+        .collection-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        
+        .collection-header h4 {
+            font-size: 1.3rem;
+            color: var(--primary-blue-dark);
+            font-weight: 700;
+            margin: 0;
+        }
+        
+        .collection-status {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .collection-status.available {
+            background: rgba(76, 175, 80, 0.2);
+            color: #4CAF50;
+        }
+        
+        .collection-status.limited {
+            background: rgba(233, 30, 99, 0.2);
+            color: #e91e63;
+        }
+        
+        .collection-status.expired {
+            background: rgba(128, 128, 128, 0.2);
+            color: #666;
+        }
+        
+        .collection-description {
+            margin-bottom: 15px;
+            color: var(--text-dark);
+            line-height: 1.5;
+        }
+        
+        .collection-timer {
+            background: rgba(233, 30, 99, 0.1);
+            border: 1px solid rgba(233, 30, 99, 0.3);
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .timer-label {
+            font-size: 0.8rem;
+            color: #e91e63;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        
+        .timer-display {
+            font-size: 1.1rem;
+            color: #e91e63;
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .collection-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .feature-tag {
+            background: rgba(74, 144, 164, 0.2);
+            color: var(--primary-blue-dark);
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .regular-collection {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px dashed rgba(255, 255, 255, 0.3);
+        }
+
+        /* Các phần nội dung của bước */
+        .version-selector {
+            width: 100%;
+            margin-bottom: 25px;
+        }
+        
+        .version-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .version-option {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .version-option:hover {
+            border-color: var(--primary-light);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(44, 62, 80, 0.15);
+        }
+        
+        .version-option.active {
+            border-color: var(--primary-blue);
+            background: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 8px 25px rgba(74, 144, 164, 0.3);
+            transform: translateY(-3px);
+        }
+        
+        .version-option.active::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-primary);
+        }
+        
+        .version-header {
+            text-align: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .version-header h3 {
+            font-size: 1.4rem;
+            margin-bottom: 8px;
+            color: var(--primary-blue-dark);
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            text-shadow: 0 1px 2px rgba(255,255,255,0.8);
+        }
+        
+        .version-price {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 5px;
+            text-shadow: 0 1px 2px rgba(255,255,255,0.8);
+        }
+        
+        .version-features {
+            text-align: left;
+        }
+        
+        .version-subtitle {
+            font-size: 1rem;
+            color: var(--primary-blue-dark);
+            margin-bottom: 15px;
+            text-align: center;
+            font-weight: 600;
+            text-shadow: 0 1px 2px rgba(255,255,255,0.8);
+        }
+        
+        .version-features ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .version-features li {
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+        
+        .version-features li::before {
+            content: '✓';
+            color: var(--primary-blue);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+        
+        .version-features strong {
+            color: var(--primary-blue-dark);
+            font-weight: 700;
+        }
+
+        /* Step 2: Chọn Background */
+        .background-customization {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .preview-container {
+            background-color: var(--gray);
+            border-radius: 10px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--pink);
+            min-height: 300px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .preview-container:hover {
+            transform: scale(1.01);
+            box-shadow: 0 0 20px rgba(233, 30, 99, 0.5);
+        }
+        
+        .preview-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        
+        .background-note {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 10px;
+            width: 100%;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .background-note label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--primary-blue-dark);
+            font-weight: 600;
+            text-shadow: 0 1px 2px rgba(255,255,255,0.8);
+        }
+
+        .background-note textarea {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 8px;
+            padding: 12px;
+            color: var(--text-dark);
+            font-family: inherit;
+            min-height: 100px;
+            resize: vertical;
+            transition: border-color 0.3s ease;
+        }
+
+        .background-note textarea:focus {
+            border-color: var(--primary-blue);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(74, 144, 164, 0.2);
+        }
+
+        .background-options {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+            gap: 12px;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+            overflow: hidden;
+        }
+
+        .option-item {
+            background-color: var(--dark-gray);
+            border-radius: 8px;
+            padding: 15px 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
+            position: relative;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        }
+
+        .option-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(233, 30, 99, 0.3);
+            border-color: var(--light-pink);
+        }
+        
+        .option-item.out-of-stock {
+            opacity: 0.6;
+            pointer-events: none;
+            filter: grayscale(100%);
+        }
+        
+        .option-item.out-of-stock::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(244, 67, 54, 0.1);
+            border-radius: 12px;
+        }
+        
+        .option-stock {
+            text-align: center;
+            margin-top: 5px;
+            font-size: 0.8rem;
+        }
+
+        .option-item.selected {
+            border-color: var(--pink);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(233, 30, 99, 0.4);
+            animation: pulse 0.5s ease;
+        }
+
+        @keyframes pulse {
+            0% { transform: translateY(-5px) scale(1); }
+            50% { transform: translateY(-5px) scale(1.05); }
+            100% { transform: translateY(-5px) scale(1); }
+        }
+
+        .option-thumbnail {
+            width: 60px;
+            height: 60px;
+            background-color: var(--gray);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 8px;
+            overflow: hidden;
+            font-size: 0.8rem;
+            text-align: center;
+            background-size: cover;
+            background-position: center;
+            transition: all 0.3s ease;
+        }
+
+        .option-item:hover .option-thumbnail {
+            transform: scale(1.1);
+        }
+
+        .option-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .option-thumbnail.color {
+            border: 1px solid var(--light-gray);
+        }
+
+        .option-name {
+            font-size: 0.8rem;
+            text-align: center;
+            margin-bottom: 3px;
+        }
+
+        .option-price {
+            font-size: 0.75rem;
+            color: var(--light-pastel-pink);
+            font-weight: 600;
+        }
+
+        .character-options {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .character-column {
+            background-color: var(--dark-gray);
+            border-radius: 8px;
+            padding: 15px;
+            border: 1px solid var(--light-gray);
+        }
+
+        .character-title {
+            font-size: 1rem;
+            margin-bottom: 12px;
+            text-align: center;
+            color: var(--light-pastel-pink);
+            font-weight: 600;
+        }
+
+        .color-option {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            margin: 5px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.2s ease;
+            display: inline-block;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+            position: relative;
+        }
+
+        .color-option:hover {
+            transform: scale(1.15);
+            box-shadow: 0 0 10px rgba(255,255,255,0.3);
+        }
+
+        .color-option.selected {
+            border-color: var(--white);
+            transform: scale(1.2);
+            box-shadow: 0 0 15px var(--pink);
+        }
+
+        .color-options-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .option-group-title {
+            font-size: 0.95rem;
+            margin: 10px 0 8px;
+            color: var(--light-pastel-pink);
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .color-code {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: var(--pink);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: bold;
+        }
+
+        .order-summary {
+            background-color: var(--gray);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            border: 1px solid var(--light-gray);
+        }
+
+        .summary-title {
+            font-size: 1.4rem;
+            margin-bottom: 18px;
+            color: var(--pastel-pink);
+            text-align: center;
+        }
+
+        .summary-items {
+            margin-bottom: 18px;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--light-gray);
+            font-size: 0.95rem;
+        }
+
+        .summary-item.subtotal {
+            font-weight: 600;
+            color: var(--light-pastel-pink);
+        }
+
+        .summary-item.discount {
+            color: #4CAF50;
+        }
+
+        .summary-item.shipping {
+            color: #2196F3;
+        }
+
+        .summary-item.total {
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-bottom: none;
+            margin-top: 10px;
+            color: var(--pastel-pink);
+        }
+
+        .discount-section {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .discount-toggle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--light-pastel-pink);
+            cursor: pointer;
+        }
+        
+        .discount-toggle i {
+            transition: transform 0.3s ease;
+        }
+        
+        .discount-toggle.active i {
+            transform: rotate(180deg);
+        }
+        
+        .discount-form {
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .discount-form.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .discount-input {
+            flex: 1;
+            padding: 12px 15px;
+            border-radius: 30px;
+            border: 2px solid var(--light-gray);
+            background-color: var(--dark-gray);
+            color: var(--white);
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        .discount-input:focus {
+            border-color: var(--pink);
+            outline: none;
+        }
+
+        .apply-button {
+            padding: 12px 20px;
+            background: var(--gradient-pink);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s ease;
+            font-size: 0.95rem;
+            box-shadow: 0 3px 10px rgba(233, 30, 99, 0.3);
+        }
+
+        .apply-button:hover {
+            background: var(--gradient-light);
+            transform: translateY(-2px);
+        }
+
+        .discount-result {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 0.95rem;
+            display: none;
+            transition: all 0.3s ease;
+        }
+
+        .discount-result.valid {
+            background-color: rgba(76, 175, 80, 0.2);
+            color: #4CAF50;
+            display: block;
+        }
+
+        .discount-result.invalid {
+            background-color: rgba(244, 67, 54, 0.2);
+            color: #F44336;
+            display: block;
+        }
+
+        .checkout-form {
+            background-color: var(--gray);
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            border: 1px solid var(--light-gray);
+        }
+
+        .form-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            text-align: center;
+            color: var(--pastel-pink);
+        }
+
+        .customer-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 8px;
+            color: var(--light-pastel-pink);
+        }
+        
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 10px;
+            border: 2px solid var(--light-gray);
+            background-color: var(--dark-gray);
+            color: var(--white);
+            font-family: inherit;
+            transition: border-color 0.3s ease;
+            font-size: 1rem;
+        }
+        
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            border-color: var(--pink);
+            outline: none;
+        }
+        
+        .form-error {
+            color: var(--error-red);
+            font-size: 0.85rem;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        .required-star {
+            color: var(--pink);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            margin: 20px 0;
+            font-size: 0.95rem;
+        }
+
+        .checkbox-group input {
+            margin-right: 10px;
+            margin-top: 5px;
+        }
+
+        .policy-link {
+            color: var(--pastel-pink);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .policy-link:hover {
+            text-decoration: underline;
+            color: var(--pink);
+        }
+
+        .cta-button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            padding: 16px;
+            background: var(--gradient-pink);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(233, 30, 99, 0.3);
+            margin-top: 20px;
+        }
+
+        .cta-button:hover {
+            background: var(--gradient-light);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(233, 30, 99, 0.5);
+        }
+
+        .cta-button:disabled {
+            background: var(--light-gray);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .footer {
+            background-color: var(--black);
+            padding: 40px 0 20px;
+        }
+
+        .policy-section {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .policy-box {
+            background-color: var(--gray);
+            padding: 18px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            border: 1px solid var(--light-gray);
+        }
+
+        .policy-box:hover {
+            transform: translateY(-5px);
+        }
+
+        .policy-box h3 {
+            color: var(--pastel-pink);
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .policy-box h3 i {
+            margin-right: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .policy-box:hover h3 i {
+            transform: rotate(15deg);
+        }
+
+        .policy-list {
+            list-style-type: none;
+        }
+
+        .policy-list li {
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .policy-list li::before {
+            content: '•';
+            color: var(--pastel-pink);
+            position: absolute;
+            left: 0;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid var(--light-gray);
+            color: var(--light-gray);
+            font-size: 0.85rem;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 10px;
+            border: 2px solid var(--pink);
+            animation: zoomIn 0.3s ease;
+        }
+
+        @keyframes zoomIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 40px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+        }
+
+        .close-modal:hover {
+            color: var(--pink);
+            transform: scale(1.2);
+        }
+
+        .save-indicator {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: var(--gradient-pink);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            z-index: 2000;
+            display: none;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+        }
+        
+        .hat-section {
+            padding: 10px 0;
+        }
+        
+        .spinner {
+            display: none;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Confirmation Popup */
+        .confirmation-popup {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            background-color: var(--dark-gray);
+            border-radius: 15px;
+            padding: 20px;
+            z-index: 3000;
+            animation: slideUp 0.5s ease;
+            border: 2px solid var(--pink);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+            overflow-y: auto;
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateX(-50%) translateY(100%); opacity: 0; }
+            to { transform: translateX(-50%) translateY(0); opacity: 1; }
+        }
+
+        .confirmation-content {
+            text-align: center;
+            position: relative;
+        }
+
+        .confirmation-icon {
+            font-size: 2.5rem;
+            color: var(--pink);
+            margin-bottom: 15px;
+        }
+
+        .confirmation-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--pastel-pink);
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .confirmation-subtitle {
+            font-size: 1rem;
+            margin-bottom: 20px;
+            color: var(--light-pastel-pink);
+        }
+        
+        .customer-info {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            text-align: left;
+        }
+        
+        .customer-info p {
+            margin: 8px 0;
+            font-size: 0.95rem;
+        }
+        
+        .customer-info .info-label {
+            color: var(--pastel-pink);
+            font-weight: 600;
+            display: inline-block;
+            width: 100px;
+        }
+        
+        .confirmation-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .confirmation-button {
+            padding: 8px 12px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .confirmation-button.primary {
+            background: var(--gradient-pink);
+            color: white;
+            border: none;
+        }
+        
+        .confirmation-button.zalo {
+            background: var(--zalo-blue);
+            color: white;
+            border: none;
+        }
+        
+        .confirmation-button.facebook {
+            background: var(--facebook-blue);
+            color: white;
+            border: none;
+        }
+        
+        .confirmation-button.instagram {
+            background: var(--instagram-purple);
+            color: white;
+            border: none;
+        }
+        
+        .confirmation-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+        }
+        
+        .contact-info {
+            margin-top: 15px;
+            padding: 12px;
+            background-color: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            font-size: 0.85rem;
+        }
+        
+        .contact-info p {
+            margin: 5px 0;
+        }
+        
+        .contact-info strong {
+            color: var(--pastel-pink);
+        }
+        
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+        }
+
+        .free-ship-progress {
+            margin: 15px 0;
+            background-color: var(--dark-gray);
+            border-radius: 10px;
+            padding: 15px;
+            border: 1px solid var(--light-gray);
+        }
+        
+        .progress-text {
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background-color: var(--light-gray);
+            border-radius: 5px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: var(--gradient-pink);
+            border-radius: 5px;
+            transition: width 0.5s ease;
+        }
+        
+        .progress-percent {
+            position: absolute;
+            top: -20px;
+            right: 0;
+            font-size: 0.8rem;
+            color: var(--pastel-pink);
+        }
+        
+        .hair-options-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        
+        .hair-option-box {
+            background-color: var(--dark-gray);
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+            border: 1px solid var(--light-gray);
+        }
+        
+        .hair-option-title {
+            font-size: 1rem;
+            margin-bottom: 12px;
+            text-align: center;
+            color: var(--light-pastel-pink);
+            font-weight: 600;
+        }
+        
+        .hair-option-note {
+            font-size: 0.85rem;
+            color: var(--light-pastel-pink);
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .option-quantity {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 8px;
+            width: 100%;
+        }
+        
+        .quantity-btn {
+            width: 25px;
+            height: 25px;
+            background-color: var(--pink);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .quantity-input {
+            width: 30px;
+            text-align: center;
+            margin: 0 5px;
+            background-color: var(--dark-gray);
+            color: var(--white);
+            border: 1px solid var(--light-gray);
+            border-radius: 5px;
+            padding: 2px;
+        }
+        
+        .quantity-info {
+            font-size: 0.7rem;
+            color: var(--light-pastel-pink);
+            text-align: center;
+            margin-top: 5px;
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                max-width: 720px;
+            }
+            
+            .background-customization {
+                display: grid;
+                grid-template-columns: 1fr;
+                grid-template-rows: auto 1fr auto;
+                gap: 25px;
+            }
+            
+            .background-note {
+                order: 1;
+            }
+            
+            .preview-container {
+                order: 2;
+                min-height: 400px;
+            }
+            
+            .background-options {
+                order: 3;
+            }
+
+            .character-options {
+                flex-direction: row;
+            }
+
+            .hair-options-container {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+            
+            .discount-section {
+                flex-direction: row;
+            }
+        }
+        
+        @media (max-width: 767px) {
+            html, body {
+                background-attachment: scroll;
+            }
+            
+            .steps-container::before {
+                top: 20px;
+                left: 5%;
+                width: 90%;
+            }
+            
+            .step-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+            
+            .step-title {
+                font-size: 0.75rem;
+            }
+            
+            .version-options {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .version-option {
+                padding: 15px;
+            }
+            
+            .version-header h3 {
+                font-size: 1.2rem;
+            }
+            
+            .version-price {
+                font-size: 1.4rem;
+            }
+            
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+            
+            .btn-primary-custom {
+                padding: 14px 28px;
+                font-size: 1rem;
+            }
+            
+            .hero-icons {
+                gap: 15px;
+            }
+            
+            .hero-icon {
+                font-size: 1.5rem;
+            }
+            
+            .featured-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+            
+            .feature-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+            
+            .hair-options-container {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .options-grid {
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            }
+            
+            .option-thumbnail {
+                width: 70px;
+                height: 70px;
+            }
+            
+            .tagline {
+                font-size: 1.5rem;
+            }
+            
+            .sub-tagline {
+                font-size: 1rem;
+            }
+            
+            .benefits-container {
+                gap: 15px;
+            }
+            
+            .benefit-item {
+                max-width: 100px;
+            }
+            
+            .character-options {
+                flex-direction: column;
+            }
+            
+            .version-price {
+                font-size: 1.3rem;
+            }
+            
+            .logo-image {
+                height: 70px;
+            }
+            
+            .confirmation-buttons {
+                flex-direction: column;
+            }
+            
+            .checkout-form {
+                padding: 15px;
+            }
+            
+            .form-group input, 
+            .form-group textarea, 
+            .form-group select {
+                padding: 10px 12px;
+                font-size: 14px;
+            }
+            
+            .cta-button {
+                padding: 14px;
+                font-size: 1rem;
+            }
+            
+            .form-group {
+                margin-bottom: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="save-indicator" id="save-indicator">
+        <i class="fas fa-save"></i> Đã lưu lựa chọn
+    </div>
+    
+    <div class="modal" id="image-modal">
+        <span class="close-modal">&times;</span>
+        <img class="modal-content" id="zoomed-image" loading="lazy">
+    </div>
+    
+    <div class="popup-overlay" id="popup-overlay"></div>
+    
+    <div class="confirmation-popup" id="confirmation-popup">
+        <div class="confirmation-content">
+            <i class="fas fa-check-circle confirmation-icon"></i>
+            <div class="confirmation-title">Đặt hàng thành công!</div>
+            <div class="confirmation-subtitle">Cảm ơn bạn đã chọn L'Gôu để gửi gắm món quà đặc biệt!</div>
+            
+            <div class="customer-info">
+                <p><span class="info-label">Tên KH:</span> <span id="customer-name-display">Nguyễn Văn A</span></p>
+                <p><span class="info-label">SĐT:</span> <span id="customer-phone-display">0987654321</span></p>
+                <p><span class="info-label">Địa chỉ:</span> <span id="customer-address-display">123 Đường ABC, Hà Nội</span></p>
+                <p><span class="info-label">Ngày nhận:</span> <span id="delivery-date-display">15/07</span></p>
+            </div>
+            
+            <p>Vui lòng liên hệ với shop để xác nhận đơn hàng.</p>
+            
+            <div class="contact-info">
+                <p>Liên hệ với shop qua:</p>
+                <p><strong>Zalo:</strong> 0964.393.115</p>
+                <p><strong>Facebook:</strong> theluvingifts</p>
+                <p><strong>Instagram:</strong> the_luvin</p>
+            </div>
+            
+            <div class="confirmation-buttons">
+                <button class="confirmation-button zalo" id="popup-zalo">
+                    <i class="fab fa-zalo"></i> Mở Zalo
+                </button>
+                <button class="confirmation-button facebook" id="popup-facebook">
+                    <i class="fab fa-facebook"></i> Facebook
+                </button>
+                <button class="confirmation-button instagram" id="popup-instagram">
+                    <i class="fab fa-instagram"></i> Instagram
+                </button>
+                <button class="confirmation-button primary popup-close">Đóng</button>
+            </div>
+        </div>
+    </div>
+    
+    <header class="header">
+        <div class="navbar">
+            <a href="#" class="logo">
+                <img src="https://i.postimg.cc/7YKWGsqK/logo-L-Go-u-tra-ng-page-0001.jpg" 
+                     alt="L'Gôu Logo" 
+                     class="logo-image">
+            </a>
+        </div>
+        
+        <!-- Hero Section -->
+        <div class="hero-section">
+            <div class="hero-content">
+                <h1 class="hero-title">Tạo Kỷ Niệm Cùng Khung Tranh LEGO</h1>
+                <p class="hero-subtitle">Tạo khung tranh độc đáo với nhân vật LEGO và chủ đề yêu thích của bạn</p>
+                <button class="btn-primary-custom" onclick="document.getElementById('step-content').scrollIntoView({behavior: 'smooth'})">
+                    <i class="fas fa-magic"></i> Bắt Đầu Tạo
+                </button>
+                <div class="hero-icons">
+                    <i class="fas fa-cube hero-icon"></i>
+                    <i class="fas fa-heart hero-icon"></i>
+                    <i class="fas fa-star hero-icon"></i>
+                    <i class="fas fa-camera hero-icon"></i>
+                </div>
+            </div>
+            <div class="sparkle"></div>
+            <div class="sparkle"></div>
+            <div class="sparkle"></div>
+            <div class="sparkle"></div>
+        </div>
+
+        <!-- Featured Products -->
+        <div class="featured-section">
+            <div class="container">
+                <h2 class="featured-title">
+                    <i class="fas fa-star"></i> Sản Phẩm Nổi Bật
+                </h2>
+                <div class="featured-grid">
+                    <div class="product-card">
+                        <div class="product-image">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">
+                                <i class="fas fa-user"></i> 1 Minifigure
+                            </h3>
+                            <p class="product-desc">Hoàn hảo cho hiển thị nhân vật đơn</p>
+                            <p class="product-price">
+                                <i class="fas fa-tag"></i> 230.000₫
+                            </p>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image">
+                            <i class="fas fa-user-friends"></i>
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">
+                                <i class="fas fa-users"></i> 2 Minifigures
+                            </h3>
+                            <p class="product-desc">Hiển thị cặp đôi yêu thích của bạn</p>
+                            <p class="product-price">
+                                <i class="fas fa-tag"></i> 240.000₫
+                            </p>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+
+        <!-- Features -->
+        <div class="features-section">
+            <div class="container">
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-palette"></i>
+                        </div>
+                        <h4><i class="fas fa-check-circle"></i> Tùy Chỉnh Hoàn Toàn</h4>
+                        <p>Cá nhân hóa mọi khía cạnh theo ý bạn</p>
+                    </div>
+                    
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-gift"></i>
+                        </div>
+                        <h4><i class="fas fa-check-circle"></i> Quà Tặng Hoàn Hảo</h4>
+                        <p>Món quà đáng nhớ cho mọi dịp đặc biệt</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h4><i class="fas fa-check-circle"></i> Chất Lượng Đảm Bảo</h4>
+                        <p>Vật liệu cao cấp, bảo hành 1 đổi 1</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Thanh điều hướng các bước -->
+    <div class="steps-container">
+        <div class="step active" data-step="1">
+            <div class="step-icon"><i class="fas fa-star"></i></div>
+            <div class="step-title">Collection</div>
+        </div>
+        <div class="step" data-step="2">
+            <div class="step-icon"><i class="fas fa-box-open"></i></div>
+            <div class="step-title">Chọn Version</div>
+        </div>
+        <div class="step" data-step="3">
+            <div class="step-icon"><i class="fas fa-image"></i></div>
+            <div class="step-title">Chọn Background</div>
+        </div>
+        <div class="step" data-step="4">
+            <div class="step-icon"><i class="fas fa-user"></i></div>
+            <div class="step-title">Nhân vật</div>
+        </div>
+        <div class="step" data-step="5">
+            <div class="step-icon"><i class="fas fa-paw"></i></div>
+            <div class="step-title">Phụ kiện & Thú cưng</div>
+        </div>
+        <div class="step" data-step="6">
+            <div class="step-icon"><i class="fas fa-file-alt"></i></div>
+            <div class="step-title">Thông tin đặt hàng</div>
+        </div>
+    </div>
+
+    <section class="section" id="step-content">
+        <div class="container">
+            <h2 class="section-title">Tạo Tranh Lego Theo Ý Bạn</h2>
+            
+            <div class="step-content">
+                <!-- Bước 1: Chọn Collection -->
+                <div class="step-pane active" id="step-1">
+                    <div class="collection-selector">
+                        <h3 class="collection-title">
+                            <i class="fas fa-star"></i> Chọn Collection Đặc Biệt
+                        </h3>
+                        <p class="collection-subtitle">Các bộ sưu tập limited edition cho những dịp đặc biệt</p>
+                        
+                        <div class="collection-options" id="collection-options">
+                            <!-- Collections will be populated by JavaScript -->
+                        </div>
+                        
+                        <div class="regular-collection">
+                            <div class="collection-card regular" data-collection="regular">
+                                <div class="collection-header">
+                                    <h4>Bộ Sưu Tập Thường</h4>
+                                    <div class="collection-status available">Luôn có sẵn</div>
+                                </div>
+                                <div class="collection-description">
+                                    Tất cả các tùy chọn thiết kế thông thường với đầy đủ tính năng tùy chỉnh
+                                </div>
+                                <div class="collection-features">
+                                    <span class="feature-tag">Tùy chỉnh tự do</span>
+                                    <span class="feature-tag">Không giới hạn thời gian</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="text-align: center; margin-top: 20px;">
+                            <button onclick="refreshCollections()" style="
+                                background: var(--button-gradient);
+                                color: white;
+                                border: none;
+                                padding: 8px 16px;
+                                border-radius: 20px;
+                                cursor: pointer;
+                                font-size: 0.9rem;
+                                transition: all 0.3s ease;
+                            ">
+                                <i class="fas fa-sync"></i> Cập nhật Collections
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="step-actions">
+                        <button class="step-btn prev-btn" disabled>Quay lại</button>
+                        <button class="step-btn next-btn">Tiếp theo</button>
+                    </div>
+                </div>
+                
+                <!-- Bước 2: Chọn Version -->
+                <div class="step-pane" id="step-2">
+                    <div class="version-selector">
+                        <div class="version-options">
+                            <div class="version-option active" data-version="1" data-price="230000">
+                                <div class="version-header">
+                                    <h3>Version 1</h3>
+                                    <div class="version-price">230.000₫</div>
+                                </div>
+                                <div class="version-features">
+                                    <p class="version-subtitle">1 Lego (Nhân vật)</p>
+                                    <ul>
+                                        <li>Khung tranh với <strong>01 Lego</strong></li>
+                                        <li>Thiệp L'Gôu</li>
+                                        <li>Tặng box quà sang trọng</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="version-option" data-version="2" data-price="240000">
+                                <div class="version-header">
+                                    <h3>Version 2</h3>
+                                    <div class="version-price">240.000₫</div>
+                                </div>
+                                <div class="version-features">
+                                    <p class="version-subtitle">2 Lego (Nhân vật)</p>
+                                    <ul>
+                                        <li>Khung tranh với <strong>02 Lego</strong></li>
+                                        <li>Thiệp viết tay</li>
+                                        <li>Tặng hộp quà sang trọng</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="version-option" data-version="3" data-price="245000">
+                                <div class="version-header">
+                                    <h3>Version 3</h3>
+                                    <div class="version-price">245.000₫</div>
+                                </div>
+                                <div class="version-features">
+                                    <p class="version-subtitle">3 Lego (Nhân vật)</p>
+                                    <ul>
+                                        <li>Khung tranh với <strong>03 Lego</strong></li>
+                                        <li>Thiệp viết tay</li>
+                                        <li>Tặng hộp quà sang trọng</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="step-actions">
+                        <button class="step-btn prev-btn">Quay lại</button>
+                        <button class="step-btn next-btn">Tiếp theo</button>
+                    </div>
+                </div>
+                
+                <!-- Bước 3: Chọn Background -->
+                <div class="step-pane" id="step-3">
+                    <div class="background-customization">
+                        <div class="background-note">
+                            <label for="background-note">Ghi chú cho background (VD: Đổi chữ từ "abc" sang "xyz", nếu có custom riêng thì gắn link drive)  <span class="required-star">*</span></label>
+                            <textarea id="background-note" placeholder="Vui lòng mô tả chi tiết yêu cầu thiết kế background..." required></textarea>
+                        </div>
+                        
+                        <div class="preview-container" id="zoom-image">
+                            <img src="https://lh7-rt.googleusercontent.com/sheetsz/AHOq17FocT0TmB8C0fL2fxQwS9DmmLRqmQwST8BVD6KKOi98I7EbZkUL4EXftBejoOvL5JKR8EwMqOHxg6R1IOuICiPHbVcr30t4Vtck-LJqjs9dIRYxuv7xRrdLK3n4AOsGbc2Rh5RPWg?key=jFadiPCg65rD47U_s1R6ZA" 
+                                 alt="Preview sản phẩm" 
+                                 class="main-image" 
+                                 id="main-default" 
+                                 loading="lazy">
+                        </div>
+                        
+                        <div class="background-options">
+                            <h3 class="options-title"><i class="fas fa-image"></i> Nền (Thiết Kế Theo Yêu Cầu) - VD: (Đổi "abc" sang "xyz")</h3>
+                            <div class="options-grid" id="background-grid"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="step-actions">
+                        <button class="step-btn prev-btn">Quay lại</button>
+                        <button class="step-btn next-btn">Tiếp theo</button>
+                    </div>
+                </div>
+                
+                <!-- Bước 4: Chọn Nhân vật -->
+                <div class="step-pane" id="step-4">
+                    <div class="options-container">
+                        <div class="options-section" id="clothing-section">
+                            <h3 class="options-title"><i class="fas fa-tshirt"></i> Áo & Quần</h3>
+                            <div class="character-options" id="character-container"></div>
+                        </div>
+                        
+                        <div class="options-section">
+                            <h3 class="options-title"><i class="fas fa-smile"></i> Khuôn Mặt</h3>
+                            <p style="margin-bottom: 12px; color: var(--light-pastel-pink); text-align: center;">
+                                <i class="fas fa-gift"></i> Miễn phí lựa chọn
+                            </p>
+                            <div class="options-grid" id="face-grid"></div>
+                            <div class="max-selection-info" id="face-selection-info" style="text-align: center; color: var(--light-pastel-pink); font-size: 0.85rem; margin-top: 5px;">(Chọn tối đa 1 khuôn mặt)</div>
+                        </div>
+                        
+                        <div class="options-section">
+                            <h3 class="options-title"><i class="fas fa-user"></i> Tóc</h3>
+                            <p style="margin-bottom: 12px; color: var(--light-pastel-pink); text-align: center;">
+                                <i class="fas fa-tag"></i> +25.000₫/lựa chọn
+                            </p>
+                            
+                            <div class="hair-options-container" id="hair-options-container"></div>
+                        </div>
+                        
+                        <div class="options-section">
+                            <h3 class="options-title" id="hats-title">
+                                <i class="fas fa-hat-cowboy"></i> Mũ
+                            </h3>
+                            <div class="hat-section" id="hat-section">
+                                <p class="hat-note" style="color: var(--light-pastel-pink); text-align: center; margin-bottom: 10px;">Chọn mũ – bấm để chọn/nhấn lại để bỏ chọn</p>
+                                <div class="options-grid" id="hat-grid"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="step-actions">
+                        <button class="step-btn prev-btn">Quay lại</button>
+                        <button class="step-btn next-btn">Tiếp theo</button>
+                    </div>
+                </div>
+                
+                <!-- Bước 5: Chọn Phụ kiện & Thú cưng -->
+                <div class="step-pane" id="step-5">
+                    <div class="options-container">
+                        <div class="options-section">
+                            <h3 class="options-title"><i class="fas fa-mobile-alt"></i> Phụ Kiện</h3>
+                            <p style="margin-bottom: 12px; color: var(--light-pastel-pink); text-align: center;">
+                                <i class="fas fa-tag"></i> Giá từ +10.000₫ - +20.000₫
+                            </p>
+                            <div class="options-grid" id="accessory-grid"></div>
+                            <div class="quantity-info">(Nhấp chọn phụ kiện rồi điều chỉnh số lượng)</div>
+                        </div>
+                        
+                        <div class="options-section">
+                            <h3 class="options-title"><i class="fas fa-paw"></i> Thú Cưng</h3>
+                            <p style="margin-bottom: 12px; color: var(--light-pastel-pink); text-align: center;">
+                                <i class="fas fa-tag"></i> Giá từ +15.000₫ - +20.000₫
+                            </p>
+                            <div class="options-grid" id="pet-grid"></div>
+                            <div class="quantity-info">(Nhấp chọn thú cưng rồi điều chỉnh số lượng)</div>
+                        </div>
+                    </div>
+                    
+                    <div class="step-actions">
+                        <button class="step-btn prev-btn">Quay lại</button>
+                        <button class="step-btn next-btn">Tiếp theo</button>
+                    </div>
+                </div>
+                
+                <!-- Bước 6: Thông tin đặt hàng -->
+                <div class="step-pane" id="step-6">
+                    <div class="order-summary">
+                        <h3 class="summary-title">ĐƠN HÀNG CỦA BẠN</h3>
+                        <div class="summary-items" id="order-summary"></div>
+                        
+                        <div class="free-ship-progress" id="free-ship-progress">
+                            <div class="progress-text" id="progress-text">Còn 349.000₫ nữa để được Miễn phí ship</div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="progress-fill"></div>
+                                <div class="progress-percent" id="progress-percent">0%</div>
+                            </div>
+                        </div>
+                        
+                        <div class="discount-section">
+                            <div class="discount-toggle" id="discount-toggle">
+                                <i class="fas fa-tag"></i>
+                                <span>Áp dụng mã giảm giá</span>
+                            </div>
+                            
+                            <div class="discount-form" id="discount-form">
+                                <input type="text" class="discount-input" placeholder="Nhập mã giảm giá" id="discount-code">
+                                <button class="apply-button" id="apply-discount">Áp dụng</button>
+                            </div>
+                        </div>
+                        
+                        <div class="discount-result valid" id="discount-result">
+                            Bạn tiết kiệm: 30.500₫ - Thanh toán: 274.500₫
+                        </div>
+                    </div>
+                    
+                    <div class="checkout-form">
+                        <h3 class="form-title">Thông tin đặt hàng</h3>
+                        
+                        <form class="customer-form" id="customer-form">
+                            <div class="form-group">
+                                <label for="customer-name">Họ và tên <span class="required-star">*</span></label>
+                                <input type="text" id="customer-name" name="name" required>
+                                <div class="form-error" id="name-error">Vui lòng nhập họ tên</div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="customer-phone">Số điện thoại <span class="required-star">*</span></label>
+                                <input type="tel" id="customer-phone" name="phone" required>
+                                <div class="form-error" id="phone-error">Vui lòng nhập số điện thoại</div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="customer-address">Địa chỉ nhận hàng <span class="required-star">*</span></label>
+                                <input type="text" id="customer-address" name="address" required>
+                                <div class="form-error" id="address-error">Vui lòng nhập địa chỉ</div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="delivery-date">Ngày nhận hàng <span class="required-star">*</span></label>
+                                <input
+                                    type="text"
+                                    id="delivery-date"
+                                    name="delivery_date"
+                                    placeholder="dd/mm (ví dụ: 30/7 hoặc 30/07)"
+                                    pattern="^(0?[1-9]|[12][0-9]|3[01])[/](0?[1-9]|1[0-2])$"
+                                    required
+                                >
+                                <div class="form-error" id="delivery-date-error">
+                                    Vui lòng nhập ngày nhận hàng (định dạng dd/mm).
+                                </div>
+                            </div> 
+
+                            <div class="form-group">
+                                <label for="customer-email">Email (nếu có)</label>
+                                <input type="email" id="customer-email" name="email">
+                                <div class="form-error" id="email-error"></div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="customer-note">Ghi chú</label>
+                                <textarea id="customer-note" name="note" rows="3"></textarea>
+                            </div>
+                            
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="policy-agreement" required>
+                                <label for="policy-agreement">Tôi đồng ý với <a href="#" class="policy-link">chính sách bảo hành & điều khoản</a> của L'Gôu</label>
+                            </div>
+                            
+                            <button type="button" class="cta-button" id="confirm-button">
+                                <span id="order-text">Đặt hàng ngay</span>
+                                <i class="fas fa-spinner spinner" id="order-spinner"></i>
+                            </button>
+                        </form>
+                    </div>
+                    
+                    <div class="step-actions">
+                        <button class="step-btn prev-btn">Quay lại</button>
+                        <button class="step-btn next-btn" style="display: none;">Tiếp theo</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <footer class="footer">
+        <div class="container">
+            
+            <div class="copyright">
+                © 2025 L'Gôu. Đã đăng ký bản quyền.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Form ẩn để gửi email -->
+    <form id="email-form" method="POST" style="display: none;">
+        <input type="hidden" name="_subject" value="New Order - L'Gôu">
+        <input type="hidden" name="Thời_gian_gửi" id="email-time">
+        <input type="hidden" name="Thời_gian_nhận_hàng" id="email-delivery-date">
+        <input type="hidden" name="Version" id="email-version">
+        <input type="hidden" name="Background" id="email-background">
+        <input type="hidden" name="Màu_quần_áo" id="email-clothing">
+        <input type="hidden" name="Mặt" id="email-faces">
+        <input type="hidden" name="Tóc" id="email-hairs">
+        <input type="hidden" name="Mũ" id="email-hats">
+        <input type="hidden" name="Phụ_kiện" id="email-accessories">
+        <input type="hidden" name="Thú_Cưng" id="email-pets">
+        <input type="hidden" name="Tổng_Tiền" id="email-total">
+        <input type="hidden" name="Phí_ship" id="email-shipping">
+        <input type="hidden" name="Tên_khách" id="email-name">
+        <input type="hidden" name="Số_điện_thoại" id="email-phone">
+        <input type="hidden" name="Địa_chỉ" id="email-address">
+        <input type="hidden" name="Email" id="email-email">
+        <input type="hidden" name="Ghi_Chú" id="email-note">
+        <input type="hidden" name="Mã_giảm_giá" id="email-discount">
+        <input type="hidden" name="Ghi_chú_background" id="email-background-note">
+    </form>
+<script>
+    // Dữ liệu collections - Default data
+    let collections = {
+        womensday: {
+            id: 'womensday',
+            name: 'Happy Women\'s Day 20.10',
+            description: 'Celebrate inspiring women with this special collection. Featuring empowering themes and elegant designs.',
+            icon: 'fas fa-female',
+            status: 'active', // active, expired
+            endDate: '2024-10-25T23:59:59', // ISO format
+            limitedProducts: [
+                { id: 'wd_bg1', label: 'Women Power Background', image: 'https://example.com/women-bg1.jpg', type: 'background' },
+                { id: 'wd_acc1', label: 'Crown Accessory', image: 'https://example.com/crown.jpg', type: 'accessory', price: 15000 },
+                { id: 'wd_hair1', label: 'Elegant Hair Style', image: 'https://example.com/elegant-hair.jpg', type: 'hair', price: 25000 }
+            ],
+            features: ['Thiết kế đặc biệt', 'Phiên bản giới hạn', 'Tặng kèm thiệp chúc mừng'],
+            discount: 10 // 10% discount
+        },
+        valentine: {
+            id: 'valentine',
+            name: 'Valentine Collection 2024',
+            description: 'Romantic designs perfect for couples and love celebrations.',
+            icon: 'fas fa-heart',
+            status: 'active',
+            endDate: '2024-02-20T23:59:59',
+            limitedProducts: [
+                { id: 'vl_bg1', label: 'Love Story Background', image: 'https://example.com/love-bg.jpg', type: 'background' },
+                { id: 'vl_acc1', label: 'Heart Necklace', image: 'https://example.com/heart-necklace.jpg', type: 'accessory', price: 12000 }
+            ],
+            features: ['Thiết kế lãng mạn', 'Màu hồng đặc biệt', 'Box quà Valentine'],
+            discount: 15
+        },
+        christmas: {
+            id: 'christmas',
+            name: 'Christmas Magic 2024',
+            description: 'Festive holiday collection with Christmas themes and winter wonderland designs.',
+            icon: 'fas fa-tree',
+            status: 'expired',
+            endDate: '2023-12-31T23:59:59',
+            limitedProducts: [
+                { id: 'xm_bg1', label: 'Christmas Tree Background', image: 'https://example.com/xmas-bg.jpg', type: 'background' },
+                { id: 'xm_hat1', label: 'Santa Hat', image: 'https://example.com/santa-hat.jpg', type: 'hat', price: 18000 }
+            ],
+            features: ['Chủ đề Giáng sinh', 'Màu đỏ xanh truyền thống', 'Tặng kèm card Noel'],
+            discount: 20
+        }
+    };
+    
+    // Load inventory stock from CMS
+    let cmsInventory = [];
+    
+    function loadInventoryFromCMS() {
+        const savedInventory = localStorage.getItem('lgou_inventory');
+        if (savedInventory) {
+            try {
+                cmsInventory = JSON.parse(savedInventory);
+                console.log('Loaded inventory from CMS:', cmsInventory.length, 'items');
+            } catch (error) {
+                console.error('Error loading inventory from CMS:', error);
+                cmsInventory = [];
+            }
+        }
+    }
+    
+    function getInventoryStock(productId) {
+        return cmsInventory.find(item => item.id === productId);
+    }
+    
+    function updateInventoryStock(productId, quantityUsed = 1) {
+        const item = cmsInventory.find(item => item.id === productId);
+        if (item && item.stock > 0) {
+            item.stock -= quantityUsed;
+            localStorage.setItem('lgou_inventory', JSON.stringify(cmsInventory));
+            return true;
+        }
+        return false;
+    }
+
+    // Load collections from CMS localStorage if available
+    function loadCollectionsFromCMS() {
+        const savedCollections = localStorage.getItem('lgou_collections');
+        if (savedCollections) {
+            try {
+                const cmsCollections = JSON.parse(savedCollections);
+                // Merge with default collections, CMS data takes priority
+                collections = { ...collections, ...cmsCollections };
+                console.log('Collections loaded from CMS:', collections);
+            } catch (error) {
+                console.error('Error loading collections from CMS:', error);
+            }
+        }
+    }
+    
+    // Listen for changes in localStorage (from CMS updates)
+    function setupCollectionSync() {
+        // Listen for storage events (when CMS updates localStorage)
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'lgou_collections') {
+                console.log('Collections updated by CMS, refreshing...');
+                loadCollectionsFromCMS();
+                renderCollections();
+                startCollectionTimers();
+            }
+        });
+        
+        // Also check for changes periodically (for same-origin updates)
+        let lastCollectionsData = localStorage.getItem('lgou_collections');
+        setInterval(() => {
+            const currentData = localStorage.getItem('lgou_collections');
+            if (currentData !== lastCollectionsData) {
+                console.log('Collections changed, refreshing...');
+                loadCollectionsFromCMS();
+                renderCollections();
+                startCollectionTimers();
+                lastCollectionsData = currentData;
+            }
+        }, 2000); // Check every 2 seconds
+    }
+    
+    // Manual refresh function
+    function refreshCollections() {
+        console.log('Manually refreshing collections...');
+        loadCollectionsFromCMS();
+        renderCollections();
+        startCollectionTimers();
+        
+        // Show feedback
+        const btn = event.target;
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Đã cập nhật!';
+        btn.style.background = 'var(--success-green)';
+        
+        setTimeout(() => {
+            btn.innerHTML = originalText;
+            btn.style.background = 'var(--button-gradient)';
+        }, 2000);
+    }
+
+    // Dữ liệu sản phẩm
+    const productOptions = {
+        backgrounds: [
+            { id: 'bg1', label: 'Happy 1st Anniversary Pink', image: 'https://lh7-rt.googleusercontent.com/formsz/AN7BsVDGSxaDf6qjwZjxV7nSGWcbfYdHOW-bGwyeh3ENNwMy3Bf0vII_-8i9xnAKINw4uNTW6GtfB6A1hLPJaKfsU_fiOzvQtlKSPRJj-2qXnEDl-CwSEVNQnRDk-CvwvKR47OdNOcZWed8xZKz9oUfCjU60dM1idRoWZAEj5w?key=aFjqb8WUQraU8os83mKVgg' },
+            { id: 'bg2', label: 'Happy Valentine\'s', image: 'https://lh7-rt.googleusercontent.com/formsz/AN7BsVBLTfp3b1hICtt9dblx6K-_ZhI_uf6_788BQfcMG6n-Do7QxY-XwbYTkoExe8mtzub-q-1AsrBN_Nu83EuySY8_Umq6TD6wAbyZJ43-qHxTHmq6iDg3PyomQlDOieKt2x6vi-GfkY2fEe9m-WmkPuRq-lRo3PCENFb7?key=aFjqb8WUQraU8os83mKVgg' },
+            { id: 'bg3', label: 'Happy 1 st Anniversary Music', image: 'https://lh7-rt.googleusercontent.com/formsz/AN7BsVAeY3E2Yoz6WtolBMk5ju9fg5pk-HDGCv3g76F3TeBCBFyP-UYLz4T9iAduiWyIboc-Gv9xu0dvE5fgAbbwlxKaL9Kv56L1FTsLXXwIKgs9JY7oQllEkoToQulztkrykm7rNzvE42A_mT38dKTIDx7q78_UQmbNOkQN?key=aFjqb8WUQraU8os83mKVgg' },
+            { id: 'bg4', label: 'Happy Birthday', image: 'https://lh7-rt.googleusercontent.com/formsz/AN7BsVAr3O5z0sUYPJCxxXK_0IPs_alCPUfQu4IA0QYWwIQlWj4wUkKqFKRSs5nt-ZMa4dVFof07J6DZebySrffHBt04sVrVPemewCOrYs_55NvYzvz4IUxKf9v0pdGbAVTrDB1iXiN8C3XuWAk6rJFjlavMYsbq-LJUpLPi?key=aFjqb8WUQraU8os83mKVgg' },
+            { id: 'bg5', label: 'Happy Graduation Pet Qr', image: 'https://lh7-rt.googleusercontent.com/formsz/AN7BsVDqUGxf3-m-1W4gbp3VlgWmOF2Rh6mwvAlA9D2_iV6ad_kSdHI12J40C731DRB8nxpDCZXKYaBZgMK-yRfPmoAx3c_Egt10YBW8WfkVVKctwls1Q_4rdfXyGioYqTQLLOvPOTpQj-CWdCqQH-5t9yollWT7JtkdHX7t?key=aFjqb8WUQraU8os83mKVgg' },
+            { id: 'bg6', label: 'Sportify Music', image: 'https://lh7-rt.googleusercontent.com/formsz/AN7BsVB4GAjAJe-bG6T5P4q770u3yvSTbghNoUZOxFNgMyS2RXTTDeuWyyB1vNaktMQogx0iMFv5CkbQo71vzpalUNJ4l8Ny_R8BMgBhcTz0mTFEVIhzCmlTwrowxZFs6PITPxKafZMsWJUsZVRbI3WLkgKzFUmS5o11e8rE-g?key=aFjqb8WUQraU8os83mKVgg' },
+            { id: 'bg7', label: 'Happy Graduation', image: 'https://lh7-rt.googleusercontent.com/formsz/AN7BsVCPfxRzjKFV9ZB8mtP4ysYgIftVRwguxjHi8tTuRZxRYW2X6IJBaNRuQTZQbddYuhXo1k30iA5n2EbMnZGMjJGXInYz8WLdBVe2MGXi6oGkIm7MSKZ5Xu1A2NQv4D7o6-8fVIyDPuivre3Af9umDpeD_BnvoZPY_TC3ng?key=aFjqb8WUQraU8os83mKVgg' },
+            { id: 'bg8', label: 'Love Album 1', image: 'https://lh7-rt.googleusercontent.com/formsz/AN7BsVDBKp9XG09x96vz0THy1ZsJ5h38zpSVvNLSY-1NgrJ_1dVOHaenGhmBpp8OjvQj-O0axxoQqwErO0S2ChMDFKzQ6rKujx8-jA0C11DPtczZ5acli-cs-69jhLGS2k7ihGP95lM0tGefjM2BQFJodfgyuV-42I-CX7Gi?key=aFjqb8WUQraU8os83mKVgg' },
+            { id: 'bg9', label: 'Love Album 2', image: 'https://lh7-rt.googleusercontent.com/formsz/AN7BsVA3lhSUZLgXXvz5HoqLEXOo0T7KwgUJbEU1-uoVIPqZ7AuCsf9OBOJBQbcTWZt4qotdOLjVfa12xO_Zlv9bIU0G6SYjekKtJzu88dUeSCZi-Xu3M5AtXByvKpGB0q6O1RY8hCc-nx9YaPc0h-EbPm01RK-b-oELhVcFvw?key=aFjqb8WUQraU8os83mKVgg' },
+            { id: 'bg10', label: 'Since We Met', image: 'https://lh7-rt.googleusercontent.com/formsz/AN7BsVBPQOrsOuuxFi7CMe7CqxUrLRtwPK5GytUOvzXfs4nGLmaCNPe5cyzogcM0KdwcUS9T3E8VbZgZfMt8DxUDJo82AVTom45nG2tcJwcGoZ4T2z8pLLsywCG7OFcS_PrcWosRiC51VnSePthwmt-DZuAnlXcQ1XiKTEfw?key=aFjqb8WUQraU8os83mKVgg' },
+            { id: 'bg11', label: 'I Miss You', image: 'https://lh7-rt.googleusercontent.com/formsz/AN7BsVA8D2onryYZ9wbyTeOzqAVRaI1XZKtqU7SX_UgPo-bRJ4IuP-lTrnjZBYk5J8U2F1aAGZvlu0cAwZumaM7XvvZ3rRabVswSbK5kXmBoqvMngMh2Hc_aH1jT8WXg5oQi4es04L5DLsHZ8R_l-QUvl8raNg33M010_VXhcg?key=aFjqb8WUQraU8os83mKVgg' },
+            { id: 'bg12', label: 'Happy Anniversary (3 Pictures)', image: 'https://lh7-rt.googleusercontent.com/formsz/AN7BsVD_ErwhW68pPLbfwSaIcX_IelXgvIqbnrZyV_9Um257Xje9eIhdW7mk4wqnSM6w-JvZEiZClZGZvqV0JhZ11TJKJT1QHCYpDgTiCECUsWrTrxXcq48X3rysVIjGNVbXKiRguWD4jDBhRgCmzIYQ3O2-oofysgUCADgZAw?key=aFjqb8WUQraU8os83mKVgg' },
+            { id: 'bg13', label: 'Happy Birthday 2', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17FU47XxVK7b1UrZJoGBagPfOCnzXZZUqkQymsmkOGQaZXofXwhDS6LAZyTodqtOFBbtoOpjsVgJ0kR4mNepGLPV0Nrfw4WRIG36ZxeXc0S1mO8WJxDneNhfVvhm22G1S_WQ-vLOXw=w844-h734?key=hImVQ8QxMnt2_Kw7y9cTZg' },
+            { id: 'bg14', label: 'Happy Birthday 3', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17HUTqmqfIBr_URlMNT9eQMCi895qwmRa8Aley0_DUyBLnemAC9Xfxj3of2yNWL-eL49upXEqCIZd93K-zuODmVJZrJkn03Ipbb6SQVCtAzBJrGtbo9EKCX3HkDJSIQnLv8MGN7J=w896-h734?key=hImVQ8QxMnt2_Kw7y9cTZg' }
+            
+        ],
+        faces: [
+            { id: 'face1', label: 'Kiểu 1', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17Gymr45pV5Kz08vVHdIydJKQUNTRFZkfjPFWKgVYUjKQJTpCh9ymjjMFcZ2iTZo8pGhwT8a0eeGd4xd6FcQUpxZq8Ht7YwyYWxY_lSteD4XNVOH1myAvA3P4nr8pn2cFDGEaR1sKQ=w146-h146?key=hImVQ8QxMnt2_Kw7y9cTZg', price: 0 },
+            { id: 'face2', label: 'Kiểu 2', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17FFOqvHfYqv4MJ2JGvGwj-4AmMEU0CNbJuo1CfBPujC7pCjWbzO8ghXzPPDDKokcSB7GtTSnTUcU3e7BxFVzaaFYuJ3LqxYh4nxuYiA8yzU0N_BAfjQ4NbpRSQYLAYQ1SOA68hpMA=w146-h146?key=hImVQ8QxMnt2_Kw7y9cTZg', price: 0 },
+            { id: 'face3', label: 'Kiểu 3', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17FxTdKPGTo1tlvh80GYwwtd3zWpLZE6hY-kKxQj2xFaSzMtv9m0dMpTnoVLJyzcohQWsIwiwAtFz1ump5SUqawPx2IhWf2fuMd8a4Q1WGRFMvfTEJIEWgdudFXN0oFjQJs2hSTQaQ=w146-h146?key=hImVQ8QxMnt2_Kw7y9cTZg', price: 0 },
+            { id: 'face4', label: 'Kiểu 4', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17HmypSUPXyhsBOFFsEbvaLu_KmmXnNTt678J0pzA7pkhrLnSAglm8w_k6TIw8EQjuUk8ZOXpE-zioUNjGMhRjYPRdusOj-9mPQe5Yx4wNrTyqZDdgMvWiCDBzwczgnHpq_FRN-u=w146-h146?key=hImVQ8QxMnt2_Kw7y9cTZg', price: 0 },
+            { id: 'face5', label: 'Kiểu 5', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17GN1YlffLnF9Stg0JTObQPNnZZgtRDUwET0qy12Ug4lTpCd6YCtyVpvBRPI2O9n53gBR1XD41T7cnE2jLl-bx3obncsYYk7vhXIaeUlUPPABVSi7LIVV3ZFixFJ-HczHTmIqxAaUQ=w146-h146?key=hImVQ8QxMnt2_Kw7y9cTZg', price: 0 },
+            { id: 'face6', label: 'Kiểu 6', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17GBolvrgqvtaMtQukVV1VHECUhtMzYsz-JysQBKXj5P0hWMmIfOQywpmAI5zLavWXqH7n29guRqIw4XBkworJILnOZjp6ydht0KAdRVfMnBr8yF2-rD7sLcIM4PUHJVvV5b43JF=w146-h146?key=hImVQ8QxMnt2_Kw7y9cTZg', price: 0 },
+            { id: 'face7', label: 'Kiểu 7', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17EC0VigfDYCsBgzJNmeyvW8_1cmUczrvKkcqWEGXY_7e_S9-0cWhH5SgbR1JxUOdpXc9wsV6xk4Or-qfijzA2EgWyw5KPKEAwXCm1pBb8gKigL3SnlGQ0fsdyVdKNgX2sUCLnDnSg=w146-h146?key=hImVQ8QxMnt2_Kw7y9cTZg', price: 0 },
+            { id: 'face8', label: 'Kiểu 8', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17GqC9a47BFlH_aTw-DnYn3DtGpAptjOGmZ4TywMPdFz46jC6gYwggEdpi6tZwbtcph9Q3iaRyL9e2C-4QKeTrgK8_59-wGxk71akCEjtk4neRPp8Ifr2TXh8rRT6l3-v9afoLcz6w=w146-h146?key=hImVQ8QxMnt2_Kw7y9cTZg', price: 0 },
+            { id: 'face9', label: 'Kiểu 9', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17FJPkCbt9hYsFf2OG3IPo-MybYnUJIZoJG6I4wgYBi64Uk5AtH-94Fo6gOMNAgh0e4S7c_kO3rfyKSqmLYCjUNHLzvelvjWIoTw6QuCjuaTedWXAMcnGm6sk3TWOtG3zNAJLtMlyw=w146-h146?key=hImVQ8QxMnt2_Kw7y9cTZg', price: 0 },
+            { id: 'face10', label: 'Kiểu 10', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17EEOTYNxQGBKSMMqjXjvzz6PsYrVOapWxw4gLw2ZBwL0919Z_lFPv1GbhDvqG4y3tKodjmI7iVDbOT7rFMv6KzBEp5Y9EhRNaoLv6CEsy28RCKxroP4VpiT8fAYjQtOkq3nkfM95w=w146-h146?key=hImVQ8QxMnt2_Kw7y9cTZg', price: 0 },
+            { id: 'face11', label: 'Kiểu 11', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17EeiGEEvKKR3sfjcWx82jphlTJjmgQHPVNsNgER5gzq0XKpylAFxTDbPPdZSXEVIklNLW6HknQhrvBiir32_yK9v90ziSVCPMEmQlRHehn8WLvHM9W1nDXqNtwtFOUYze0UwmPfcg=w146-h146?key=hImVQ8QxMnt2_Kw7y9cTZg', price: 0 },
+            { id: 'face12', label: 'Kiểu 12', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17EiAGP2a6X_0nz7QWz1XVMorye8ysn_c3m7Ny-leqKNJgrm1UkllUO_GdjV78kIq89mI6KVa8k6Fk3fKJa-qe5Z7vgslzbup0ATmiOldY59HWZqQt4620ZWi44Ag7QFwbP50bkO=w146-h146?key=hImVQ8QxMnt2_Kw7y9cTZg', price: 0 }
+            
+        ],
+        maleHairs: [
+            { id: 'mhair1', label: 'Nam kiểu 1', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17FmsePrBRIs7vFNs_WvZr5wXcQNSevuJuZZAUhzzkl8xAGyOj8be2K7AhLBG11DcCGxjpS_ytmss63IbdWwAUGwyzo_kkIA5FIbJJvc-afNPZcFPJ_LXnp_vvcEaj669KaVxclczA=w146-h146?key=V_19OhaQmDxmVoLBxlpkvw', price: 25000 },
+            { id: 'mhair2', label: 'Nam kiểu 2', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17EfBpdAoPyN-0TzvNZlrcTIhzkH7N-G2fvmMTBkH2x03V7gEsaXepJgcyghcl3_E821Qqex2IZOLo5mvheF59rXh0DZIBaTbqgFdV5ye8aCPvBRhv0RFGeZoYdg4hOzSAGx9BbUOg=w146-h146?key=V_19OhaQmDxmVoLBxlpkvw', price: 25000 },
+            { id: 'mhair3', label: 'Nam kiểu 3', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17HQdQam-le7ksVuvQFkDMlk67ZypDQUZ7L4N-51NWqPdlYRnSmvtJQz-hLQ3mfNz_bOWA5zOBqkhSKaGZ5QQWeB6zr_DKz6O8jhOZBtpSjHWwU_ZRz7W06PCiYo3GQPcJSPf_Lb-g=w146-h146?key=V_19OhaQmDxmVoLBxlpkvw', price: 25000 },
+            { id: 'mhair4', label: 'Nam kiểu 4', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17FJOmqKy4ODYsB4YHkTQzFHO65gt3KlWdtnO_2QZC7nTqpdiO-Ra2HnExEn6H2YBupW8cRNdXhjefyVeImSTiSEXM3NURPhESHAr-3b4LsQnN4UdCykJXQ5JTkFT2svzr_blLnbRA=w146-h146?key=V_19OhaQmDxmVoLBxlpkvw', price: 25000 },
+            { id: 'mhair5', label: 'Nam kiểu 5', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17GUCeH0L3pHT4mV-wEp9fo3tg2m09cicQy5tTl3yH4u0CdJuXzt1cLYJYdI3EVipGL21IzLFeZHGyxT-AVMUGPwwTJaD5jGZvm0a38ePzgxeh5VX0a37RbJ9fRUgy1bk_h5eNZbJg=w146-h146?key=V_19OhaQmDxmVoLBxlpkvw', price: 25000 },
+            { id: 'mhair6', label: 'Nam kiểu 6', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17FmPw9Vj4kkpGnRabp8ALMsEoRxmEx5CBQMWnu4N2FzvdKDsqWlVTMhQCMq6lhPVub8ubSqBW9RShcTrh19yuAyJE60y-WAAzAbNCH7_hkVFL1QH9sGCsEbsVs9JSv7JmL4QX53iA=w146-h146?key=V_19OhaQmDxmVoLBxlpkvw', price: 25000 },
+            { id: 'mhair7', label: 'Nam kiểu 7', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17HG1rgbiOWk6lE-NvCw4eCJhaP3TxbG82vM4yjbIDDe5wT_U0JLNwau507ZKhw5ew0trhCbW464F1rbfk0GrIz3937yYLz4tzT2LR7qVUjLgtOTmklApIWLz1-9SjBSxl2blSryQA=w146-h146?key=V_19OhaQmDxmVoLBxlpkvw', price: 25000 },
+            { id: 'mhair8', label: 'Nam kiểu 8', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17FbUdq443dyBZFZkBXgg-MNWr9tVAGJMjoPqBk3d1rX8eQMtRbJoUy9dLLSNw_d7_UdBgVuar3rL3Tf9eyDxZKN3D0nd4LE2DlR8Gg2zpuyAGzYsD_MUT6_5bznzVqtzni2QyzGfw=w146-h146?key=V_19OhaQmDxmVoLBxlpkvw', price: 25000 }
+        ],
+        femaleHairs: [
+            { id: 'fhair1', label: 'Nữ kiểu 1', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17EaG2am1vbJmU9KSIgSIduTHdSHE7s_0ZpjBNDxJTezSspsq75vBVz_OXJN6QyMIP2hiGTqaFRU4KhgbtClZ8xk-pVxhqwIH6IBzWGZ7Yrfgn_AJUGQQSdU4WWThdMO1eujqYEi0g=w153-h146?key=PK-4Dc3B7phWv_yqdMD0-w', price: 25000 },
+            { id: 'fhair2', label: 'Nữ kiểu 2', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17HGAToYEALqFZ2mU5aSsOqmcI2ggV4Y6bs2xKK_VaYvU6uN-awvAuNKLl_cHFMYGBizQFGvaJQMH4rnChjIPh84BGjd6xQs35xcq3K_lHnNgR6yN9cfd2OQJkGaPz9R7FBLc4fUcg=w153-h146?key=PK-4Dc3B7phWv_yqdMD0-w', price: 25000 },
+            { id: 'fhair3', label: 'Nữ kiểu 3', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17Ecwi-CK1VOHh2-m-jQ2MTVzDIRz70hkTORNHcceFizmBZtJDwPtmVAPDebre9iGgwa6YARwphAGwmiU9_JMQ_JgyZQSJKbojvf_ILiUslj4v010QGBtgdL9YpTQ38Yw5M_ZEJn=w153-h146?key=PK-4Dc3B7phWv_yqdMD0-w', price: 25000 },
+            { id: 'fhair4', label: 'Nữ kiểu 4', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17HvcWb5mh8W3QK0NsSTeABi4z9sa2aWHIv22rJMvtkAe6J0PCI-YYIEaYUK9kvNgBrade-iYVul5HhEasvjPYDwW3R3d82NTSg7abmo0EFoN4ZqNUFr2lrOoQizEij5rfMUhejR=w153-h146?key=PK-4Dc3B7phWv_yqdMD0-w', price: 25000 },
+            { id: 'fhair5', label: 'Nữ kiểu 5', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17FG4UFl13r1eZqE4X_UrBQFi49uFUe7hdl4gSb1CPB0j_uODB5IHpJE3Bu5IElhM9y0Klzgzdv5OxhRkNv4HJwMD0-uyAk4PdaDzlNXmezScqNwMKOENll37ueUO3yEALcUmPKN=w153-h146?key=PK-4Dc3B7phWv_yqdMD0-w', price: 25000 },
+            { id: 'fhair6', label: 'Nữ kiểu 6', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17Gi8FXkmRt5rayo-lEMm8ki7j8r6roFNVwfnTjz6077EB4P4bh_oz2VP8D8phNJ3UHWRvCyfMe7jUGYtgVQD0WU6twc_4AA0xvxHpMUG0-ihp4Rna0SrRoI1fvqzED-2k-M4ilfMg=w153-h146?key=PK-4Dc3B7phWv_yqdMD0-w', price: 25000 },
+            { id: 'fhair7', label: 'Nữ kiểu 7', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17GpmeqGrvobVvjZ588__SFoXSz4cfx23wo2ZY3atPpL2vLZBJhlvqtyRBAIFjTTfIWP6N7jrqqTU-XmbJipxSKbY9LZ1q2xE08bG1BKm3PSLtNc4lzb12TVG7mJ5eA4zgwvOKxezQ=w153-h146?key=PK-4Dc3B7phWv_yqdMD0-w', price: 25000 },
+            { id: 'fhair8', label: 'Nữ kiểu 8', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17GWobItRb6BE6J8CS6YXoutni0t-pcWZGRCt5bUHHr7qaxyJII5tBOXw-CElkWpylFF6UyAM99_gKPze7aAVFxkihkZpCOGGGNUg3EZc71l6ANgFopuMB2VZXQIQf5oSKLYP-DlWA=w152-h146?key=hImVQ8QxMnt2_Kw7y9cTZg', price: 25000 },
+            { id: 'fhair9', label: 'Nữ kiểu 9', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17FE3jzqebbPmERuwKcctvKxxXcJXjCKKN9xb65P644vT7Q8rccXNGXwNNqJT16weUS9AzOVCB_3zLzg7LcTftv09pxqfC7mPC3dFWFOfbKhwwBqfLXiuM734mu28mzIy3Lj59ej1Q=w152-h146?key=hImVQ8QxMnt2_Kw7y9cTZg', price: 25000 },
+            { id: 'fhair10', label: 'Nữ kiểu 10', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17FGDmAlr2Br9Hvi4-axBpkY1flu-V6pNppxmIyMLYtfjYwx2DmXan9z-is139Dkvos1QWrhc0mJCrBsEKY6xEQmk83828LtNPtQnaSo6Mq6Ip-VmpP2h7LPpdJksMLz3WMMHPh8=w152-h146?key=hImVQ8QxMnt2_Kw7y9cTZg', price: 25000 },
+            { id: 'fhair11', label: 'Nữ kiểu 11', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17Eq1EJU71cojlzlFJrJzCjJMlWLwma2kmuvuZdJ1iUU0LHNicaqeDUgSPz5jSy_8ocavj1TU8I_IAcbOVjDLtnpG6omD_vBongREGgCFt4sjcHJjPot3tAHaovtkRmvgSpWz3-p1w=w152-h146?key=hImVQ8QxMnt2_Kw7y9cTZg', price: 25000 },
+            { id: 'fhair12', label: 'Nữ kiểu 12', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17EBKIm5DrVP0w_xKHn9flWQ0sM-X_1O3lQ9IEh2Wl2aMhbSe7BErqMRCir3GQJUK-AK1P8gkTVfb_1EjS56fjsetlqfHIMCunW4cpJvHEYFoWwokMli1Dg1b5PEt9YANH7CWPQ3lw=w152-h146?key=hImVQ8QxMnt2_Kw7y9cTZg', price: 25000 }
+        ],
+        hats: [
+            { id: 'hat1', label: 'Mũ tốt nghiệp', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17EQTVnog5UVhmw9Esuvzqu8SJT8r0A52FjYtjM3bBx9JekIsAuTHrd2ou6y1AUJTyKiwRB0KiMzDhByGwYTBsi-hH6TopMeEPJam_LadZgYJ6evJSWKrmDxSX_-HqGbcyd1hXEWPg=w143-h146?key=I9gcFs5UR9b9b__52udwEQ', price: 10000 },
+            { id: 'hat2', label: 'Mũ 1', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17GGtDDWVGjxkDSkSYy9CxbEDo0G3llrVc-Ymo-Hq5sUuTBIeurfpe-6qyhYr4ExLRVY1UXrHMSU9zKfThu1lrMKjj7-34WnRH4-FXb5Gl-EJZpyEphGozsYVeRMnJE4TAu09nMoVg=w157-h146?key=hImVQ8QxMnt2_Kw7y9cTZg', price: 15000 },
+            { id: 'hat3', label: 'Mũ 2', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17FA49S3poK0-riDn9LEAQUCJbLdHNDu6EDG1phCbdxHnEaZ3aQh2FKkQ7yBVv5U_GH7GpD7tc6kWaT3mumKeQsBe7vr4UdFRCWi_d8-9xm3Uc1j6o3DJzYFrlDkgAS1Y6SNwadKmA=w157-h146?key=hImVQ8QxMnt2_Kw7y9cTZg', price: 15000 },
+            { id: 'hat4', label: 'Mũ 3', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17GGwIwoqRu1GrXsh90DXAaAbpCoGG9IqEzH6aTkq001Jw3HpVkCJCYw6oHDMSwcCL1DaYpzYZXrTlqQUZVG8XrpUraQxgN2IHvxKa0ZOGcQJ-xYoBgbhU2zHqDnLwOy02VO33eI=w157-h146?key=hImVQ8QxMnt2_Kw7y9cTZg', price: 15000 },
+            { id: 'hat5', label: 'Mũ 4', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17FDZcj5uyBHDSmuLA0XLeyVfnZC-o1vlTDhhg2YUwgojrXf1Ncb1cy7bwPX8AM_1h3i2G05vaL7744PLEOmYAVmWX4Kus-yDMAJqkLjaphwxvv5R3zaIe27SBi9BKihux1nO-nzXg=w157-h146?key=hImVQ8QxMnt2_Kw7y9cTZg', price: 15000 },
+            { id: 'hat6', label: 'Mũ 5', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17F_2Bwmyw_yq04_B79BA6GuJYxgHP_fnmusepFi6DaiSS9slcSmyJXWaUOMh9nTmlPJkSUaiwJNOcJpy3VYEEt4tpLdxA0QywxrqcnBPSUEHJXmt1FIwkJhd3KgYuzry0EbAjAkOw=w157-h146?key=hImVQ8QxMnt2_Kw7y9cTZg', price: 15000 },
+            { id: 'hat7', label: 'Mũ 6', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17EL753CJwA7t3zvrrv7FSX9efN1N5oEUpAYry2qlkuWjbdSmJMJg35396OnmpNWGBe5kQMXL1HRdfnZ1T96804B-WN-C6W3NtPBYofmApxmjG_mWOUecDmG-04fXEwIPs09j0UJFw=w157-h146?key=hImVQ8QxMnt2_Kw7y9cTZg', price: 15000 },
+            { id: 'hat8', label: 'Mũ 7', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17FKzqBmWHsefS2xpcwv62o21Ut816vZsLY-U_i-uphWNedlYnOUBsKZkPEUd6l4ca1vAFgodkWL2O8hc1Hkk8YbCry5Rhj2PC4JKLrxQRyvo8yLG_WOwFaiRURxgUP3I39BzcotQQ=w157-h146?key=hImVQ8QxMnt2_Kw7y9cTZg', price: 15000 },
+            { id: 'hat9', label: 'Mũ 8', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17GA5OxJMcHVKZLMcXY6yPq1ssJ9Jtqy3aFJpKXSJMshLnnBia6wrg0OvTrdawYgvdQvNBY36YVFGTG9lQqixo0u2ShpS4WGXylrt3MCl0Sc45A4Ul4ZraL9zAww6jyAs97UjDTg-A=w157-h146?key=hImVQ8QxMnt2_Kw7y9cTZg', price: 15000 },
+            { id: 'hat10', label: 'Mũ 9', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17G1kX0w9Pi6MNwUIpNGOzMxxlTjfYeCZCXv2MfXVQ9pV7LjCDlfN7pWx3eqJb0-bJPHvic6OFvHbYquOcIgJqiiyLfCgUTRir51L001Az92BoDertWNbYmFqT2UYQPap3nLHBjZ=w157-h146?key=hImVQ8QxMnt2_Kw7y9cTZg', price: 15000 },
+            { id: 'fhair13', label: 'Nữ kiểu 10', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17GTF7je3deGjjK_iRmqthzsURfX0dyVb3IvQqeeZifQmpAXTi7SqdamwAlu_f3zJJXjcnEHt-wwbT5QfFdZAnv35FDgk02Tt2RCGBpq06iGQe81OVsqQJ3UonhvaO5uqGyTEI7P=w157-h146?key=hImVQ8QxMnt2_Kw7y9cTZg', price: 10000 },
+            { id: 'hat11', label: 'Nón', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17G1wIYOEQRCK4lMQtiNYyafkVDiv6sccqtQjP-otYyjZT7BB2zYkVrbd3gHy1KM1yHd9spc_gUKfoQI9hFcORqd9stRQj6c6RGYNmE7LOmMoIZaAhOoNhdS8DQo7wNVzKrKht6LcQ=w143-h146?key=I9gcFs5UR9b9b__52udwEQ', price: 10000 },
+             { id: 'hat12', label: 'Mũ vành', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17EJYikKaS-LNFx9kCG6WDFfM_VCHVy1gvRaEG9AEbIbQ1y4j0KlLraMIwm-IHDvFiwtf17PQvWxTsxD4cDxaEyf_nSrOpKfUVuVsSVx9TExhh1z1Y3ZfnlvIC2sQlSLH0nBVZYL9w=w157-h146?key=hImVQ8QxMnt2_Kw7y9cTZg', price: 10000 }
+             
+
+        ],
+        accessories: [
+            { id: 'acc1', label: 'Túi đeo chéo', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17GF1YLyZEnOhmPoeNcbdXnAGTQ5seQDR847AGEHl2QBmMKgpbZ72578O-X0ERS6RFYJQcM0vemSyRkHd-z3XGEjxAsFLeCg1D9KAoRm0jhFUKlPOnKXiwBFsFXTkFhdzL0WKLybKQ=w143-h146?key=I9gcFs5UR9b9b__52udwEQ', price: 10000 },
+            { id: 'acc2', label: 'Đĩa nhạc', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17EoSzkRYO8COgKNKbxMuVbi_CT2kTatkJXb_kKIsyjEayap_SZyaVy6wn6JvTA5wU6QzyIO3M1SCGnXYgcXoaR4W9dhTzNqPxns1h7QiP8ZTDK28Q5aBpU6NadEASzm95En620YLg=w157-h146?key=hImVQ8QxMnt2_Kw7y9cTZg', price: 10000 },
+            { id: 'acc3', label: 'Bia', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17Ft8gOZJDXvw7c--bxVxYEd8MqoRFUy_HJEvZlN62-xXopQjMH3jRSzGWE_CeuIGVYZ2uiyAmZ6gPFkptH_ynj4srwMeF8YX4JJcS_0JaTnuX_ljwuF7rBcBU46hI_S7u9x67HYYA=w143-h146?key=I9gcFs5UR9b9b__52udwEQ', price: 15000 },
+            { id: 'acc4', label: 'Túi xách hồng', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17HKTv5ROLMkdd-hKag28UDDbTmd94q323Rkv4FrvwtmeFc7I2YsHGHcpMggaDHZT2B-JIypcYmYs93hY4Fo9Li8rQjMHavS-PUZab47Bz2pWmn2MoYlzE2263OOM9MsjS0BKPBz=w143-h146?key=I9gcFs5UR9b9b__52udwEQ', price: 10000 },
+            { id: 'acc5', label: 'Tay cầm game', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17FWsXm_zcpm-saI-6UKPYbhWE9syHEHBlVl2xsI3S4dp7ATBROm5QXlkmhboT6Ro4QgPhTgxKdIUJl1HuwxtJT5byB-cbZPaSI1-Khsn5e0JqQJJS1uT_uNMsjyOfiGhVmjE1KXzQ=w143-h146?key=I9gcFs5UR9b9b__52udwEQ', price: 15000 },
+            { id: 'acc6', label: 'Khăn đen', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17Fv7XpBjV8HX-Nm2A41vb_EEKJ5fg17LCmCeopnkvazRopIujYxe55iwon1pOGnx4gsZaVTp2k_G58qgjx9XlugI7__jAC0G00yQwBba15bcNtNqzOMV6n11Fo1KlUXwhDXe9oXZw=w143-h146?key=I9gcFs5UR9b9b__52udwEQ', price: 10000 },
+            { id: 'acc7', label: 'Khăn đỏ', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17HHcXmZiq--FE39UHVFL3U0_NSd9ArZYfLzwfDZND7LDBEZUcgRfNy-PZ5iJ9sFfYo0jh3RSZ9hGm9U1PhX-szsOpBYBKIjhSUuEFOiwPAsbNYpgbEYQGrOPP-IG4imTZFFoVsd6Q=w143-h146?key=I9gcFs5UR9b9b__52udwEQ', price: 10000 },
+            { id: 'acc8', label: 'Khăn trắng', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17GK4f5MoTuT22TrUDOpkhjGReUf-A7pbhv-r0MKo072imBH2NZQkRGP8TVgqULLlZnM4cWJIpQBmmabpSWon5Gp4djGbgDNwMW44GgfeUVyiJ_r_Ve-jQdwxzd4i3HM-mGlRzKV=w143-h146?key=I9gcFs5UR9b9b__52udwEQ', price: 10000 },
+            { id: 'acc9', label: 'Kim cương', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17GjTKz1RMvomdL2YOjHuhnOp0DNe1p7I3x3shfswXBBsMyBqQtJSROzbZEu10FO5o56IsgmWIXDAgOiUDXryiQSjrqdGb5Hu2Uh031UFcRR1jedQ6oPTqNbJcJpMrp8FhVtsCRuRg=w143-h146?key=I9gcFs5UR9b9b__52udwEQ', price: 5000 },
+            { id: 'acc10', label: 'Xe máy', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17FdzMR66iBBqOnXoutnDPHGG5DE-BMGR4IFa05NIkKy4jS53ZJgv6UpPJWWdVBdiDUe2O_2EpmH6jUin95dWrm8_9BzlgKuVO_S62RWtw1ZU_EreGY9WPEt-5IZpaGyTGI3_X-heg=w143-h146?key=I9gcFs5UR9b9b__52udwEQ', price: 15000 },
+            { id: 'acc11', label: 'Máy ảnh', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17G6CHU7mF4LAtgRsI1kZDeLYH4_NZjkkUBW_4R5vnM9IeCY_JIldHINQE8N6-aVNQeUvNPAZSfv7I5ktFKtTnqlTJzqmvKdYQ77bJJNcwPoILWNo5ZrhcPDy0885C0eLewrbWzlYQ=w143-h146?key=I9gcFs5UR9b9b__52udwEQ', price: 15000 },
+            { id: 'acc12', label: 'Điện thoại', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17HlAxlFe20wlRZdyqjFdFe_2-0sPDJTuI8NMKqu5ION4i598FLq0edrR6UAAnPuSFqE751SJsXCBaED0guSCG-5rgFrpM1qNEX6rD5bin8KwQtW_NlWn1ILOLGTlhsBmskAxl1bmA=w143-h146?key=I9gcFs5UR9b9b__52udwEQ', price: 10000 },
+            { id: 'acc13', label: 'Lược', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17FwPB_2vjCISwtL2YzMO7HCOnB6gW9_m3K4AWbBy_smPmS_IAhKdzPb9qBn3EZLhIYh-PsKUNT-6N9leeRCpBF-13PVhI5rP_HyLiKXgHAK-SJxs94uPFCGZypE4I_oIvUuQ1-c6w=w143-h146?key=I9gcFs5UR9b9b__52udwEQ', price: 10000 },
+            { id: 'acc14', label: 'Đàn guitar', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17FGtNyBDxAFv720SHF1k__SyBv44Z7kbr6wmk8Vrm9bWgNqkqJmUQpSJe4gwbiafWEMldIiEeeJea0bb2NiFtBr7PSfVqcBA0F9-frGlPzLTQ_UbiaDgD0WoipGvtWdTO1eyRxdnQ=w157-h146?key=hImVQ8QxMnt2_Kw7y9cTZg', price: 20000 },
+            { id: 'acc15', label: 'Đàn piano', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17EobgC1r2ZpaSJXYhsUHWli3TKkbK0mDMiebDm00Meric1HSR9A3-69ag_7n0vbhxlkwZaWzGiZAivXbyhBGJkr0dsZtFOhc2Pp6VKR9jZSJ_cxEnDcxNg8O504YggfQ5Qm7jAlGA=w143-h146?key=I9gcFs5UR9b9b__52udwEQ', price: 10000 },
+            { id: 'acc16', label: 'Kem', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17H8_if2YHAGc461x9KjIr9DyjJWhy5UaqD4EtzjHMJmifD_ZWGp_s8MqlO4U-5Q-ZqIfKNmmxCETD-7kDfW6UStu5x2Qu7z31kIkLsOLfTK7iS10E9GJcly23cX0A6whJCZBQ_acg=w143-h146?key=I9gcFs5UR9b9b__52udwEQ', price: 10000 },
+            { id: 'acc17', label: 'Xương', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17EdKcC4fJH0cF6SpRtBZj4A8_ZsOtEqXhPRnwMgmjxAMw5UAUxwiwuCvyHw9NKzufMuvcqwOjpFx5km4Kyw0Kc5X00ibXxkDSy-LMdW02eQ4qhdY0u9icTWx7KvJ-asID00A1xUxw=w143-h146?key=I9gcFs5UR9b9b__52udwEQ', price: 10000 },
+            { id: 'acc18', label: 'Cà rốt', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17EN3DveJAjNPvW-Svgn-M40Kd1tq8CpPZiawsHAOSx2_wBpVrSHHPcDTuFpnSgmn-kRzZX_OVf6k4oKFF62YMsMDrXvULlm-8Xia5TzE6BEnBAQJ8Cb7FqoNPuHu4LyLJxfB9Sw=w143-h146?key=I9gcFs5UR9b9b__52udwEQ', price: 10000 },
+            { id: 'acc19', label: 'Bánh croissant', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17Fmh1xnrLO6q6_NjTfN03s5lG9IBjf_7TGUrQeRvWqC-Vms699Km660H4HgA92T8e8nA6mlFpd6UzYm3S47FSj2acC4V4bD_h8e9FMankeBAAKerV4EsDXPn5PBiraolBb2yPzt4g=w143-h146?key=I9gcFs5UR9b9b__52udwEQ', price: 10000 },
+            { id: 'acc20', label: 'Túi xách nâu', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17GfFVLIfWjpcCY2BpQ18ePyxiTkjnKp3RnZ2R5ICL95KUsYplEn0BtG5Q5Dr4kqMnfFyiozDYXis1s7NgRp2EVpJlPKI34iVjzad82ZYPlydiTx6QDBsSHKVZP2bBdfz0gqIF6rnQ=w143-h146?key=I9gcFs5UR9b9b__52udwEQ', price: 10000 },
+            { id: 'acc21', label: 'Hoa', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17E5zR_QFASG6ru10Z0cbgNGqe2HFYffM2aLld73HWY0BrMUSCcVKgweIhHE8NJ-_r_PUi1lR18Hz6k9k-4mdFPvg7oyMRuStMu5Vl6YmRMyK1kz84pIMP_Kag1pu8goHRaKJKGDVQ=w143-h146?key=I9gcFs5UR9b9b__52udwEQ', price: 5000 },
+            { id: 'acc22', label: 'Hoa anh đào', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17E79tE_P4RxDWwclY0L3mmVDoq9hTr7WX-pdKzOwqLvGIEN0RiYTGZJGB6jo8-8rmoUA6NcnTqu5b9FjUz4uAbaKr-oBxfkB-Ze0PGGMEDtCTFJDqDS8OiBvLsHkCjGzamsn8JKxw=w143-h146?key=I9gcFs5UR9b9b__52udwEQ', price: 10000 },
+            { id: 'acc23', label: 'Bánh pretzel', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17FOlPHOC28SmjQZfZOJE5Gl6SSxhQ29OwxPLN2Iplr31C9Y3iJCswWojEufohJugFyGg6E5x5kSMlJhOwGCrQ9RBZusZ_4GFtHxzyNmX8m6zqqL-jLW8OXv8O8Mx8EJY9vpZ2yr3Q=w143-h146?key=I9gcFs5UR9b9b__52udwEQ', price: 10000 },
+            { id: 'acc24', label: 'Đàn guitar trơn', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17EigQtpTQuF5hb_GFAHikSoQ3s-LwZE0dZhgoPv4_MJrz9l3oD2zrWcavkDmUmv5ds-qT_h1mJrBpBTbtKjJ9LqJLxWffGdEtOEPtJNGuhLZe6Vzd4jKVp5ySwo_QGrpt1ctiWu_A=w143-h146?key=I9gcFs5UR9b9b__52udwEQ', price: 10000 },
+            { id: 'acc25', label: 'Trẻ em trắng', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17HXBNosdwSyoCPb0zNgPfB07JK_2gwJpd-j19-VbjnuvgwTBMokuCovE7ko0cNkfF8IH4662LVOU-m4EfzoW1aibHexdhE56SWcfkYoluPvMypmSqjOaToLwI_H71pC3Dj_7WRPFw?key=jFadiPCg65rD47U_s1R6ZA', price: 10000 },
+            { id: 'acc26', label: 'Trẻ em vàng', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17GXY1rzBm4B0y9mvyo02EWuGE5-C6AUr_9TDx7jT93JZCC8j3RF0_vW0Jl-QBwHd3aM8DEJ1iLguffExxj00KQBQjS-TVEAt_ZS1HTm9C-i94zKE5a_l_O8ABahOsOIueDQlu9YAg?key=jFadiPCg65rD47U_s1R6ZA', price: 10000 },
+            { id: 'acc27', label: 'Áo cử nhân', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17HUtjb-H_6ZJZJbjKAOXfviGJG6onFnggCePwSLTQ-pvQlKZvJ3qn0OI4DNGQcU2eMd_89Xm4ng3daLhxDkNhC3tteUTR872FnrfIgrOWQGLUiB5tWx180tKjJN7FYZSWhv8eMPrQ=w157-h146?key=hImVQ8QxMnt2_Kw7y9cTZg', price: 10000 },
+            { id: 'acc28', label: 'Cup', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17Gzqjg3dK8l2jfDwD_NuowPrnfZcjxUKvbSht_k9xvaR_0Ud8CKq-csiiLCvl1sinQmvptXoPvTybc3z1r_owHiG4gfyqKO3kNQl_BpnFWLpr9pSqdqsCiTUKb8N9ITuDBN84qD=w157-h146?key=hImVQ8QxMnt2_Kw7y9cTZg', price: 10000 },
+            { id: 'acc29', label: 'Bình sữa', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17GDdDxxIdP5BzwN3UMF3ehBxO2CwsFkfkRs3ca5z_7WXRstQm4083D_1cs0VcH9bNxRv1_7mjmmUeLTkzeol_XiK86dhJ40Nv6829cwB59Swn4oQOg01foi8hkiSAtD1mhcxTg9=w157-h146?key=hImVQ8QxMnt2_Kw7y9cTZg', price: 10000 },
+            { id: 'acc30', label: 'Túi xách', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17FMDxZ0eSGybNGvCkiIA-9DU7n6Q9_FPlGj7D3Tf0rXXH008O-WOrbZShFx9VrwmjMk-in1xK1fOLunlIL84cmUIvtFVwW_D_sX-MECoSIIXrdmsmNxXx1Mjs8ucIVBBfE7sHLquw=w157-h146?key=hImVQ8QxMnt2_Kw7y9cTZg', price: 10000 },
+            { id: 'acc31', label: 'Túi xách trắng', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17HAqxXWO6NtMya5283o5ZGa8sI_5qCCuzY0Tl06AIJFYyPyWGAQ59BV_3J04bxdr5BKhSXPWqCvM30mx3GYjlcfA-VCu6Pb76omyLxS8nfmslPAyL40Dh-C5r4AETx2R5vCjUIcUQ=w157-h146?key=hImVQ8QxMnt2_Kw7y9cTZg', price: 10000 },
+            { id: 'acc32', label: 'Mic', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17E5h_u_XDa6euGGXHssEnT4Mbdi9GSmvrVgNueYkHbSUWt2A2VU7gTOeh1TVYZSH2Fn1T7Q62wh4559pSqwnt1QK17EYtYx5hRARxQi3l2W1QyR5g1jObwTa_Iupf5OK0KIeTEWXw=w157-h146?key=hImVQ8QxMnt2_Kw7y9cTZg', price: 10000 },
+            { id: 'acc33', label: 'Vợt tennis', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17H8RM6fpNv90Oca8ekP6HN20t0j0ARhCMbpKm7xaQIbok_eoABKCU3j94aUkZgnfFHdjnmDpK9sMaFAhDBRiVkm7rHikt3SBDBxqwn1wPt7eZDRY1EhkuPcQqzpMov4Xi82euj_aw=w157-h146?key=hImVQ8QxMnt2_Kw7y9cTZg', price: 10000 },
+            { id: 'acc34', label: 'Dụng cụ vẽ', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17ETG-_ABXpjjWp0E4VyqAkyiVX-qhnOMNh8xhfbnQw0_IcHC8IaW0kEOfHJm250fWdyQepLIOaLggORA1D4FbyYJDB8-FSiRKAlS8XtEtHil40hELID-YqGUq1b1a4o3vLyihLq=w157-h146?key=hImVQ8QxMnt2_Kw7y9cTZg', price: 15000 },
+            { id: 'acc35', label: 'Bóng rổ', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17E-QPoPBHy4dIvrJkZG6Z2ZwGZ7QJKmKVntbW5UBd1v-QBFFSCaJyNUHISvXjyP7vJ5g1oyxsRDyeR7S8pnp3cx3FBElgBNqoJKqcN38YQarjGGGhkAp_wglFiGFwFjKtFShxEs=w157-h146?key=hImVQ8QxMnt2_Kw7y9cTZg', price: 15000 },
+            { id: 'acc36', label: 'Đàn guitar trắng', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17Fz2d01C3p_Dw5YeROFh2S6hXoFTvtY7ONaKompcHx9_Zz4KG0129baA1-fBHxPsidA9MuXaFXleFpnrif2SBl82PRYwzMOGkUor4NYGXwi8rRVmo71_wnUMD0zng6UpNHP_KoJyg=w157-h146?key=hImVQ8QxMnt2_Kw7y9cTZg', price: 20000 },
+            { id: 'acc37', label: 'Chocolate', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17Go9PlnzAUQr0b1nwmMytPQZkBtcnil04S2heDw5atSPPvH65gacSw7nJEuxHR_vyUfwm9loHNTcB7SZd7xiRo1dQD6o7iIkIqac8Ys63WN0AFhtZYh_Ajvy9Z2RB_qs66Ja9mi-g=w157-h146?key=hImVQ8QxMnt2_Kw7y9cTZg', price: 10000 },
+            { id: 'acc38', label: 'Cần câu', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17H23XR5b0i0I5vtBmt7Pi10jvREkHn6tNzu1juAW8cuJZlokqegRzJ2xItCufGGvMS1Fa7X6EFS5dQGNQ1L9CdOTOQS9P7PC4vOU4QDgOJE0r6KuaXgXxmBSeiGQYKthXmy_8qfdA=w157-h146?key=hImVQ8QxMnt2_Kw7y9cTZg', price: 15000 },
+            { id: 'acc39', label: 'Son', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17HOI5Xb4f6f9l92hi5RNWGPL9sjFCNm10aWKrNfCp77dHExOW0t3bGG14T3DpYCmM0EW0nu9-0iBjlF6im-HKvIlCv_YVA7ScEJbOsbz_baeKkNt5iVFkFNtv0Auhpz3M420Vg6jw=w157-h146?key=hImVQ8QxMnt2_Kw7y9cTZg', price: 15000 },
+            { id: 'acc40', label: 'Đài cassette', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17F52DhdwvNyyn-pAMpS47Xa2HEE6cYkSkVdm67mcQeuuC8Gd41zEw8bV-Dp4vA_ijiDZ_dzxO-Oh2IW3v543_M8bcwCtT8p3rrG1ryHz-Afv4V5PKTlbwsnvCqSVlK63IMkIT8i=w157-h146?key=hImVQ8QxMnt2_Kw7y9cTZg', price: 15000 },
+            { id: 'acc41', label: 'Dụng cụ bếp', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17GU9mPVX1BWeI-bQR_khwLcSv9eRRejHdxM6fq5E6b82fV8ZlPx_xij4EreiX5WhdNNSaooJwIypMv3ZXG7SwaCPJH_3ComaoAYJWFXwNRGLc-KI-EUjOLK4_od8LeKtsPpIj12gw=w157-h146?key=hImVQ8QxMnt2_Kw7y9cTZg', price: 15000 },
+            { id: 'acc42', label: 'Kèn', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17Gxy9LRwdJGqy9_Vh-7wxJCpuDeukm8gCCZ3CMGtn7xF938CsomzrXqYUYBoBsKOXS7jXB5W3PdOctCzYumEbIpehjGaztAKjCILyixmZHnTzjxgmmRCt552_fl_uSBwCZbdNNCPg=w157-h146?key=hImVQ8QxMnt2_Kw7y9cTZg', price: 15000 },
+            { id: 'acc43', label: 'Chai thủy tinh', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17Gc0y4v2sAkvnp6rRzxHSUdGwv7m66EfVXBmOvfn5C5RgMaO1jHKkzNw9IgJQdVJ71p5UszTcsU7vMO4JQDtYE6VKXYexEE3QpCoLpCAuUdedwObh65-apKU3rWPNdGlWWMjjpQow=w157-h146?key=hImVQ8QxMnt2_Kw7y9cTZg', price: 10000 },
+            { id: 'acc44', label: 'Vườn hoa (8 bông)', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17E79tE_P4RxDWwclY0L3mmVDoq9hTr7WX-pdKzOwqLvGIEN0RiYTGZJGB6jo8-8rmoUA6NcnTqu5b9FjUz4uAbaKr-oBxfkB-Ze0PGGMEDtCTFJDqDS8OiBvLsHkCjGzamsn8JKxw=w143-h146?key=I9gcFs5UR9b9b__52udwEQ', price: 40000 },
+            { id: 'acc45', label: 'Red heart', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17Fb4H5QlntKaK8bODa5TavpJ0nUdoths5zB35bsflJOyzm49MHWo5mt2iTMBIlKILTxPKOlrM7C22H1tvz-DfYQlurVzFTq7ebaQ8cn4IJJ2mx9WYamRazuogmiwbTl3e_dqGQg=w157-h146?key=hImVQ8QxMnt2_Kw7y9cTZg', price: 5000 },
+            { id: 'acc46', label: 'White heart', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17GDds2sjI_P3MmOx53fOIcF55uysxFQSlOW3OJOVvEeSf4Dtk9TJO7Ukpp9AukYPtCRNuXyU-jHHDt2Eancj4sxx4djML5XJx6JxJRhUzZWnrg1TUGnNyKQWAcyUuV4Q11nUeAO1Q=w157-h146?key=hImVQ8QxMnt2_Kw7y9cTZg', price: 5000 },
+            { id: 'acc47', label: 'Pink heart', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17Hbk6-QsmJmyaAaUDrjz2N0wNLjHMXfxVjr9dgNqIcEjPT5J08OiX4fkZMf_VYvX-deit1b4yT0cS_Ueoc3mjNCC2cpqyxfi6UNUDUsy2Yg4-SYpPr7hfYBuG469ZA1wZ8swY8j=w157-h146?key=hImVQ8QxMnt2_Kw7y9cTZg', price: 5000 },
+            { id: 'acc47', label: 'Sweet heart', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17HGdIAr964iDvzcWfAfls8fJso8BUrs2PrpdWnFRve6ov2vgBls9CeWfcYbK7Er8jX8DqBRQYOSnPD5EJuuQtuqBHEATQ9m_s-WuXAIIKcb9syBk1I33ZaavBqkaVvEZ5FUqAH7FQ=w157-h146?key=hImVQ8QxMnt2_Kw7y9cTZg', price: 8000 }
+            
+            
+        ],
+        pets: [
+            { id: 'pet1', label: 'Mèo Hồng (tạm hết)', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17Ehl0O8_9dNu6NCKA02F1loY0flEUw6N0LnSVhCXD8xr_2jQWdqUfxxf3BVCkI0mXQe0IJZroK_LdU39w-_Y2VYQh-5ocZnIS3u7CGHGdWuOCNccEszR-HhTRGiB2znryw8QL1C3g=w151-h146?key=RrRnd_eggjykVK9aokt2qQ', price: 15000 },
+            { id: 'pet2', label: 'Gấu Nâu', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17HPBotFExQ9d6uzaQXKKRhl22tpjrpXe8fOzaXRSvhKm9BdzqLQ67UG_jA8IdKSA_eeXhtj4OqVNnq2qGU-mCplH-397o2dtz1YnsjDoJ25ND8JQop_gvOa5Zga8rI1iInSSTzPgA=w151-h146?key=RrRnd_eggjykVK9aokt2qQ', price: 15000 },
+            { id: 'pet3', label: 'Chó', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17EYqtPqzISzv-ckVYnVHTTKIrEK_1mIsMfV-YlMTTEW3agWsjXbj838yGn1v21SdAj4m4tvGj8L-D4LU7MOaGUGVb2GR7tvAIhwTpnhko-7eP0Vw_imCwxLT7TVksuBZjp8zzD92w=w151-h146?key=RrRnd_eggjykVK9aokt2qQ', price: 15000 },
+            { id: 'pet4', label: 'Gấu Vàng', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17Gpez3o_76GsL-tUbwAgI_FWi5BFlzj0q6b5X_mduME_MMXqZbrCk0K9ekI1QccyN7AUYvAduxRw2r7KafDGKoER2MiEyywZMut42S3K0u2StTtWjdLCFAnoCR5f53I4N6O0UiJlw=w151-h146?key=RrRnd_eggjykVK9aokt2qQ', price: 15000 },
+            { id: 'pet5', label: 'Mèo Xám', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17Fgowg38N8FbcwQxwuv2i2AZR8gBI8w4WApYYSnK3pBUN73zeR3XeJXO2LAXBOyilCG77o9ebIdYjWRcfZ-VIGmrKh4pOnLGKixljpPdFGDEIjk7PuF200BlZVemXjQ8OTNZ8EYYw=w151-h146?key=RrRnd_eggjykVK9aokt2qQ', price: 15000 },
+            { id: 'pet6', label: 'Cá', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17G_J0tC7F21U7kmFzfyNGNyNgDVzlChl8UYCIfCQ55PznofAj4MJxSYNxniuwwiXfTfLomO8J5C_fP1hfZ00QzIW0DmxXeFoVsP1EqSF4ssApxSBz-06-IkpLIsTxMi7Jwmn9gQ2Q=w151-h146?key=RrRnd_eggjykVK9aokt2qQ', price: 15000 },
+            { id: 'pet7', label: 'Cá Heo', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17GCp1d8REK5_xemAXLByy7yRIfAAgOxaarTZREyCxSxwkG2kI3QRarxZ_5NOXAuESCMM_tuat2VJJrM_RRdjVw5hNHBHJG6AMSExRC9Yxfrr86k83APUlL4QUhE6ddIIg1clYOJ=w151-h146?key=RrRnd_eggjykVK9aokt2qQ', price: 15000 },
+            { id: 'pet8', label: 'Thỏ Hồng', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17E_wd6V-WEuQkX1qyq0g_O2tT5M0MxJi8gLGdEIyBm43cdy2B0sPL9Rsws9KUA60xgOHEaYR5oU7YNfrYqGpPGmBQW95rfKRqTO6DX6aJkll00vLfl06oyhLbadHDdDj5ACrqj6og=w151-h146?key=RrRnd_eggjykVK9aokt2qQ', price: 15000 },
+            { id: 'pet9', label: 'Thỏ Vàng', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17EdE93YIDJurz36EUBgpoWtqH9x1YrVvo1u49d-Gnb4ndg3RGfEwBmrEe-Y26k2ph4KIkHUJ01aYR90T0EwYlZhOrCxp1WbcfSCq_GgNFY3q3gJxTmuiEcbIH0BNwcpcFCZaM6nGA=w151-h146?key=RrRnd_eggjykVK9aokt2qQ', price: 15000 },
+            { id: 'pet10', label: 'Lợn', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17F6bM28FY0KV84k2Zt184vVbQm-2J38D-FYLiukjnshkmiE-74gMXTT8j2eCHTghqt2mPC309Ek64ocIzE_Rbw0eURSNc1Bvt7cyLZImaezPGDG0pXAOxiz1LOeyOn2TyosfQbhIw=w151-h146?key=RrRnd_eggjykVK9aokt2qQ', price: 15000 },
+            { id: 'pet11', label: 'Hạc', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17GDAVbBVkxO0P_NtH08bR2K37ESvUpBgS5XqkuBmMmYl8pBAJEZSvL5ZfCRy_tBrL_x4E7Kt_kKi5KpdMMlt_JefQI4SwQn7ZwdKoLjELySyd584UVJJliJ8x70MjOnp2h3Bzig2g=w151-h146?key=RrRnd_eggjykVK9aokt2qQ', price: 15000 },
+            { id: 'pet12', label: 'Thiên Nga', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17HwGwCwtMlT0Ny9m6zlTL9VsYE38kZI1Tlqv8rXLygDgsqpHtHaQH13fm6951zGNA0-3UnooeNti_4yYI9qNcumePLtosqmxN_XKlWfhkZPmrDtpTYik27A-EyN5KbpUUyXMoaG9g=w151-h146?key=RrRnd_eggjykVK9aokt2qQ', price: 15000 },
+            { id: 'pet13', label: 'Thỏ', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17HGYQt4T6XuChx91QyjARDHrzuQ7ycGnAu1IDZVEeNozTt--qLmyPO0fdIx5xxMhRNFYErA79oORD31ojrpSrxpns0L1qLfREFVlY4k1Jv2EyV3lBMkHbv70KfAlla-iMiG0FwJtA=w155-h146?key=hImVQ8QxMnt2_Kw7y9cTZg', price: 15000 },
+            { id: 'pet14', label: 'Mèo Cam', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17EkS_OxuOHaXI6NAstB3x2UZYEKDcH7LTQMxYfh_R9B7WzeixnFgCnxSPhvx3hIpw6IvUtzo9R_uz2l9q2HZed-ePpKtGauOZjtRkNEX7qraFOSeWU_ALRetH2PCQ63AGCRYcjs=w155-h146?key=hImVQ8QxMnt2_Kw7y9cTZg', price: 15000 },
+            { id: 'pet15', label: 'Mèo Vằn', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17GevviRz9AH9DVj8GDSBLmtW8-YoBUiS4LZ9OssxRrTJUYdvDRkd7yWBbDol-MsqLAiFnhNcRy5kDSSy1QCXoQnt5yBTiU29uF9fUS6-KMKfAJLps_73zlQxkxAoWaTdFg9pbacyA=w155-h146?key=hImVQ8QxMnt2_Kw7y9cTZg', price: 15000 },
+            { id: 'pet16', label: 'Chim Cánh Cụt', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17FZXoCNQ_dPgfd8wUJgj9j9BENIVpXK5JaQ7RG4ZVz8nwp0AnBsoeVMZLrf7bsO_EqCZpBwlq7WhGc6dlVOpgrM3iSkJygkM1oqtmpUTzFL60oKYPVrJ0YiKSIrlHZ7B_G2_s2cTA=w155-h146?key=hImVQ8QxMnt2_Kw7y9cTZg', price: 15000 },
+            { id: 'pet17', label: 'Husky', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17G3_rySW2NQUgjLvfO3-QwcB7raWNxh1RdMeqb2krS5F6RHzbjKYmepS95iq_MXSSPIq-jj49YG5RWWeX1FOt5XVRllXUbnSpbJi3mV71n4dJx5Yy0Az0gByWr7_zG3tWUkRTO4Cw=w155-h146?key=hImVQ8QxMnt2_Kw7y9cTZg', price: 15000 },
+            { id: 'pet18', label: 'Chó Trắng', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17FM5ySa7YA1O8l2O4crAJ-QkhLKFV750De9Z40FnCx1YZmds5VOaIqLb9MwvdY6EoyaIoQRgtpyFpa9TtP1QcD66FUy9_4V0BIgEEH9A0siOe_a_kngLX1r0t809H8_LLZpuKm31A=w155-h146?key=hImVQ8QxMnt2_Kw7y9cTZg', price: 15000 },
+            { id: 'pet19', label: 'Chó Nâu', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17H93ppKhHrG4FUK_BPRjc4X3QWc5VjY7BqbrHnsuy3fc0q1YrSXmhRIRtdVhUQLYBxD62bBIN41nwRqnlctb_l-pcCRr9luKL5Q3V8ojUtyia5HQPmLEhH0_weakHE3bJC4yVxF=w155-h146?key=hImVQ8QxMnt2_Kw7y9cTZg', price: 15000 },
+            { id: 'pet20', label: 'Mèo Trắng', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17EqgAVqVkz0lKRfp98AV6X-FYmrO5t8OSsbO-LkbFsBY7SNht3QWq2uRYZpsVSgH9XEY15_E93hqVsrj35KSS_jCMESGrly23SqFBJR-Se8A2Fl3h2_GCHwzLXcr4Pj8AF2R90b-w=w155-h146?key=hImVQ8QxMnt2_Kw7y9cTZg', price: 15000 },
+            { id: 'pet21', label: 'Mèo Đen', image: 'https://lh7-rt.googleusercontent.com/sheetsz/AHOq17Fa0bKEva1J-XHNCQnxzVw5c-YhJq1OMxsPi5u1sjYnyE1uBiEjMz7_3hK71Ntiwbz1ZnvrInXSGjz8kh3rDDQICr7IJ7Vb_oemjHJ9o_5KAZ4Nugq-cjygcmPY4mfUQUeWUYBR=w155-h146?key=hImVQ8QxMnt2_Kw7y9cTZg', price: 15000 }
+            ]
+    };
+
+    // Mã giảm giá hợp lệ
+    const validDiscountCodes = {
+        'FREESHIPLUVIN': { type: 'freeship', value: 25000 },
+        'GRADUATION': { type: 'fixed', value: 20000 },
+    };
+
+    // Collection management functions
+    function isCollectionActive(collection) {
+        if (collection.status === 'expired') return false;
+        const now = new Date();
+        const endDate = new Date(collection.endDate);
+        return now < endDate;
+    }
+    
+    function getTimeRemaining(endDate) {
+        const now = new Date();
+        const end = new Date(endDate);
+        const total = end - now;
+        
+        if (total <= 0) return null;
+        
+        const days = Math.floor(total / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((total % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((total % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((total % (1000 * 60)) / 1000);
+        
+        return { total, days, hours, minutes, seconds };
+    }
+    
+    function formatTimeRemaining(timeObj) {
+        if (!timeObj) return 'Đã hết hạn';
+        
+        const { days, hours, minutes, seconds } = timeObj;
+        if (days > 0) return `${days}d ${hours}h ${minutes}m`;
+        if (hours > 0) return `${hours}h ${minutes}m ${seconds}s`;
+        return `${minutes}m ${seconds}s`;
+    }
+    
+    function createCollectionCard(collection) {
+        const isActive = isCollectionActive(collection);
+        const timeRemaining = getTimeRemaining(collection.endDate);
+        
+        const card = document.createElement('div');
+        card.className = `collection-card limited ${isActive ? 'active' : 'expired'}`;
+        card.dataset.collection = collection.id;
+        
+        card.innerHTML = `
+            <div class="collection-header">
+                <h4><i class="${collection.icon}"></i> ${collection.name}</h4>
+                <div class="collection-status ${isActive ? 'limited' : 'expired'}">
+                    ${isActive ? 'Limited' : 'Expired'}
+                </div>
+            </div>
+            <div class="collection-description">${collection.description}</div>
+            ${isActive && timeRemaining ? `
+                <div class="collection-timer">
+                    <div class="timer-label">Thời gian còn lại:</div>
+                    <div class="timer-display" data-end-date="${collection.endDate}">
+                        ${formatTimeRemaining(timeRemaining)}
+                    </div>
+                </div>
+            ` : ''}
+            <div class="collection-features">
+                ${collection.features.map(feature => `<span class="feature-tag">${feature}</span>`).join('')}
+                ${collection.discount ? `<span class="feature-tag">Giảm ${collection.discount}%</span>` : ''}
+            </div>
+        `;
+        
+        if (isActive) {
+            card.addEventListener('click', () => selectCollection(collection.id));
+        }
+        
+        return card;
+    }
+    
+    function renderCollections() {
+        const container = document.getElementById('collection-options');
+        container.innerHTML = '';
+        
+        Object.values(collections).forEach(collection => {
+            const card = createCollectionCard(collection);
+            container.appendChild(card);
+        });
+        
+        // Auto-select regular collection by default
+        selectCollection('regular');
+    }
+    
+    function selectCollection(collectionId) {
+        // Remove active class from all cards
+        document.querySelectorAll('.collection-card').forEach(card => {
+            card.classList.remove('active');
+        });
+        
+        // Add active class to selected card
+        const selectedCard = document.querySelector(`[data-collection="${collectionId}"]`);
+        if (selectedCard) {
+            selectedCard.classList.add('active');
+        }
+        
+        // Update global selected collection
+        window.selectedCollection = collectionId;
+        
+        // Update available products based on collection
+        updateProductsForCollection(collectionId);
+        
+        // Save selection
+        saveSelections();
+    }
+    
+    function updateProductsForCollection(collectionId) {
+        if (collectionId === 'regular') {
+            // Use regular products - no changes needed
+            return;
+        }
+        
+        const collection = collections[collectionId];
+        if (!collection || !isCollectionActive(collection)) return;
+        
+        // Add limited products to respective categories
+        collection.limitedProducts.forEach(product => {
+            switch(product.type) {
+                case 'background':
+                    if (!productOptions.backgrounds.find(bg => bg.id === product.id)) {
+                        productOptions.backgrounds.unshift(product);
+                    }
+                    break;
+                case 'accessory':
+                    if (!productOptions.accessories.find(acc => acc.id === product.id)) {
+                        productOptions.accessories.unshift(product);
+                    }
+                    break;
+                case 'hair':
+                    if (!productOptions.maleHairs.find(hair => hair.id === product.id)) {
+                        productOptions.maleHairs.unshift(product);
+                        productOptions.femaleHairs.unshift(product);
+                    }
+                    break;
+                case 'hat':
+                    if (!productOptions.hats.find(hat => hat.id === product.id)) {
+                        productOptions.hats.unshift(product);
+                    }
+                    break;
+            }
+        });
+        
+        // Re-render affected sections
+        renderOptions(document.getElementById('background-grid'), productOptions.backgrounds, 'background');
+        renderOptions(document.getElementById('accessory-grid'), productOptions.accessories, 'accessory');
+        renderOptions(document.getElementById('hat-grid'), productOptions.hats, 'hat');
+        createHairOptions();
+    }
+    
+    function startCollectionTimers() {
+        const timerElements = document.querySelectorAll('.timer-display[data-end-date]');
+        
+        const updateTimers = () => {
+            timerElements.forEach(element => {
+                const endDate = element.dataset.endDate;
+                const timeRemaining = getTimeRemaining(endDate);
+                element.textContent = formatTimeRemaining(timeRemaining);
+                
+                if (!timeRemaining) {
+                    // Collection expired, refresh the page or update UI
+                    element.closest('.collection-card').classList.add('expired');
+                    element.closest('.collection-card').classList.remove('active');
+                }
+            });
+        };
+        
+        // Update every second
+        setInterval(updateTimers, 1000);
+    }
+
+    // Hàm tạo option item
+    function createOptionItem(option, category) {
+        const item = document.createElement('div');
+        item.className = 'option-item';
+        item.dataset.id = option.id;
+        item.dataset.category = category;
+        item.dataset.price = option.price;
+        item.dataset.label = option.label;
+        
+        if (category === 'background') {
+            item.dataset.image = option.image;
+        }
+
+        const thumbnail = document.createElement('div');
+        thumbnail.className = 'option-thumbnail';
+        
+        if (category === 'background') {
+            thumbnail.style.backgroundImage = `url('${option.image}')`;
+            thumbnail.style.backgroundSize = 'cover';
+            thumbnail.style.backgroundPosition = 'center';
+        } else {
+            const img = document.createElement('img');
+            img.src = option.image;
+            img.alt = option.label;
+            img.loading = 'lazy';
+            thumbnail.appendChild(img);
+        }
+
+        const name = document.createElement('div');
+        name.className = 'option-name';
+        name.textContent = option.label;
+
+        // Add stock display
+        const stockDiv = document.createElement('div');
+        stockDiv.className = 'option-stock';
+        const inventoryItem = getInventoryStock(option.id);
+        const stock = inventoryItem ? inventoryItem.stock : 999;
+        const isOutOfStock = stock <= 0;
+        
+        if (isOutOfStock) {
+            stockDiv.innerHTML = '<span style="color: #f44336; font-weight: bold; font-size: 0.8rem;">Hết hàng</span>';
+            item.classList.add('out-of-stock');
+        } else if (stock <= 5) {
+            stockDiv.innerHTML = `<span style="color: #ff9800; font-weight: bold; font-size: 0.8rem;">Còn ${stock}</span>`;
+        } else {
+            stockDiv.innerHTML = `<span style="color: #4CAF50; font-size: 0.8rem;">Còn ${stock}</span>`;
+        }
+
+        item.appendChild(thumbnail);
+        item.appendChild(name);
+        item.appendChild(stockDiv);
+
+        if (option.price > 0) {
+            const price = document.createElement('div');
+            price.className = 'option-price';
+            price.textContent = `+${option.price.toLocaleString()}₫`;
+            item.appendChild(price);
+        }
+        
+        if (category === 'accessory' || category === 'pet' || category === 'hat') {
+            const quantityContainer = document.createElement('div');
+            quantityContainer.className = 'option-quantity';
+            quantityContainer.style.display = 'none';
+            
+            const minusBtn = document.createElement('button');
+            minusBtn.className = 'quantity-btn minus';
+            minusBtn.textContent = '-';
+            minusBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const input = quantityContainer.querySelector('.quantity-input');
+                if (parseInt(input.value) > 1) {
+                    input.value = parseInt(input.value) - 1;
+                    updateQuantity(input, item, option);
+                }
+            });
+            
+            const input = document.createElement('input');
+            input.type = 'number';
+            input.className = 'quantity-input';
+            input.value = '1';
+            input.min = '1';
+            input.max = '10';
+            input.addEventListener('change', function(e) {
+                e.stopPropagation();
+                updateQuantity(this, item, option);
+            });
+            
+            const plusBtn = document.createElement('button');
+            plusBtn.className = 'quantity-btn plus';
+            plusBtn.textContent = '+';
+            plusBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const input = quantityContainer.querySelector('.quantity-input');
+                input.value = parseInt(input.value) + 1;
+                updateQuantity(input, item, option);
+            });
+            
+            quantityContainer.appendChild(minusBtn);
+            quantityContainer.appendChild(input);
+            quantityContainer.appendChild(plusBtn);
+            item.appendChild(quantityContainer);
+        }
+
+        return item;
+    }
+    
+    // Hàm cập nhật số lượng
+    function updateQuantity(input, item, option) {
+        const value = parseInt(input.value);
+        if (isNaN(value)) {
+            input.value = 1;
+            item.dataset.quantity = 1;
+        } else {
+            if (value < 1) input.value = 1;
+            else if (value > 10) input.value = 10;
+            item.dataset.quantity = input.value;
+        }
+        updateOrderSummary();
+        saveSelections();
+    }
+
+    // Hàm render các option
+    function renderOptions(container, options, category) {
+        container.innerHTML = '';
+        options.forEach(option => {
+            const item = createOptionItem(option, category);
+            container.appendChild(item);
+        });
+    }
+
+    // Hàm tạo tùy chọn tóc
+    function createHairOptions() {
+        const container = document.getElementById('hair-options-container');
+        
+        const maleHairBox = document.createElement('div');
+        maleHairBox.className = 'hair-option-box';
+        maleHairBox.innerHTML = `
+            <div class="hair-option-title">Tóc nhân vật nam</div>
+            <div class="options-grid" id="male-hair-grid"></div>
+        `;
+        container.appendChild(maleHairBox);
+        
+        const femaleHairBox = document.createElement('div');
+        femaleHairBox.className = 'hair-option-box';
+        femaleHairBox.innerHTML = `
+            <div class="hair-option-title">Tóc nhân vật nữ</div>
+            <div class="options-grid" id="female-hair-grid"></div>
+        `;
+        container.appendChild(femaleHairBox);
+        
+        renderOptions(document.getElementById('male-hair-grid'), productOptions.maleHairs, 'hair');
+        renderOptions(document.getElementById('female-hair-grid'), productOptions.femaleHairs, 'hair');
+    }
+
+    // Khởi tạo các tùy chọn
+    function initOptions() {
+        renderOptions(document.getElementById('background-grid'), productOptions.backgrounds, 'background');
+        renderOptions(document.getElementById('face-grid'), productOptions.faces, 'face');
+        renderOptions(document.getElementById('hat-grid'), productOptions.hats, 'hat');
+        renderOptions(document.getElementById('accessory-grid'), productOptions.accessories, 'accessory');
+        renderOptions(document.getElementById('pet-grid'), productOptions.pets, 'pet');
+        createHairOptions();
+    }
+
+    // Modal xem hình ảnh
+    const modal = document.getElementById('image-modal');
+    const modalImg = document.getElementById('zoomed-image');
+    const closeModal = document.querySelector('.close-modal');
+    
+    document.getElementById('zoom-image').addEventListener('click', function() {
+        const currentImage = document.querySelector('.preview-container img');
+        modal.style.display = "flex";
+        modalImg.src = currentImage.src;
+    });
+    
+    closeModal.addEventListener('click', function() {
+        modal.style.display = "none";
+    });
+    
+    window.addEventListener('click', function(event) {
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    });
+    
+    // Template cho nhân vật
+    const characterTemplate = (id, title) => `
+        <div class="character-column" data-character="${id}">
+            <div class="character-title">${title}</div>
+            
+            <div class="option-group-title">Áo:</div>
+            <div class="color-options-grid">
+                 <div class="color-option selected" data-code="#${id}01" style="background-color: #f8cdea;" data-color="Hồng Pastel" data-type="shirt${id}"></div>
+                <div class="color-option" data-code="#${id}02" style="background-color: #bfc0c4;" data-color="Xám" data-type="shirt${id}"></div>
+                <div class="color-option" data-code="#${id}03" style="background-color: #ffffff;" data-color="Trắng" data-type="shirt${id}"></div>
+                <div class="color-option" data-code="#${id}04" style="background-color: #2f2f2f;" data-color="Đen" data-type="shirt${id}"></div>
+                <div class="color-option" data-code="#${id}05" style="background-color: #e68fbe;" data-color="Hồng đào" data-type="shirt${id}"></div>
+                <div class="color-option" data-code="#${id}06" style="background-color: #409acd;" data-color="Xanh dương" data-type="shirt${id}"></div>
+                <div class="color-option" data-code="#${id}07" style="background-color: #6b55a1;" data-color="Tím" data-type="shirt${id}"></div>
+                <div class="color-option" data-code="#${id}08" style="background-color: #e5d3a5;" data-color="Be" data-type="shirt${id}"></div>
+                <div class="color-option" data-code="#${id}09" style="background-color: #7eaddb;" data-color="Xanh Pastel" data-type="shirt${id}"></div>
+                <div class="color-option" data-code="#${id}10" style="background-color: #2e3551;" data-color="Xám Đậm" data-type="shirt${id}"></div>
+                <div class="color-option" data-code="#${id}11" style="background-color: #887149;" data-color="Vàng Mơ" data-type="shirt${id}"></div>
+                <div class="color-option" data-code="#${id}12" style="background-color: #55070b;" data-color="Đỏ Mận" data-type="shirt${id}"></div>
+            </div>
+            
+            <div class="option-group-title">Quần:</div>
+            <div class="color-options-grid">
+                <div class="color-option selected" data-code="#${id}13" style="background-color: #f8cdea;" data-color="Hồng Pastel" data-type="pants${id}"></div>
+                <div class="color-option" data-code="#${id}14" style="background-color: #bfc0c4;" data-color="Xám" data-type="pants${id}"></div>
+                <div class="color-option" data-code="#${id}15" style="background-color: #ffffff;" data-color="Trắng" data-type="pants${id}"></div>
+                <div class="color-option" data-code="#${id}16" style="background-color: #2f2f2f;" data-color="Đen" data-type="pants${id}"></div>
+                <div class="color-option" data-code="#${id}17" style="background-color: #e68fbe;" data-color="Hồng đào" data-type="pants${id}"></div>
+                <div class="color-option" data-code="#${id}18" style="background-color: #409acd;" data-color="Xanh dương" data-type="pants${id}"></div>
+                <div class="color-option" data-code="#${id}19" style="background-color: #6b55a1;" data-color="Tím" data-type="pants${id}"></div>
+                <div class="color-option" data-code="#${id}20" style="background-color: #e5d3a5;" data-color="Be" data-type="pants${id}"></div>
+                <div class="color-option" data-code="#${id}21" style="background-color: #7eaddb;" data-color="Xanh Pastel" data-type="pants${id}"></div>
+                <div class="color-option" data-code="#${id}22" style="background-color: #2e3551;" data-color="Xám Đậm" data-type="pants${id}"></div>
+                <div class="color-option" data-code="#${id}23" style="background-color: #887149;" data-color="Vàng Mơ" data-type="pants${id}"></div>
+             </div>
+        </div>
+    `;
+    
+    // Chi tiết các version
+    const versionDetails = {
+        1: {
+            price: "230.000₫",
+            includes: [
+                "Khung tranh với <span class='highlight'>01 Lego</span>",
+                
+                "Thiệp The Luvin",
+                "Tặng box quà sang trọng"
+            ]
+        },
+        2: {
+            price: "240.000₫",
+            includes: [
+                "Khung tranh với <span class='highlight'>02 Lego</span>",
+                
+                "Thiệp viết tay",
+                "Tặng hộp quà sang trọng"
+            ]
+        },
+        3: {
+            price: "245.000₫",
+            includes: [
+                "Khung tranh với <span class='highlight'>03 Lego</span>",
+                
+                "Thiệp viết tay",
+                "Tặng hộp quà sang trọng"
+            ]
+        }
+    };
+    
+    // Cập nhật mô tả version
+    function updateVersionDescription(version) {
+        const container = document.getElementById('version-description');
+        const details = versionDetails[version];
+        
+        if (!details) return;
+        
+        let html = `
+            <h3>Version ${version}</h3>
+            <div class="version-price">${details.price}</div>
+            <p>(Chưa gồm phí ship)</p>
+            <ul class="version-includes">
+        `;
+        
+        details.includes.forEach(item => {
+            html += `<li>${item}</li>`;
+        });
+        
+        html += `</ul>`;
+        
+        container.innerHTML = html;
+    }
+    
+    // Cập nhật hiển thị nhân vật
+    function updateCharacterDisplay(versionNumber = null) {
+        const container = document.getElementById('character-container');
+        const version = versionNumber || document.querySelector('.version-option.active')?.dataset.version || '1';
+        
+        container.innerHTML = '';
+        
+        if (version === '1') {
+            container.innerHTML = characterTemplate('1', 'Nhân vật duy nhất');
+        } else if (version === '2') {
+            container.innerHTML = characterTemplate('1', 'Nhân vật 1 (bên trái)');
+            container.innerHTML += characterTemplate('2', 'Nhân vật 2 (bên phải)');
+        } else if (version === '3') {
+            container.innerHTML = characterTemplate('1', 'Nhân vật 1');
+            container.innerHTML += characterTemplate('2', 'Nhân vật 2');
+            container.innerHTML += characterTemplate('3', 'Nhân vật 3');
+        }
+        
+        document.querySelectorAll('.color-option').forEach(option => {
+            option.addEventListener('click', function() {
+                const type = this.dataset.type;
+                const siblings = this.parentElement.querySelectorAll(`.color-option[data-type="${type}"]`);
+                siblings.forEach(sib => sib.classList.remove('selected'));
+                this.classList.add('selected');
+                updateOrderSummary();
+                saveSelections();
+            });
+        });
+    }
+    
+    // Xử lý click version options
+    document.querySelectorAll('.version-option').forEach(option => {
+        option.addEventListener('click', function() {
+            // Remove active class from all options
+            document.querySelectorAll('.version-option').forEach(opt => {
+                opt.classList.remove('active');
+            });
+            
+            // Add active class to clicked option
+            this.classList.add('active');
+            
+            const version = this.dataset.version;
+            updateCharacterDisplay(version);
+            
+            const maxFaces = parseInt(version);
+            document.getElementById('face-selection-info').textContent = `(Chọn tối đa ${maxFaces} khuôn mặt)`;
+            
+            const selectedFaces = document.querySelectorAll('.options-section:nth-child(3) .option-item.selected');
+            if (selectedFaces.length > maxFaces) {
+                for (let i = maxFaces; i < selectedFaces.length; i++) {
+                    selectedFaces[i].classList.remove('selected');
+                }
+            }
+            
+            updateOrderSummary();
+            saveSelections();
+        });
+    });
+    
+    // Xử lý click chọn option
+    document.addEventListener('click', function(e) {
+        const optionItem = e.target.closest('.option-item');
+        if (!optionItem) return;
+        
+        const category = optionItem.dataset.category;
+        const section = optionItem.closest('.options-section');
+        
+        if (category === 'background') {
+            const siblings = document.querySelectorAll('#background-grid .option-item');
+            siblings.forEach(sib => sib.classList.remove('selected'));
+            optionItem.classList.add('selected');
+            
+            // Cập nhật hình ảnh preview
+            const imageUrl = optionItem.dataset.image;
+            document.querySelectorAll('.main-image').forEach(img => {
+                img.src = imageUrl;
+            });
+        } 
+        else if (category === 'face') {
+            const version = document.querySelector('.version-option.active')?.dataset.version || '1';
+            const maxFaces = parseInt(version);
+            
+            if (optionItem.classList.contains('selected')) {
+                optionItem.classList.remove('selected');
+            } else {
+                const selectedFaces = document.querySelectorAll('#face-grid .option-item.selected');
+                if (selectedFaces.length < maxFaces) {
+                    optionItem.classList.add('selected');
+                } else {
+                    alert(`Bạn chỉ được chọn tối đa ${maxFaces} khuôn mặt cho version này.`);
+                    return;
+                }
+            }
+        } 
+        else if (category === 'hat' || category === 'accessory' || category === 'pet') {
+            optionItem.classList.toggle('selected');
+            
+            const quantityContainer = optionItem.querySelector('.option-quantity');
+            if (optionItem.classList.contains('selected')) {
+                quantityContainer.style.display = 'flex';
+                if (!optionItem.dataset.quantity) {
+                    optionItem.dataset.quantity = '1';
+                }
+            } else {
+                quantityContainer.style.display = 'none';
+                delete optionItem.dataset.quantity;
+            }
+        }
+        else {
+            optionItem.classList.toggle('selected');
+        }
+        
+        updateOrderSummary();
+        saveSelections();
+    });
+    
+    // Lưu lựa chọn
+    function saveSelections() {
+        const selections = {
+            collection: window.selectedCollection || 'regular',
+            version: document.querySelector('.version-option.active')?.dataset.version || '1',
+            background: document.querySelector('#background-grid .option-item.selected')?.dataset.id,
+            faces: Array.from(document.querySelectorAll('#face-grid .option-item.selected')).map(item => item.dataset.id),
+            hairs: Array.from(document.querySelectorAll('#hair-options-container .option-item.selected')).map(item => item.dataset.id),
+            hats: Array.from(document.querySelectorAll('#hat-grid .option-item.selected')).map(item => ({
+                id: item.dataset.id,
+                label: item.dataset.label,
+                quantity: item.dataset.quantity || '1'
+            })),
+            accessories: Array.from(document.querySelectorAll('#accessory-grid .option-item.selected')).map(item => ({
+                id: item.dataset.id,
+                label: item.dataset.label,
+                quantity: item.dataset.quantity || '1'
+            })),
+            pets: Array.from(document.querySelectorAll('#pet-grid .option-item.selected')).map(item => ({
+                id: item.dataset.id,
+                label: item.dataset.label,
+                quantity: item.dataset.quantity || '1'
+            })),
+            clothing: Array.from(document.querySelectorAll('.color-option.selected')).map(item => ({
+                code: item.dataset.code,
+                type: item.dataset.type,
+                color: item.dataset.color
+            })),
+            backgroundNote: document.getElementById('background-note').value
+        };
+        
+        localStorage.setItem('customSelections', JSON.stringify(selections));
+        
+        const indicator = document.getElementById('save-indicator');
+        indicator.style.display = 'block';
+        setTimeout(() => {
+            indicator.style.display = 'none';
+        }, 2000);
+    }
+    
+    // Tải lựa chọn đã lưu
+    function loadSelections() {
+        const saved = localStorage.getItem('customSelections');
+        if (!saved) return;
+        
+        const selections = JSON.parse(saved);
+        
+        // Set selected collection
+        if (selections.collection) {
+            selectCollection(selections.collection);
+        }
+        
+        // Set active version
+        document.querySelectorAll('.version-option').forEach(opt => {
+            opt.classList.remove('active');
+            if (opt.dataset.version === selections.version) {
+                opt.classList.add('active');
+            }
+        });
+        updateCharacterDisplay(selections.version);
+        
+        if (selections.background) {
+            const bgItem = document.querySelector(`#background-grid .option-item[data-id="${selections.background}"]`);
+            if (bgItem) {
+                bgItem.classList.add('selected');
+                const imageUrl = bgItem.dataset.image;
+                document.querySelectorAll('.main-image').forEach(img => {
+                    img.src = imageUrl;
+                });
+            }
+        }
+        
+        if (selections.backgroundNote) {
+            document.getElementById('background-note').value = selections.backgroundNote;
+        }
+        
+        selections.faces.forEach(faceId => {
+            const faceItem = document.querySelector(`#face-grid .option-item[data-id="${faceId}"]`);
+            if (faceItem) faceItem.classList.add('selected');
+        });
+        
+        selections.hairs.forEach(hairId => {
+            const hairItem = document.querySelector(`#hair-options-container .option-item[data-id="${hairId}"]`);
+            if (hairItem) hairItem.classList.add('selected');
+        });
+        
+        selections.hats.forEach(hat => {
+            const hatItem = document.querySelector(`#hat-grid .option-item[data-id="${hat.id}"]`);
+            if (hatItem) {
+                hatItem.classList.add('selected');
+                hatItem.dataset.quantity = hat.quantity;
+                const quantityInput = hatItem.querySelector('.quantity-input');
+                if (quantityInput) {
+                    quantityInput.value = hat.quantity;
+                    const quantityContainer = hatItem.querySelector('.option-quantity');
+                    quantityContainer.style.display = 'flex';
+                }
+            }
+        });
+        
+        selections.accessories.forEach(acc => {
+            const accItem = document.querySelector(`#accessory-grid .option-item[data-id="${acc.id}"]`);
+            if (accItem) {
+                accItem.classList.add('selected');
+                accItem.dataset.quantity = acc.quantity;
+                const quantityInput = accItem.querySelector('.quantity-input');
+                if (quantityInput) {
+                    quantityInput.value = acc.quantity;
+                    const quantityContainer = accItem.querySelector('.option-quantity');
+                    quantityContainer.style.display = 'flex';
+                }
+            }
+        });
+        
+        selections.pets.forEach(pet => {
+            const petItem = document.querySelector(`#pet-grid .option-item[data-id="${pet.id}"]`);
+            if (petItem) {
+                petItem.classList.add('selected');
+                petItem.dataset.quantity = pet.quantity;
+                const quantityInput = petItem.querySelector('.quantity-input');
+                if (quantityInput) {
+                    quantityInput.value = pet.quantity;
+                    const quantityContainer = petItem.querySelector('.option-quantity');
+                    quantityContainer.style.display = 'flex';
+                }
+            }
+        });
+        
+        selections.clothing.forEach(cloth => {
+            const clothItem = document.querySelector(`.color-option[data-code="${cloth.code}"]`);
+            if (clothItem) {
+                const siblings = clothItem.parentElement.querySelectorAll(`.color-option[data-type="${cloth.type}"]`);
+                siblings.forEach(sib => sib.classList.remove('selected'));
+                clothItem.classList.add('selected');
+            }
+        });
+        
+        updateOrderSummary();
+    }
+    
+    // Cập nhật tổng đơn hàng
+    function updateOrderSummary() {
+        const summaryContainer = document.getElementById('order-summary');
+        let html = '';
+        
+        const activeVersion = document.querySelector('.version-option.active');
+        const version = activeVersion?.dataset.version || '1';
+        const versionName = `Version ${version}`;
+        const versionPrice = parseInt(activeVersion?.dataset.price || '230000');
+        
+        html += `<div class="summary-item">
+            <span>${versionName}</span>
+            <span>${versionPrice.toLocaleString()}₫</span>
+        </div>`;
+        
+        // Sửa lỗi: Sử dụng đúng selector cho background
+        const selectedBackground = document.querySelector('#background-grid .option-item.selected');
+        if (selectedBackground) {
+            const backgroundName = selectedBackground.querySelector('.option-name').textContent;
+            html += `<div class="summary-item">
+                <span>Nền: ${backgroundName}</span>
+                <span>0₫</span>
+            </div>`;
+        }
+        
+        const selectedFaces = document.querySelectorAll('#face-grid .option-item.selected');
+        if (selectedFaces.length > 0) {
+            const faceNames = Array.from(selectedFaces).map(face => 
+                face.querySelector('.option-name').textContent
+            ).join(', ');
+            
+            html += `<div class="summary-item">
+                <span>Khuôn mặt: ${faceNames}</span>
+                <span>0₫</span>
+            </div>`;
+        }
+        
+        const selectedHairs = document.querySelectorAll('#hair-options-container .option-item.selected');
+        const hairCount = selectedHairs.length;
+        const hairTotal = hairCount * 25000;
+        if (hairCount > 0) {
+            const hairNames = Array.from(selectedHairs).map(hair => 
+                hair.querySelector('.option-name').textContent
+            ).join(', ');
+            
+            html += `<div class="summary-item">
+                <span>Tóc: ${hairNames}</span>
+                <span>+${hairTotal.toLocaleString()}₫</span>
+            </div>`;
+        }
+        
+        const selectedShirts = Array.from(
+            document.querySelectorAll('.color-option.selected[data-type^="shirt"]')
+        ).map(opt => opt.dataset.color);
+        const selectedPants  = Array.from(
+            document.querySelectorAll('.color-option.selected[data-type^="pants"]')
+        ).map(opt => opt.dataset.color);
+
+        if (selectedShirts.length > 0) {
+            html += `<div class="summary-item">
+                <span>Áo: ${selectedShirts.join(', ')}</span>
+                <span>0₫</span>
+            </div>`;
+        }
+        if (selectedPants.length > 0) {
+            html += `<div class="summary-item">
+                <span>Quần: ${selectedPants.join(', ')}</span>
+                <span>0₫</span>
+            </div>`;
+        }
+        
+        const selectedHats = document.querySelectorAll('#hat-grid .option-item.selected');
+        let hatTotal = 0;
+        if (selectedHats.length > 0) {
+            const hatNames = [];
+            selectedHats.forEach(hat => {
+                const name = hat.querySelector('.option-name').textContent;
+                const quantity = hat.dataset.quantity ? parseInt(hat.dataset.quantity) : 1;
+                const price = parseInt(hat.dataset.price);
+                hatTotal += price * quantity;
+                hatNames.push(`${name} (x${quantity})`);
+            });
+            
+            html += `<div class="summary-item">
+                <span>Mũ: ${hatNames.join(', ')}</span>
+                <span>+${hatTotal.toLocaleString()}₫</span>
+            </div>`;
+        }
+        
+        const selectedAccessories = document.querySelectorAll('#accessory-grid .option-item.selected');
+        let accessoryTotal = 0;
+        if (selectedAccessories.length > 0) {
+            const accessoryNames = [];
+            selectedAccessories.forEach(accessory => {
+                const name = accessory.querySelector('.option-name').textContent;
+                const quantity = accessory.dataset.quantity ? parseInt(accessory.dataset.quantity) : 1;
+                const price = parseInt(accessory.dataset.price);
+                accessoryTotal += price * quantity;
+                accessoryNames.push(`${name} (x${quantity})`);
+            });
+            
+            html += `<div class="summary-item">
+                <span>Phụ kiện: ${accessoryNames.join(', ')}</span>
+                <span>+${accessoryTotal.toLocaleString()}₫</span>
+            </div>`;
+        }
+        const selectedPets = document.querySelectorAll('#pet-grid .option-item.selected');
+        let petTotal = 0;
+        if (selectedPets.length > 0) {
+            const petNames = [];
+            selectedPets.forEach(pet => {
+                const name = pet.querySelector('.option-name').textContent;
+                const quantity = pet.dataset.quantity ? parseInt(pet.dataset.quantity) : 1;
+                const price = parseInt(pet.dataset.price);
+                petTotal += price * quantity;
+                petNames.push(`${name} (x${quantity})`);
+            });
+            
+            html += `<div class="summary-item">
+                <span>Thú cưng: ${petNames.join(', ')}</span>
+                <span>+${petTotal.toLocaleString()}₫</span>
+            </div>`;
+        }
+        
+        let subtotal = versionPrice + hairTotal + hatTotal + accessoryTotal + petTotal;
+        
+        html += `<div class="summary-item subtotal">
+            <span>Tạm tính</span>
+            <span>${subtotal.toLocaleString()}₫</span>
+        </div>`;
+        
+        const shippingFee = subtotal >= 349000 ? 0 : 25000;
+        html += `<div class="summary-item shipping">
+            <span>Phí vận chuyển</span>
+            <span>${shippingFee === 0 ? 'Miễn phí' : shippingFee.toLocaleString() + '₫'}</span>
+        </div>`;
+        
+        const totalBeforeDiscount = subtotal + shippingFee;
+        
+        let discount = 0;
+        const discountCode = document.getElementById('discount-code').value;
+        const discountInfo = validDiscountCodes[discountCode.toUpperCase()];
+        
+        if (discountInfo) {
+            if (discountInfo.type === 'freeship') {
+                discount = shippingFee;
+                html += `<div class="summary-item discount">
+                    <span>Giảm giá (${discountCode.toUpperCase()}): Miễn phí vận chuyển</span>
+                    <span>-${discount.toLocaleString()}₫</span>
+                </div>`;
+            } else if (discountInfo.type === 'percent') {
+                discount = Math.round(totalBeforeDiscount * discountInfo.value / 100);
+                html += `<div class="summary-item discount">
+                    <span>Giảm giá (${discountCode.toUpperCase()}): ${discountInfo.value}%</span>
+                    <span>-${discount.toLocaleString()}₫</span>
+                </div>`;
+            } else if (discountInfo.type === 'fixed') {
+                discount = discountInfo.value;
+                html += `<div class="summary-item discount">
+                    <span>Giảm giá (${discountCode.toUpperCase()})</span>
+                    <span>-${discount.toLocaleString()}₫</span>
+                </div>`;
+            }
+        }
+        
+        const total = Math.max(0, totalBeforeDiscount - discount);
+        html += `<div class="summary-item total">
+            <span>Tổng cộng</span>
+            <span>${total.toLocaleString()}₫</span>
+        </div>`;
+        
+        html += `<div class="summary-item" style="color: var(--light-pastel-pink); font-style: italic; margin-top: 10px;">
+            <span>Nền của bạn có thể tự do custom, hãy <b>liên hệ shop</b> để designer thiết kế theo yêu cầu.</span>
+        </div>`;
+        
+        summaryContainer.innerHTML = html;
+        
+        const resultDiv = document.getElementById('discount-result');
+        if (discount > 0) {
+            resultDiv.textContent = `Bạn tiết kiệm: ${discount.toLocaleString()}₫ - Thanh toán: ${total.toLocaleString()}₫`;
+            resultDiv.className = 'discount-result valid';
+            resultDiv.style.display = 'block';
+        } else {
+            resultDiv.style.display = 'none';
+        }
+        
+        const freeShipThreshold = 349000;
+        const progress = Math.min(subtotal / freeShipThreshold, 1);
+        const progressPercent = Math.round(progress * 100);
+        const remaining = Math.max(freeShipThreshold - subtotal, 0);
+        
+        document.getElementById('progress-fill').style.width = `${progressPercent}%`;
+        document.getElementById('progress-percent').textContent = `${progressPercent}%`;
+        
+        if (subtotal >= freeShipThreshold) {
+            document.getElementById('progress-text').innerHTML = `<span class="highlight">Đạt ngưỡng miễn phí ship!</span>`;
+        } else {
+            document.getElementById('progress-text').textContent = 
+                `Còn ${remaining.toLocaleString()}₫ nữa để được Miễn phí ship`;
+        }
+        
+        return {
+            subtotal,
+            shippingFee,
+            discount,
+            total,
+            discountCode: discountInfo ? discountCode.toUpperCase() : null
+        };
+    }
+    
+    // Áp dụng mã giảm giá
+    document.getElementById('apply-discount').addEventListener('click', function() {
+        const discountCode = document.getElementById('discount-code').value;
+        const resultDiv = document.getElementById('discount-result');
+        
+        if (!discountCode) {
+            resultDiv.textContent = "Vui lòng nhập mã giảm giá";
+            resultDiv.className = 'discount-result invalid';
+            resultDiv.style.display = 'block';
+            return;
+        }
+        
+        if (validDiscountCodes[discountCode.toUpperCase()]) {
+            updateOrderSummary();
+            saveSelections();
+        } else {
+            resultDiv.textContent = "Mã giảm giá không hợp lệ";
+            resultDiv.className = 'discount-result invalid';
+            resultDiv.style.display = 'block';
+        }
+    });
+    
+    // Mở/đóng phần mã giảm giá
+    document.getElementById('discount-toggle').addEventListener('click', function() {
+        const form = document.getElementById('discount-form');
+        this.classList.toggle('active');
+        form.classList.toggle('active');
+    });
+    
+    // ===== QUẢN LÝ ĐẶT HÀNG =====
+    // Xác thực form
+    function validateForm() {
+        let isValid = true;
+        const name = document.getElementById('customer-name').value.trim();
+        const phone = document.getElementById('customer-phone').value.trim();
+        const address = document.getElementById('customer-address').value.trim();
+        const deliveryDate = document.getElementById('delivery-date').value.trim();
+        const email = document.getElementById('customer-email').value.trim();
+
+        // Reset errors
+        document.querySelectorAll('.form-error').forEach(el => el.style.display = 'none');
+
+        // Validate name
+        if (!name) {
+            document.getElementById('name-error').style.display = 'block';
+            isValid = false;
+        }
+
+        // Validate phone
+        if (!phone) {
+            document.getElementById('phone-error').textContent = 'Vui lòng nhập số điện thoại';
+            document.getElementById('phone-error').style.display = 'block';
+            isValid = false;
+        } else if (!/^(0[0-9]{9,10})$/.test(phone)) {
+            document.getElementById('phone-error').textContent = 'Số điện thoại không hợp lệ';
+            document.getElementById('phone-error').style.display = 'block';
+            isValid = false;
+        }
+
+        // Validate address
+        if (!address) {
+            document.getElementById('address-error').style.display = 'block';
+            isValid = false;
+        }
+
+        // Validate delivery date
+        if (!deliveryDate) {
+            document.getElementById('delivery-date-error').textContent = 'Vui lòng nhập ngày nhận hàng';
+            document.getElementById('delivery-date-error').style.display = 'block';
+            isValid = false;
+        } else if (!/^(0?[1-9]|[12][0-9]|3[01])[/](0?[1-9]|1[0-2])$/.test(deliveryDate)) {
+            document.getElementById('delivery-date-error').textContent = 'Định dạng ngày không đúng (dd/mm)';
+            document.getElementById('delivery-date-error').style.display = 'block';
+            isValid = false;
+        }
+
+        // Validate email (optional but must be valid if exists)
+        if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            document.getElementById('email-error').textContent = 'Email không hợp lệ';
+            document.getElementById('email-error').style.display = 'block';
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
+    // Gửi đơn hàng
+    function sendOrder(customerInfo, orderSummary) {
+        // Tạo ngày giờ đơn hàng
+        const now = new Date();
+        const orderTime = `${now.getHours()}:${String(now.getMinutes()).padStart(2, '0')}, ${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth()+1).padStart(2, '0')}/${now.getFullYear()}`;
+        
+        // Tổng hợp thông tin sản phẩm
+        const selectedBackground = document.querySelector('#background-grid .option-item.selected');
+        const backgroundName = selectedBackground ? selectedBackground.querySelector('.option-name').textContent : 'Không chọn';
+        
+        const selectedFaces = document.querySelectorAll('#face-grid .option-item.selected');
+        const faceNames = selectedFaces.length > 0 ? 
+            Array.from(selectedFaces).map(face => face.querySelector('.option-name').textContent).join(', ') : 'Không chọn';
+        
+        const selectedHairs = document.querySelectorAll('#hair-options-container .option-item.selected');
+        const hairNames = selectedHairs.length > 0 ? 
+            Array.from(selectedHairs).map(hair => hair.querySelector('.option-name').textContent).join(', ') : 'Không chọn';
+        
+        const selectedShirts = Array.from(
+            document.querySelectorAll('.color-option.selected[data-type^="shirt"]')
+        ).map(opt => opt.dataset.color);
+        const selectedPants  = Array.from(
+            document.querySelectorAll('.color-option.selected[data-type^="pants"]')
+        ).map(opt => opt.dataset.color);
+        const clothingColors = `Áo: ${selectedShirts.join(', ')}, Quần: ${selectedPants.join(', ')}`;
+        
+        const selectedHats = document.querySelectorAll('#hat-grid .option-item.selected');
+        const hatNames = selectedHats.length > 0 ? 
+            Array.from(selectedHats).map(hat => {
+                const name = hat.querySelector('.option-name').textContent;
+                const quantity = hat.dataset.quantity || '1';
+                return `${name} (x${quantity})`;
+            }).join(', ') : 'Không chọn';
+        
+        const selectedAccessories = document.querySelectorAll('#accessory-grid .option-item.selected');
+        const accessoryNames = selectedAccessories.length > 0 ? 
+            Array.from(selectedAccessories).map(acc => {
+                const name = acc.querySelector('.option-name').textContent;
+                const quantity = acc.dataset.quantity || '1';
+                return `${name} (x${quantity})`;
+            }).join(', ') : 'Không chọn';
+        
+        const selectedPets = document.querySelectorAll('#pet-grid .option-item.selected');
+        const petNames = selectedPets.length > 0 ? 
+            Array.from(selectedPets).map(pet => {
+                const name = pet.querySelector('.option-name').textContent;
+                const quantity = pet.dataset.quantity || '1';
+                return `${name} (x${quantity})`;
+            }).join(', ') : 'Không chọn';
+        
+        // Đặt giá trị cho các trường trong form ẩn
+        document.getElementById('email-time').value = orderTime;
+        document.getElementById('email-delivery-date').value = customerInfo.deliveryDate;
+        document.getElementById('email-version').value = document.getElementById('version-select').value;
+        document.getElementById('email-background').value = backgroundName;
+        document.getElementById('email-clothing').value = clothingColors;
+        document.getElementById('email-faces').value = faceNames;
+        document.getElementById('email-hairs').value = hairNames;
+        document.getElementById('email-hats').value = hatNames;
+        document.getElementById('email-accessories').value = accessoryNames;
+        document.getElementById('email-pets').value = petNames;
+        document.getElementById('email-total').value = orderSummary.total.toLocaleString() + '₫';
+        document.getElementById('email-shipping').value = orderSummary.shippingFee === 0 ? 'Miễn phí' : orderSummary.shippingFee.toLocaleString() + '₫';
+        document.getElementById('email-name').value = customerInfo.name;
+        document.getElementById('email-phone').value = customerInfo.phone;
+        document.getElementById('email-address').value = customerInfo.address;
+        document.getElementById('email-email').value = customerInfo.email || 'Không có';
+        document.getElementById('email-note').value = customerInfo.note || 'Không có ghi chú';
+        document.getElementById('email-discount').value = orderSummary.discountCode || 'Không có';
+        document.getElementById('email-background-note').value = document.getElementById('background-note').value;
+        
+        // Tạo FormData từ form ẩn
+        const form = document.getElementById('email-form');
+        const formData = new FormData(form);
+        
+        // URL của Apps Script - Cần thay bằng URL Apps Script mới của L'Gôu
+        const scriptURL = 'https://script.google.com/macros/s/YOUR_NEW_SCRIPT_ID_HERE/exec';
+        
+        // Gửi dữ liệu bằng fetch
+        fetch(scriptURL, {
+            method: 'POST',
+            body: formData,
+            mode: 'no-cors' // Vì Apps Script không trả về CORS
+        })
+        .then(() => {
+            // Coi như thành công vì no-cors không trả về response rõ ràng
+            // Hiển thị popup xác nhận
+            document.getElementById('customer-name-display').textContent = customerInfo.name;
+            document.getElementById('customer-phone-display').textContent = customerInfo.phone;
+            document.getElementById('customer-address-display').textContent = customerInfo.address;
+            document.getElementById('delivery-date-display').textContent = customerInfo.deliveryDate;
+            
+            // Hiển thị overlay và popup
+            document.getElementById('popup-overlay').style.display = 'block';
+            document.getElementById('confirmation-popup').style.display = 'block';
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Có lỗi xảy ra khi gửi đơn hàng. Vui lòng thử lại hoặc liên hệ shop.');
+        })
+        .finally(() => {
+            // Ẩn spinner và kích hoạt lại nút
+            document.getElementById('order-spinner').style.display = 'none';
+            document.getElementById('order-text').style.display = 'inline';
+            document.getElementById('confirm-button').disabled = false;
+        });
+    }
+
+    // Xử lý khi bấm nút "Đặt hàng"
+    document.getElementById('confirm-button').addEventListener('click', function() {
+        if (!validateForm()) return;
+        
+        const name = document.getElementById('customer-name').value.trim();
+        const phone = document.getElementById('customer-phone').value.trim();
+        const address = document.getElementById('customer-address').value.trim();
+        const email = document.getElementById('customer-email').value.trim();
+        const note = document.getElementById('customer-note').value.trim();
+        const deliveryDate = document.getElementById('delivery-date').value.trim();
+        
+        if (!document.getElementById('policy-agreement').checked) {
+            alert('Vui lòng đồng ý với chính sách bảo hành & điều khoản của The Luvin.');
+            return;
+        }
+        
+        // Hiển thị spinner và vô hiệu hóa nút
+        document.getElementById('order-spinner').style.display = 'block';
+        document.getElementById('order-text').style.display = 'none';
+        this.disabled = true;
+        
+        // Tạo đối tượng thông tin khách hàng
+        const customerInfo = {
+            name: name,
+            phone: phone,
+            address: address,
+            email: email,
+            note: note || 'Không có ghi chú',
+            deliveryDate: deliveryDate
+        };
+        
+        // Lấy thông tin tóm tắt đơn hàng
+        const orderSummary = updateOrderSummary();
+        
+        // Gửi đơn hàng
+        sendOrder(customerInfo, orderSummary);
+    });
+
+    // ===== QUẢN LÝ CÁC BƯỚC =====
+    // Chuyển đến bước cụ thể
+    function goToStep(stepNumber) {
+        // Ẩn tất cả các bước
+        document.querySelectorAll('.step-pane').forEach(pane => {
+            pane.classList.remove('active');
+        });
+        
+        // Hiển thị bước được chọn
+        document.getElementById(`step-${stepNumber}`).classList.add('active');
+        
+        // Cập nhật trạng thái active của thanh điều hướng
+        document.querySelectorAll('.step').forEach(step => {
+            step.classList.remove('active');
+        });
+        document.querySelector(`.step[data-step="${stepNumber}"]`).classList.add('active');
+        
+        // Cập nhật trạng thái nút điều hướng
+        updateNavigationButtons(stepNumber);
+        
+        // Lưu bước hiện tại
+        localStorage.setItem('currentStep', stepNumber);
+    }
+    
+    // Cập nhật trạng thái nút điều hướng
+    function updateNavigationButtons(currentStep) {
+        const currentPane = document.getElementById(`step-${currentStep}`);
+        if (!currentPane) return;
+        
+        const prevBtn = currentPane.querySelector('.prev-btn');
+        const nextBtn = currentPane.querySelector('.next-btn');
+        
+        if (prevBtn) {
+            // Disable nút "Quay lại" ở step 1
+            prevBtn.disabled = (currentStep === 1);
+        }
+        
+        if (nextBtn) {
+            // Ẩn nút "Tiếp theo" ở step cuối (step 6)
+            if (currentStep === 6) {
+                nextBtn.style.display = 'none';
+            } else {
+                nextBtn.style.display = 'inline-block';
+                nextBtn.disabled = false;
+            }
+        }
+    }
+    
+    // Xử lý nút "Tiếp theo"
+    document.querySelectorAll('.next-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const currentPane = this.closest('.step-pane');
+            const currentStep = parseInt(currentPane.id.split('-')[1]);
+            
+            // Kiểm tra bước 3: Chọn Background
+            if (currentStep === 3) {
+                const backgroundNote = document.getElementById('background-note').value.trim();
+                if (!backgroundNote) {
+                    alert('Vui lòng nhập ghi chú cho background.');
+                    return; // Không chuyển bước nếu để trống
+                }
+            }
+            
+            goToStep(currentStep + 1);
+        });
+    });
+    
+    // Xử lý nút "Quay lại"
+    document.querySelectorAll('.prev-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const currentPane = this.closest('.step-pane');
+            const currentStep = parseInt(currentPane.id.split('-')[1]);
+            goToStep(currentStep - 1);
+        });
+    });
+    
+    // Xử lý khi click vào bước điều hướng
+    document.querySelectorAll('.step').forEach(step => {
+        step.addEventListener('click', function() {
+            const stepNumber = this.dataset.step;
+            goToStep(parseInt(stepNumber));
+        });
+    });
+    
+    // Xử lý nút trong popup xác nhận
+    document.getElementById('popup-zalo').addEventListener('click', function() {
+        window.open('https://zalo.me/0964393115', '_blank');
+    });
+
+    document.getElementById('popup-facebook').addEventListener('click', function() {
+        window.open('https://www.facebook.com/theluvingifts', '_blank');
+    });
+
+    document.getElementById('popup-instagram').addEventListener('click', function() {
+        window.open('https://www.instagram.com/the_luvin/', '_blank');
+    });
+
+    // Đóng popup khi bấm nút đóng
+    document.querySelector('#confirmation-popup .popup-close').addEventListener('click', function() {
+        document.getElementById('popup-overlay').style.display = 'none';
+        document.getElementById('confirmation-popup').style.display = 'none';
+    });
+
+    // Đóng popup khi click overlay
+    document.getElementById('popup-overlay').addEventListener('click', function() {
+        this.style.display = 'none';
+        document.getElementById('confirmation-popup').style.display = 'none';
+    });
+    
+    // Khởi động trang
+    document.addEventListener('DOMContentLoaded', function() {
+        loadInventoryFromCMS(); // Load inventory from CMS first
+        loadCollectionsFromCMS(); // Load collections from CMS first
+        setupCollectionSync(); // Setup sync with CMS
+        renderCollections();
+        startCollectionTimers();
+        initOptions();
+        updateCharacterDisplay('1');
+        loadSelections();
+        
+        if (!document.querySelector('#background-grid .option-item.selected')) {
+            const firstBackground = document.querySelector('#background-grid .option-item');
+            if (firstBackground) {
+                firstBackground.classList.add('selected');
+                const imageUrl = firstBackground.dataset.image;
+                document.querySelectorAll('.main-image').forEach(img => {
+                    img.src = imageUrl;
+                });
+            }
+        }
+        
+        document.getElementById('discount-code').value = '';
+        updateOrderSummary();
+        
+        // Khôi phục bước đã lưu hoặc bắt đầu từ bước 1
+        const savedStep = localStorage.getItem('currentStep') || 1;
+        goToStep(parseInt(savedStep));
+        
+        // Thêm sự kiện validate real-time
+        document.getElementById('customer-name').addEventListener('input', validateForm);
+        document.getElementById('customer-phone').addEventListener('input', validateForm);
+        document.getElementById('customer-address').addEventListener('input', validateForm);
+        document.getElementById('delivery-date').addEventListener('input', validateForm);
+        document.getElementById('customer-email').addEventListener('input', validateForm);
+    });
+</script>
+</body>
+</html>

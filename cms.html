@@ -1,0 +1,1712 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L'Gôu CMS - Quản lý hệ thống</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --primary-light: #3498db;
+            --accent: #e67e22;
+            --accent-light: #f39c12;
+            --success: #27ae60;
+            --danger: #e74c3c;
+            --warning: #f39c12;
+            --info: #3498db;
+            --dark: #2c3e50;
+            --light: #ecf0f1;
+            --white: #ffffff;
+            --gray-100: #f8f9fa;
+            --gray-200: #e9ecef;
+            --gray-300: #dee2e6;
+            --gray-400: #ced4da;
+            --gray-500: #adb5bd;
+            --gray-600: #6c757d;
+            --gray-700: #495057;
+            --gray-800: #343a40;
+            --gray-900: #212529;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--gray-100);
+            color: var(--gray-800);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logout-btn {
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        /* Login Form */
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+        }
+
+        .login-form {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .login-form h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--primary);
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        /* Notification animations */
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+
+        /* Button styles */
+        .btn-sm {
+            padding: 5px 10px;
+            font-size: 0.8rem;
+        }
+
+        .btn-danger {
+            background: #f44336;
+            border: 1px solid #f44336;
+        }
+
+        .btn-danger:hover {
+            background: #d32f2f;
+            border-color: #d32f2f;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--gray-700);
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid var(--gray-300);
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .login-btn {
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .error-message {
+            background: var(--danger);
+            color: white;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-left: 4px solid var(--primary);
+        }
+
+        .stat-card h3 {
+            color: var(--gray-600);
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-card .value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+
+        .stat-card .change {
+            font-size: 0.85rem;
+            color: var(--success);
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 16px 24px;
+            border: none;
+            background: white;
+            color: var(--gray-600);
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab-btn.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+            background: var(--gray-100);
+        }
+
+        .tab-btn:hover {
+            background: var(--gray-100);
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Tables */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .data-table th {
+            background: var(--gray-100);
+            font-weight: 600;
+            color: var(--gray-700);
+        }
+
+        .data-table tr:hover {
+            background: var(--gray-50);
+        }
+
+        /* Status badges */
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status-new {
+            background: var(--info);
+            color: white;
+        }
+
+        .status-processing {
+            background: var(--warning);
+            color: white;
+        }
+
+        .status-completed {
+            background: var(--success);
+            color: white;
+        }
+
+        .status-cancelled {
+            background: var(--danger);
+            color: white;
+        }
+
+        /* Inventory Management */
+        .inventory-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            margin-bottom: 12px;
+            background: white;
+        }
+
+        .inventory-item img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+
+        .item-info {
+            flex: 1;
+            margin-left: 16px;
+        }
+
+        .item-name {
+            font-weight: 600;
+            color: var(--gray-800);
+        }
+
+        .item-price {
+            color: var(--gray-600);
+            font-size: 0.9rem;
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .quantity-input {
+            width: 80px;
+            padding: 8px;
+            border: 1px solid var(--gray-300);
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        /* Google Sheets Integration */
+        .integration-section {
+            background: var(--gray-100);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .integration-status {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .status-connected {
+            background: var(--success);
+        }
+
+        .status-disconnected {
+            background: var(--danger);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .tabs {
+                flex-direction: column;
+            }
+
+            .dashboard-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .inventory-item {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .item-info {
+                margin: 16px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="login-screen" class="login-container">
+        <form class="login-form" id="login-form">
+            <h2>L'Gôu CMS</h2>
+            <div class="error-message" id="error-message">
+                Tên đăng nhập hoặc mật khẩu không đúng
+            </div>
+            <div class="form-group">
+                <label for="username">Tên đăng nhập</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Mật khẩu</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit" class="login-btn">Đăng nhập</button>
+        </form>
+    </div>
+
+    <!-- Main CMS Interface -->
+    <div id="cms-interface" style="display: none;">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">L'Gôu CMS</div>
+                <div class="user-info">
+                    <span>Xin chào, <strong id="current-user">Admin</strong></span>
+                    <button class="logout-btn" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i> Đăng xuất
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Dashboard Stats -->
+            <div class="dashboard-stats">
+                <div class="stat-card">
+                    <h3>Đơn hàng hôm nay</h3>
+                    <div class="value" id="orders-today">0</div>
+                    <div class="change">+0% so với hôm qua</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Doanh thu tháng này</h3>
+                    <div class="value" id="revenue-month">0₫</div>
+                    <div class="change">+0% so với tháng trước</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Sản phẩm hết hàng</h3>
+                    <div class="value" id="out-of-stock">0</div>
+                    <div class="change">Cần bổ sung</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Khách hàng mới</h3>
+                    <div class="value" id="new-customers">0</div>
+                    <div class="change">Trong 7 ngày qua</div>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="tabs">
+                <button class="tab-btn active" onclick="showTab('orders')">
+                    <i class="fas fa-shopping-cart"></i> Đơn hàng
+                </button>
+                <button class="tab-btn" onclick="showTab('collections')">
+                    <i class="fas fa-star"></i> Collections
+                </button>
+                <button class="tab-btn" onclick="showTab('inventory')">
+                    <i class="fas fa-boxes"></i> Quản lý kho
+                </button>
+                <button class="tab-btn" onclick="showTab('customers')">
+                    <i class="fas fa-users"></i> Khách hàng
+                </button>
+                <button class="tab-btn" onclick="showTab('settings')">
+                    <i class="fas fa-cog"></i> Cài đặt
+                </button>
+            </div>
+
+            <!-- Orders Tab -->
+            <div id="orders-tab" class="tab-content active">
+                <h3>Quản lý đơn hàng</h3>
+                <button class="btn btn-primary" onclick="syncWithGoogleSheets()">
+                    <i class="fas fa-sync"></i> Đồng bộ với Google Sheets
+                </button>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Mã đơn</th>
+                            <th>Khách hàng</th>
+                            <th>Sản phẩm</th>
+                            <th>Tổng tiền</th>
+                            <th>Trạng thái</th>
+                            <th>Ngày đặt</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody id="orders-table-body">
+                        <!-- Orders will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Collections Tab -->
+            <div id="collections-tab" class="tab-content">
+                <h3>Quản lý Collections</h3>
+                <button class="btn btn-primary" onclick="openCollectionModal()">
+                    <i class="fas fa-plus"></i> Thêm Collection Mới
+                </button>
+                
+                <div id="collections-list" style="margin-top: 20px;">
+                    <!-- Collections will be loaded here -->
+                </div>
+                
+                <div style="margin-top: 30px;">
+                    <h4>Quản lý kho đồ Collection</h4>
+                    <p style="color: var(--gray-600);">Mỗi collection có thể có sản phẩm riêng với số lượng tồn kho độc lập.</p>
+                    <div id="collection-inventory-list">
+                        <!-- Collection inventories will be loaded here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Inventory Tab -->
+            <div id="inventory-tab" class="tab-content">
+                <h3>Quản lý tồn kho</h3>
+                <div style="margin-bottom: 20px;">
+                    <button class="btn btn-primary" onclick="openAddProductModal()">
+                        <i class="fas fa-plus"></i> Thêm sản phẩm mới
+                    </button>
+                    <button class="btn btn-secondary" onclick="loadInventory()" style="margin-left: 10px;">
+                        <i class="fas fa-sync"></i> Làm mới
+                    </button>
+                </div>
+                <div id="inventory-list">
+                    <!-- Inventory items will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Customers Tab -->
+            <div id="customers-tab" class="tab-content">
+                <h3>Quản lý khách hàng</h3>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Tên khách hàng</th>
+                            <th>Số điện thoại</th>
+                            <th>Email</th>
+                            <th>Địa chỉ</th>
+                            <th>Tổng đơn hàng</th>
+                            <th>Lần cuối mua</th>
+                        </tr>
+                    </thead>
+                    <tbody id="customers-table-body">
+                        <!-- Customers will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Settings Tab -->
+            <div id="settings-tab" class="tab-content">
+                <h3>Cài đặt hệ thống</h3>
+                
+                <div class="integration-section">
+                    <h4>Tích hợp Google Sheets</h4>
+                    <div class="integration-status">
+                        <div class="status-indicator status-connected" id="sheets-status"></div>
+                        <span id="sheets-status-text">Đã kết nối</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="sheets-url">URL Google Sheets</label>
+                        <input type="url" id="sheets-url" class="form-group input" 
+                               placeholder="https://docs.google.com/spreadsheets/d/...">
+                    </div>
+                    <div class="form-group">
+                        <label for="sheets-api-key">API Key</label>
+                        <input type="password" id="sheets-api-key" class="form-group input" 
+                               placeholder="Nhập Google Sheets API Key">
+                    </div>
+                    <button class="btn btn-primary" onclick="updateSheetsIntegration()">
+                        <i class="fas fa-save"></i> Lưu cài đặt
+                    </button>
+                    <button class="btn btn-success" onclick="testConnection()">
+                        <i class="fas fa-plug"></i> Test kết nối
+                    </button>
+                </div>
+
+                <div class="integration-section">
+                    <h4>Cài đặt thông báo</h4>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="email-notifications" checked>
+                            Thông báo email khi có đơn hàng mới
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label for="notification-email">Email nhận thông báo</label>
+                        <input type="email" id="notification-email" class="form-group input" 
+                               value="admin@lgou.com">
+                    </div>
+                </div>
+
+                <div class="integration-section">
+                    <h4>Backup dữ liệu</h4>
+                    <p>Lần backup cuối: <span id="last-backup">Chưa có</span></p>
+                    <button class="btn btn-primary" onclick="backupData()">
+                        <i class="fas fa-download"></i> Backup ngay
+                    </button>
+                    <button class="btn btn-danger" onclick="restoreData()">
+                        <i class="fas fa-upload"></i> Khôi phục dữ liệu
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add/Edit Product Modal -->
+    <div id="product-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+        <div style="background: white; padding: 30px; border-radius: 12px; max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h3 id="product-modal-title">Thêm sản phẩm mới</h3>
+                <span onclick="closeProductModal()" style="cursor: pointer; font-size: 24px; color: var(--gray-500);">&times;</span>
+            </div>
+            <form id="product-form">
+                <div class="form-group">
+                    <label for="product-id">ID sản phẩm <span style="color: red;">*</span></label>
+                    <input type="text" id="product-id" required placeholder="vd: acc34, pet22, bg15">
+                    <small style="color: var(--gray-600);">ID phải unique và không được trùng</small>
+                </div>
+                <div class="form-group">
+                    <label for="product-name">Tên sản phẩm <span style="color: red;">*</span></label>
+                    <input type="text" id="product-name" required placeholder="vd: Túi xách đen">
+                </div>
+                <div class="form-group">
+                    <label for="product-category">Danh mục <span style="color: red;">*</span></label>
+                    <select id="product-category" required>
+                        <option value="">Chọn danh mục</option>
+                        <option value="Background">Background</option>
+                        <option value="Nhân vật - Khuôn mặt">Nhân vật - Khuôn mặt</option>
+                        <option value="Nhân vật - Tóc Nam">Nhân vật - Tóc Nam</option>
+                        <option value="Nhân vật - Tóc Nữ">Nhân vật - Tóc Nữ</option>
+                        <option value="Nhân vật - Mũ">Nhân vật - Mũ</option>
+                        <option value="Phụ kiện">Phụ kiện</option>
+                        <option value="Thú cưng">Thú cưng</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="product-price">Giá (VND)</label>
+                    <input type="number" id="product-price" min="0" step="1000" placeholder="0" value="0">
+                    <small style="color: var(--gray-600);">Để 0 nếu miễn phí</small>
+                </div>
+                <div class="form-group">
+                    <label for="product-stock">Số lượng tồn kho <span style="color: red;">*</span></label>
+                    <input type="number" id="product-stock" min="0" required placeholder="5" value="5">
+                </div>
+                <div class="form-group">
+                    <label for="product-image">Ảnh sản phẩm <span style="color: red;">*</span></label>
+                    <div style="margin-bottom: 10px;">
+                        <input type="file" id="product-image-file" accept="image/*" onchange="previewImage(this)">
+                        <small style="color: var(--gray-600); display: block; margin-top: 5px;">
+                            Hoặc nhập URL ảnh bên dưới
+                        </small>
+                    </div>
+                    <input type="url" id="product-image-url" placeholder="https://example.com/image.jpg" onchange="previewImageFromUrl()">
+                    <div id="image-preview" style="margin-top: 10px; text-align: center;">
+                        <img id="preview-img" style="max-width: 200px; max-height: 200px; border-radius: 8px; display: none;">
+                    </div>
+                </div>
+                <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                    <button type="button" class="btn btn-secondary" onclick="closeProductModal()">Hủy</button>
+                    <button type="submit" class="btn btn-primary">
+                        <span id="product-submit-text">Thêm sản phẩm</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Collection Modal -->
+    <div id="collection-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+        <div style="background: white; padding: 30px; border-radius: 12px; max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h3 id="modal-title">Thêm Collection Mới</h3>
+                <span onclick="closeCollectionModal()" style="cursor: pointer; font-size: 24px; color: var(--gray-500);">&times;</span>
+            </div>
+            <form id="collection-form">
+                <div class="form-group">
+                    <label for="collection-name">Tên Collection</label>
+                    <input type="text" id="collection-name" style="width: 100%; padding: 12px; border: 2px solid var(--gray-300); border-radius: 8px;" required>
+                </div>
+                <div class="form-group">
+                    <label for="collection-description">Mô tả</label>
+                    <textarea id="collection-description" rows="3" style="width: 100%; padding: 12px; border: 2px solid var(--gray-300); border-radius: 8px;" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="collection-end-date">Ngày kết thúc</label>
+                    <input type="datetime-local" id="collection-end-date" style="width: 100%; padding: 12px; border: 2px solid var(--gray-300); border-radius: 8px;" required>
+                </div>
+                <div class="form-group">
+                    <label for="collection-discount">Giảm giá (%)</label>
+                    <input type="number" id="collection-discount" min="0" max="100" style="width: 100%; padding: 12px; border: 2px solid var(--gray-300); border-radius: 8px;">
+                </div>
+                <div class="form-group">
+                    <label for="collection-icon">Icon (Font Awesome class)</label>
+                    <input type="text" id="collection-icon" placeholder="fas fa-heart" style="width: 100%; padding: 12px; border: 2px solid var(--gray-300); border-radius: 8px;">
+                </div>
+                <div class="form-group">
+                    <label for="collection-features">Features (cách nhau bằng dấu phẩy)</label>
+                    <textarea id="collection-features" rows="2" placeholder="Thiết kế đặc biệt, Phiên bản giới hạn" style="width: 100%; padding: 12px; border: 2px solid var(--gray-300); border-radius: 8px;"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i> Lưu Collection
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Include inventory data files -->
+    <script src="inventory-data.js"></script>
+    <script src="accessories-pets-data.js"></script>
+    
+    <script>
+        // Sample data
+        let orders = [];
+        let customers = [];
+        let collections = {
+            womensday: {
+                id: 'womensday',
+                name: 'Happy Women\'s Day 20.10',
+                description: 'Celebrate inspiring women with this special collection. Featuring empowering themes and elegant designs.',
+                icon: 'fas fa-female',
+                status: 'active',
+                endDate: '2024-10-25T23:59:59',
+                limitedProducts: [
+                    { id: 'wd_bg1', label: 'Women Power Background', image: 'https://example.com/women-bg1.jpg', type: 'background' },
+                    { id: 'wd_acc1', label: 'Crown Accessory', image: 'https://example.com/crown.jpg', type: 'accessory', price: 15000 },
+                    { id: 'wd_hair1', label: 'Elegant Hair Style', image: 'https://example.com/elegant-hair.jpg', type: 'hair', price: 25000 }
+                ],
+                features: ['Thiết kế đặc biệt', 'Phiên bản giới hạn', 'Tặng kèm thiệp chúc mừng'],
+                discount: 10
+            },
+            valentine: {
+                id: 'valentine',
+                name: 'Valentine Collection 2024',
+                description: 'Romantic designs perfect for couples and love celebrations.',
+                icon: 'fas fa-heart',
+                status: 'active',
+                endDate: '2024-02-20T23:59:59',
+                limitedProducts: [
+                    { id: 'vl_bg1', label: 'Love Story Background', image: 'https://example.com/love-bg.jpg', type: 'background' },
+                    { id: 'vl_acc1', label: 'Heart Necklace', image: 'https://example.com/heart-necklace.jpg', type: 'accessory', price: 12000 }
+                ],
+                features: ['Thiết kế lãng mạn', 'Màu hồng đặc biệt', 'Box quà Valentine'],
+                discount: 15
+            },
+            christmas: {
+                id: 'christmas',
+                name: 'Christmas Magic 2024',
+                description: 'Festive holiday collection with Christmas themes and winter wonderland designs.',
+                icon: 'fas fa-tree',
+                status: 'expired',
+                endDate: '2023-12-31T23:59:59',
+                limitedProducts: [
+                    { id: 'xm_bg1', label: 'Christmas Tree Background', image: 'https://example.com/xmas-bg.jpg', type: 'background' },
+                    { id: 'xm_hat1', label: 'Santa Hat', image: 'https://example.com/santa-hat.jpg', type: 'hat', price: 18000 }
+                ],
+                features: ['Chủ đề Giáng sinh', 'Màu đỏ xanh truyền thống', 'Tặng kèm card Noel'],
+                discount: 20
+            }
+        };
+        let inventory = [];
+        
+        // Load inventory from data files
+        function loadInventoryData() {
+            try {
+                // Combine all inventory data
+                inventory = [...inventoryData, ...accessoriesData, ...petsData];
+                console.log(`Loaded ${inventory.length} products into inventory`);
+            } catch (error) {
+                console.error('Error loading inventory data:', error);
+                // Fallback to empty inventory
+                inventory = [];
+            }
+        }
+
+        // Authentication
+        const ADMIN_CREDENTIALS = {
+            'admin': 'lgou2025',
+            'manager': 'manager123'
+        };
+
+        function login(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (ADMIN_CREDENTIALS[username] && ADMIN_CREDENTIALS[username] === password) {
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('cms-interface').style.display = 'block';
+                document.getElementById('current-user').textContent = username;
+                loadDashboard();
+            } else {
+                document.getElementById('error-message').style.display = 'block';
+            }
+        }
+
+        function logout() {
+            document.getElementById('login-screen').style.display = 'flex';
+            document.getElementById('cms-interface').style.display = 'none';
+            document.getElementById('login-form').reset();
+            document.getElementById('error-message').style.display = 'none';
+        }
+
+        // Tab Management
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Show selected tab
+            document.getElementById(tabName + '-tab').classList.add('active');
+            event.target.classList.add('active');
+
+            // Load tab data
+            switch(tabName) {
+                case 'orders':
+                    loadOrders();
+                    break;
+                case 'collections':
+                    loadCollections();
+                    loadCollectionInventories();
+                    break;
+                case 'inventory':
+                    loadInventory();
+                    break;
+                case 'customers':
+                    loadCustomers();
+                    break;
+                case 'settings':
+                    loadSettings();
+                    break;
+            }
+        }
+
+        // Dashboard
+        function loadDashboard() {
+            // Update stats
+            document.getElementById('orders-today').textContent = orders.length;
+            document.getElementById('out-of-stock').textContent = inventory.filter(item => item.stock === 0).length;
+            
+            // Load default tab
+            loadOrders();
+            loadInventory();
+        }
+
+        // Orders Management
+        function loadOrders() {
+            const tbody = document.getElementById('orders-table-body');
+            tbody.innerHTML = '';
+
+            if (orders.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align: center;">Chưa có đơn hàng nào</td></tr>';
+                return;
+            }
+
+            orders.forEach(order => {
+                const row = `
+                    <tr>
+                        <td>#${order.id}</td>
+                        <td>${order.customerName}</td>
+                        <td>${order.product}</td>
+                        <td>${order.total.toLocaleString()}₫</td>
+                        <td><span class="status-badge status-${order.status}">${getStatusText(order.status)}</span></td>
+                        <td>${new Date(order.date).toLocaleDateString('vi-VN')}</td>
+                        <td>
+                            <button class="btn btn-primary" onclick="viewOrder('${order.id}')">Xem</button>
+                            <button class="btn btn-success" onclick="updateOrderStatus('${order.id}', 'completed')">Hoàn thành</button>
+                        </td>
+                    </tr>
+                `;
+                tbody.innerHTML += row;
+            });
+        }
+
+        function getStatusText(status) {
+            const statusMap = {
+                'new': 'Mới',
+                'processing': 'Đang xử lý',
+                'completed': 'Hoàn thành',
+                'cancelled': 'Đã hủy'
+            };
+            return statusMap[status] || status;
+        }
+
+        // Inventory Management
+        function loadInventory() {
+            const container = document.getElementById('inventory-list');
+            container.innerHTML = '';
+
+            // Group by category
+            const categories = {};
+            inventory.forEach(item => {
+                if (!categories[item.category]) {
+                    categories[item.category] = [];
+                }
+                categories[item.category].push(item);
+            });
+
+            // Sort categories
+            const sortedCategories = Object.keys(categories).sort();
+
+            sortedCategories.forEach(categoryName => {
+                // Category header
+                const categoryHeader = document.createElement('div');
+                categoryHeader.style.cssText = `
+                    background: var(--primary-blue, #4a90a4);
+                    color: white;
+                    padding: 12px 20px;
+                    margin: 20px 0 10px 0;
+                    border-radius: 8px;
+                    font-weight: bold;
+                    font-size: 1.1rem;
+                `;
+                categoryHeader.innerHTML = `
+                    <i class="fas fa-${getCategoryIcon(categoryName)}"></i> 
+                    ${categoryName} (${categories[categoryName].length} sản phẩm)
+                `;
+                container.appendChild(categoryHeader);
+
+                // Items in category
+                categories[categoryName].forEach(item => {
+                    const div = document.createElement('div');
+                    div.className = 'inventory-item';
+                    div.style.marginLeft = '20px';
+                    div.innerHTML = `
+                        <img src="${item.image}" alt="${item.name}" onerror="this.src='data:image/svg+xml,<svg xmlns=\\"http://www.w3.org/2000/svg\\" width=\\"60\\" height=\\"60\\"><rect width=\\"60\\" height=\\"60\\" fill=\\"%23ddd\\"/><text x=\\"50%\\" y=\\"50%\\" text-anchor=\\"middle\\" dy=\\".3em\\" fill=\\"%23999\\">No Image</text></svg>'">
+                        <div class="item-info">
+                            <div class="item-name">${item.name}</div>
+                            <div class="item-price">${item.price.toLocaleString()}₫ - ID: ${item.id}</div>
+                        </div>
+                        <div class="quantity-control">
+                            <span>Tồn kho:</span>
+                            <input type="number" class="quantity-input" value="${item.stock}" 
+                                   onchange="updateStock('${item.id}', this.value)" min="0">
+                            ${item.stock === 0 ? '<span style="color: var(--danger, #f44336)">Hết hàng</span>' : ''}
+                        </div>
+                        <div style="display: flex; gap: 5px; margin-left: 10px;">
+                            <button class="btn btn-sm btn-primary" onclick="editProduct('${item.id}')" title="Sửa sản phẩm">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteProduct('${item.id}')" title="Xóa sản phẩm">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    `;
+                    container.appendChild(div);
+                });
+            });
+        }
+
+        function getCategoryIcon(category) {
+            const icons = {
+                'Background': 'image',
+                'Nhân vật - Khuôn mặt': 'user',
+                'Nhân vật - Tóc Nam': 'mars',
+                'Nhân vật - Tóc Nữ': 'venus', 
+                'Nhân vật - Mũ': 'hat-cowboy',
+                'Phụ kiện': 'mobile-alt',
+                'Thú cưng': 'paw'
+            };
+            return icons[category] || 'box';
+        }
+
+        function updateStock(itemId, newStock) {
+            const item = inventory.find(i => i.id === itemId);
+            if (item) {
+                item.stock = parseInt(newStock);
+                // Save to localStorage
+                localStorage.setItem('lgou_inventory', JSON.stringify(inventory));
+                loadInventory(); // Refresh display
+                loadDashboard(); // Update stats
+            }
+        }
+
+        // Customers Management
+        function loadCustomers() {
+            const tbody = document.getElementById('customers-table-body');
+            tbody.innerHTML = '';
+
+            if (customers.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center;">Chưa có khách hàng nào</td></tr>';
+                return;
+            }
+
+            customers.forEach(customer => {
+                const row = `
+                    <tr>
+                        <td>${customer.name}</td>
+                        <td>${customer.phone}</td>
+                        <td>${customer.email || 'Không có'}</td>
+                        <td>${customer.address}</td>
+                        <td>${customer.totalOrders}</td>
+                        <td>${customer.lastOrder ? new Date(customer.lastOrder).toLocaleDateString('vi-VN') : 'Chưa có'}</td>
+                    </tr>
+                `;
+                tbody.innerHTML += row;
+            });
+        }
+
+        // Google Sheets Integration
+        function syncWithGoogleSheets() {
+            // Simulate API call
+            const btn = event.target;
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang đồng bộ...';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                // Simulate loading data from Google Sheets
+                const sampleOrders = [
+                    {
+                        id: 'LG001',
+                        customerName: 'Nguyễn Văn A',
+                        product: 'Version 2 - Happy Anniversary',
+                        total: 265000,
+                        status: 'new',
+                        date: new Date().toISOString()
+                    },
+                    {
+                        id: 'LG002',
+                        customerName: 'Trần Thị B',
+                        product: 'Version 1 - Birthday',
+                        total: 255000,
+                        status: 'processing',
+                        date: new Date(Date.now() - 86400000).toISOString()
+                    }
+                ];
+
+                orders = sampleOrders;
+                loadOrders();
+                loadDashboard();
+
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+                alert('Đồng bộ thành công!');
+            }, 2000);
+        }
+
+        function updateSheetsIntegration() {
+            const url = document.getElementById('sheets-url').value;
+            const apiKey = document.getElementById('sheets-api-key').value;
+
+            if (url && apiKey) {
+                localStorage.setItem('lgou_sheets_config', JSON.stringify({url, apiKey}));
+                alert('Cài đặt đã được lưu!');
+            } else {
+                alert('Vui lòng điền đầy đủ thông tin!');
+            }
+        }
+
+        function testConnection() {
+            const btn = event.target;
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang test...';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+                
+                const config = localStorage.getItem('lgou_sheets_config');
+                if (config) {
+                    document.getElementById('sheets-status').className = 'status-indicator status-connected';
+                    document.getElementById('sheets-status-text').textContent = 'Kết nối thành công';
+                    alert('Kết nối Google Sheets thành công!');
+                } else {
+                    document.getElementById('sheets-status').className = 'status-indicator status-disconnected';
+                    document.getElementById('sheets-status-text').textContent = 'Chưa cấu hình';
+                    alert('Vui lòng cấu hình Google Sheets trước!');
+                }
+            }, 1500);
+        }
+
+        // Settings
+        function loadSettings() {
+            const config = localStorage.getItem('lgou_sheets_config');
+            if (config) {
+                const {url, apiKey} = JSON.parse(config);
+                document.getElementById('sheets-url').value = url;
+                document.getElementById('sheets-api-key').value = apiKey;
+            }
+        }
+
+        function backupData() {
+            const data = {
+                orders,
+                customers,
+                inventory,
+                timestamp: new Date().toISOString()
+            };
+
+            const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `lgou-backup-${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+
+            document.getElementById('last-backup').textContent = new Date().toLocaleString('vi-VN');
+        }
+
+        function restoreData() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            input.onchange = function(e) {
+                const file = e.target.files[0];
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const data = JSON.parse(e.target.result);
+                        orders = data.orders || [];
+                        customers = data.customers || [];
+                        inventory = data.inventory || [];
+                        
+                        loadDashboard();
+                        alert('Khôi phục dữ liệu thành công!');
+                    } catch (error) {
+                        alert('File backup không hợp lệ!');
+                    }
+                };
+                reader.readAsText(file);
+            };
+            input.click();
+        }
+
+        // Initialize
+        document.getElementById('login-form').addEventListener('submit', login);
+
+        // Load saved data
+        const savedInventory = localStorage.getItem('lgou_inventory');
+        if (savedInventory) {
+            inventory = JSON.parse(savedInventory);
+        }
+
+        // Product Management
+        let currentEditingProductId = null;
+
+        function openAddProductModal() {
+            currentEditingProductId = null;
+            document.getElementById('product-modal-title').textContent = 'Thêm sản phẩm mới';
+            document.getElementById('product-submit-text').textContent = 'Thêm sản phẩm';
+            document.getElementById('product-form').reset();
+            document.getElementById('product-stock').value = '5';
+            document.getElementById('product-price').value = '0';
+            document.getElementById('preview-img').style.display = 'none';
+            document.getElementById('product-modal').style.display = 'flex';
+        }
+
+        function closeProductModal() {
+            document.getElementById('product-modal').style.display = 'none';
+            currentEditingProductId = null;
+        }
+
+        function editProduct(productId) {
+            const product = inventory.find(p => p.id === productId);
+            if (!product) return;
+
+            currentEditingProductId = productId;
+            document.getElementById('product-modal-title').textContent = 'Sửa sản phẩm';
+            document.getElementById('product-submit-text').textContent = 'Cập nhật sản phẩm';
+            
+            document.getElementById('product-id').value = product.id;
+            document.getElementById('product-id').disabled = true; // Don't allow changing ID when editing
+            document.getElementById('product-name').value = product.name;
+            document.getElementById('product-category').value = product.category;
+            document.getElementById('product-price').value = product.price;
+            document.getElementById('product-stock').value = product.stock;
+            document.getElementById('product-image-url').value = product.image;
+            
+            // Show preview
+            const previewImg = document.getElementById('preview-img');
+            previewImg.src = product.image;
+            previewImg.style.display = 'block';
+            
+            document.getElementById('product-modal').style.display = 'flex';
+        }
+
+        function deleteProduct(productId) {
+            const product = inventory.find(p => p.id === productId);
+            if (!product) return;
+
+            if (confirm(`Bạn có chắc muốn xóa sản phẩm "${product.name}"?\\nHành động này không thể hoàn tác!`)) {
+                inventory = inventory.filter(p => p.id !== productId);
+                localStorage.setItem('lgou_inventory', JSON.stringify(inventory));
+                loadInventory();
+                showNotification('Đã xóa sản phẩm thành công!', 'success');
+            }
+        }
+
+        function previewImage(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const previewImg = document.getElementById('preview-img');
+                    previewImg.src = e.target.result;
+                    previewImg.style.display = 'block';
+                    // Clear URL input when file is selected
+                    document.getElementById('product-image-url').value = '';
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function previewImageFromUrl() {
+            const url = document.getElementById('product-image-url').value;
+            if (url) {
+                const previewImg = document.getElementById('preview-img');
+                previewImg.src = url;
+                previewImg.style.display = 'block';
+                // Clear file input when URL is entered
+                document.getElementById('product-image-file').value = '';
+            }
+        }
+
+        // Handle product form submission
+        function setupProductFormHandler() {
+            document.getElementById('product-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const id = document.getElementById('product-id').value.trim();
+                const name = document.getElementById('product-name').value.trim();
+                const category = document.getElementById('product-category').value;
+                const price = parseInt(document.getElementById('product-price').value) || 0;
+                const stock = parseInt(document.getElementById('product-stock').value) || 0;
+                
+                // Get image source (either from file upload or URL)
+                let imageUrl = document.getElementById('product-image-url').value.trim();
+                const fileInput = document.getElementById('product-image-file');
+                
+                if (fileInput.files && fileInput.files[0]) {
+                    // Convert file to base64 for storage (not ideal for production, but works for demo)
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        imageUrl = e.target.result;
+                        saveProduct(id, name, category, price, stock, imageUrl);
+                    };
+                    reader.readAsDataURL(fileInput.files[0]);
+                } else if (imageUrl) {
+                    saveProduct(id, name, category, price, stock, imageUrl);
+                } else {
+                    alert('Vui lòng chọn ảnh hoặc nhập URL ảnh!');
+                    return;
+                }
+            });
+        }
+
+        function saveProduct(id, name, category, price, stock, imageUrl) {
+            // Validate unique ID (only for new products)
+            if (!currentEditingProductId && inventory.find(p => p.id === id)) {
+                alert('ID sản phẩm đã tồn tại! Vui lòng chọn ID khác.');
+                return;
+            }
+
+            const productData = {
+                id: id,
+                name: name,
+                category: category,
+                price: price,
+                stock: stock,
+                image: imageUrl
+            };
+
+            if (currentEditingProductId) {
+                // Update existing product
+                const index = inventory.findIndex(p => p.id === currentEditingProductId);
+                if (index !== -1) {
+                    inventory[index] = productData;
+                    showNotification('Cập nhật sản phẩm thành công!', 'success');
+                }
+            } else {
+                // Add new product
+                inventory.push(productData);
+                showNotification('Thêm sản phẩm mới thành công!', 'success');
+            }
+
+            // Save to localStorage
+            localStorage.setItem('lgou_inventory', JSON.stringify(inventory));
+            
+            // Refresh inventory display
+            loadInventory();
+            
+            // Close modal
+            closeProductModal();
+            
+            // Re-enable ID field for next use
+            document.getElementById('product-id').disabled = false;
+        }
+
+        function showNotification(message, type = 'info') {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 20px;
+                border-radius: 8px;
+                color: white;
+                font-weight: bold;
+                z-index: 10000;
+                animation: slideIn 0.3s ease;
+                background: ${type === 'success' ? '#4CAF50' : type === 'error' ? '#f44336' : '#2196F3'};
+            `;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            }, 3000);
+        }
+
+        // Collections Management
+        function loadCollectionInventories() {
+            const container = document.getElementById('collection-inventory-list');
+            container.innerHTML = '';
+
+            Object.values(collections).forEach(collection => {
+                if (!collection.limitedProducts || collection.limitedProducts.length === 0) return;
+
+                const collectionDiv = document.createElement('div');
+                collectionDiv.style.cssText = `
+                    background: white;
+                    border-radius: 12px;
+                    padding: 20px;
+                    margin-bottom: 20px;
+                    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                    border-left: 4px solid var(--primary-blue, #4a90a4);
+                `;
+
+                const header = document.createElement('div');
+                header.innerHTML = `
+                    <h5 style="margin: 0 0 15px 0; color: var(--primary-blue, #4a90a4);">
+                        <i class="fas fa-${collection.icon || 'star'}"></i> ${collection.name}
+                    </h5>
+                `;
+                collectionDiv.appendChild(header);
+
+                collection.limitedProducts.forEach(product => {
+                    const productDiv = document.createElement('div');
+                    productDiv.className = 'inventory-item';
+                    productDiv.style.cssText = `
+                        display: flex;
+                        align-items: center;
+                        gap: 15px;
+                        padding: 10px;
+                        margin-bottom: 10px;
+                        background: #f8f9fa;
+                        border-radius: 8px;
+                    `;
+
+                    // Get current stock from inventory
+                    const inventoryItem = inventory.find(item => item.id === product.id);
+                    const currentStock = inventoryItem ? inventoryItem.stock : 0;
+
+                    productDiv.innerHTML = `
+                        <img src="${product.image}" alt="${product.label}" 
+                             style="width: 50px; height: 50px; object-fit: cover; border-radius: 6px;"
+                             onerror="this.src='data:image/svg+xml,<svg xmlns=\\"http://www.w3.org/2000/svg\\" width=\\"50\\" height=\\"50\\"><rect width=\\"50\\" height=\\"50\\" fill=\\"%23ddd\\"/><text x=\\"50%\\" y=\\"50%\\" text-anchor=\\"middle\\" dy=\\".3em\\" fill=\\"%23999\\">No Image</text></svg>'">
+                        <div style="flex: 1;">
+                            <div style="font-weight: bold;">${product.label}</div>
+                            <div style="color: var(--gray-600); font-size: 0.9rem;">ID: ${product.id} - ${product.type}</div>
+                            <div style="color: var(--gray-600); font-size: 0.9rem;">
+                                Giá: ${product.price ? product.price.toLocaleString() + '₫' : 'Miễn phí'}
+                            </div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="font-weight: bold; color: ${currentStock > 0 ? 'var(--success-green, #4CAF50)' : 'var(--error-red, #f44336)'};">
+                                Tồn kho: ${currentStock}
+                            </div>
+                            <input type="number" value="${currentStock}" min="0" 
+                                   style="width: 80px; margin-top: 5px; padding: 5px; border: 1px solid #ddd; border-radius: 4px;"
+                                   onchange="updateCollectionProductStock('${product.id}', this.value)">
+                        </div>
+                    `;
+                    collectionDiv.appendChild(productDiv);
+                });
+
+                container.appendChild(collectionDiv);
+            });
+
+            if (container.innerHTML === '') {
+                container.innerHTML = '<p style="color: var(--gray-600); text-align: center; padding: 20px;">Chưa có collection nào có sản phẩm riêng.</p>';
+            }
+        }
+
+        function updateCollectionProductStock(productId, newStock) {
+            const stock = parseInt(newStock) || 0;
+            
+            // Find or create inventory item
+            let inventoryItem = inventory.find(item => item.id === productId);
+            if (!inventoryItem) {
+                // Find product info from collections
+                let productInfo = null;
+                Object.values(collections).forEach(collection => {
+                    if (collection.limitedProducts) {
+                        const found = collection.limitedProducts.find(p => p.id === productId);
+                        if (found) productInfo = found;
+                    }
+                });
+                
+                if (productInfo) {
+                    inventoryItem = {
+                        id: productInfo.id,
+                        name: productInfo.label,
+                        category: getCategoryFromType(productInfo.type),
+                        price: productInfo.price || 0,
+                        stock: stock,
+                        image: productInfo.image
+                    };
+                    inventory.push(inventoryItem);
+                }
+            } else {
+                inventoryItem.stock = stock;
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('lgou_inventory', JSON.stringify(inventory));
+            
+            // Refresh displays
+            loadCollectionInventories();
+            loadInventory();
+            
+            showNotification(`Cập nhật tồn kho cho ${productInfo?.label || productId}: ${stock}`, 'success');
+        }
+
+        function getCategoryFromType(type) {
+            const typeMap = {
+                'background': 'Background',
+                'accessory': 'Phụ kiện',
+                'hair': 'Nhân vật - Tóc',
+                'hat': 'Nhân vật - Mũ',
+                'pet': 'Thú cưng'
+            };
+            return typeMap[type] || 'Khác';
+        }
+
+        function loadCollections() {
+            const container = document.getElementById('collections-list');
+            container.innerHTML = '';
+
+            Object.values(collections).forEach(collection => {
+                const isActive = new Date() < new Date(collection.endDate);
+                const div = document.createElement('div');
+                div.className = 'inventory-item';
+                div.style.flexDirection = 'column';
+                div.style.alignItems = 'flex-start';
+                div.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; width: 100%; align-items: center; margin-bottom: 10px;">
+                        <h4><i class="${collection.icon}"></i> ${collection.name}</h4>
+                        <span class="status-badge ${isActive ? 'status-new' : 'status-cancelled'}">
+                            ${isActive ? 'Active' : 'Expired'}
+                        </span>
+                    </div>
+                    <p style="margin-bottom: 10px;">${collection.description}</p>
+                    <div style="display: flex; gap: 15px; margin-bottom: 10px; font-size: 0.9rem; color: var(--gray-600);">
+                        <span><strong>Kết thúc:</strong> ${new Date(collection.endDate).toLocaleString('vi-VN')}</span>
+                        <span><strong>Giảm giá:</strong> ${collection.discount}%</span>
+                    </div>
+                    <p style="margin-bottom: 15px;"><strong>Features:</strong> ${collection.features.join(', ')}</p>
+                    <div>
+                        <button class="btn btn-primary" onclick="editCollection('${collection.id}')">
+                            <i class="fas fa-edit"></i> Sửa
+                        </button>
+                        <button class="btn btn-danger" onclick="deleteCollection('${collection.id}')">
+                            <i class="fas fa-trash"></i> Xóa
+                        </button>
+                        <button class="btn btn-success" onclick="toggleCollectionStatus('${collection.id}')">
+                            <i class="fas fa-toggle-${isActive ? 'on' : 'off'}"></i> ${isActive ? 'Tắt' : 'Bật'}
+                        </button>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function openCollectionModal(collectionId = null) {
+            const modal = document.getElementById('collection-modal');
+            const form = document.getElementById('collection-form');
+            const title = document.getElementById('modal-title');
+            
+            if (collectionId) {
+                const collection = collections[collectionId];
+                title.textContent = 'Sửa Collection';
+                document.getElementById('collection-name').value = collection.name;
+                document.getElementById('collection-description').value = collection.description;
+                document.getElementById('collection-end-date').value = collection.endDate;
+                document.getElementById('collection-discount').value = collection.discount;
+                document.getElementById('collection-icon').value = collection.icon;
+                document.getElementById('collection-features').value = collection.features.join(', ');
+                form.dataset.editId = collectionId;
+            } else {
+                title.textContent = 'Thêm Collection Mới';
+                form.reset();
+                delete form.dataset.editId;
+            }
+            
+            modal.style.display = 'flex';
+        }
+
+        function closeCollectionModal() {
+            document.getElementById('collection-modal').style.display = 'none';
+        }
+
+        function editCollection(collectionId) {
+            openCollectionModal(collectionId);
+        }
+
+        function deleteCollection(collectionId) {
+            if (confirm('Bạn có chắc chắn muốn xóa collection này?')) {
+                delete collections[collectionId];
+                loadCollections();
+                saveCollections();
+                alert('Đã xóa collection thành công!');
+            }
+        }
+
+        function toggleCollectionStatus(collectionId) {
+            const collection = collections[collectionId];
+            if (collection) {
+                const now = new Date();
+                const isActive = now < new Date(collection.endDate);
+                
+                if (isActive) {
+                    // Set to expired
+                    collection.endDate = new Date(now.getTime() - 1000).toISOString();
+                    collection.status = 'expired';
+                } else {
+                    // Set to active for 30 days
+                    collection.endDate = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000).toISOString();
+                    collection.status = 'active';
+                }
+                
+                loadCollections();
+                saveCollections();
+            }
+        }
+
+        function saveCollections() {
+            localStorage.setItem('lgou_collections', JSON.stringify(collections));
+        }
+
+        function loadSavedCollections() {
+            const saved = localStorage.getItem('lgou_collections');
+            if (saved) {
+                collections = JSON.parse(saved);
+            }
+        }
+
+        // Form submission for collections
+        document.getElementById('collection-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const collectionData = {
+                name: document.getElementById('collection-name').value,
+                description: document.getElementById('collection-description').value,
+                endDate: document.getElementById('collection-end-date').value,
+                discount: parseInt(document.getElementById('collection-discount').value) || 0,
+                icon: document.getElementById('collection-icon').value || 'fas fa-star',
+                features: document.getElementById('collection-features').value.split(',').map(f => f.trim()).filter(f => f),
+                status: 'active'
+            };
+
+            const editId = this.dataset.editId;
+            if (editId) {
+                collections[editId] = { ...collections[editId], ...collectionData };
+                alert('Đã cập nhật collection thành công!');
+            } else {
+                const id = 'collection_' + Date.now();
+                collections[id] = { id, ...collectionData };
+                alert('Đã thêm collection mới thành công!');
+            }
+
+            loadCollections();
+            saveCollections();
+            closeCollectionModal();
+        });
+
+        // Auto-save inventory changes
+        window.addEventListener('beforeunload', () => {
+            localStorage.setItem('lgou_inventory', JSON.stringify(inventory));
+            localStorage.setItem('lgou_collections', JSON.stringify(collections));
+        });
+
+        // Initialize CMS
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load inventory data from files
+            loadInventoryData();
+            
+            const savedInventory = localStorage.getItem('lgou_inventory');
+            if (savedInventory) {
+                try {
+                    const saved = JSON.parse(savedInventory);
+                    // Merge with default inventory, saved data takes priority
+                    const savedIds = saved.map(item => item.id);
+                    const defaultItems = inventory.filter(item => !savedIds.includes(item.id));
+                    inventory = [...saved, ...defaultItems];
+                } catch (error) {
+                    console.error('Error loading saved inventory:', error);
+                }
+            }
+            
+            // Load saved collections on init
+            loadSavedCollections();
+            
+            // Setup product form handler
+            setupProductFormHandler();
+            
+            console.log(`CMS initialized with ${inventory.length} products`);
+        });
+    </script>
+</body>
+</html>

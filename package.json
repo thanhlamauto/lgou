@@ -1,0 +1,25 @@
+{
+  "name": "lgou-website",
+  "version": "1.0.0",
+  "description": "L'Gôu - Custom LEGO Character Website with CMS",
+  "main": "index.html",
+  "scripts": {
+    "dev": "python -m http.server 3000",
+    "build": "echo 'Static site - no build needed'",
+    "start": "python -m http.server 8000"
+  },
+  "keywords": [
+    "lego",
+    "custom",
+    "characters",
+    "cms",
+    "ecommerce"
+  ],
+  "author": "L'Gôu Team",
+  "license": "MIT",
+  "homepage": "https://lgou-website.vercel.app",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/lgou-website.git"
+  }
+}
