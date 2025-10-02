@@ -557,8 +557,8 @@
             <!-- Orders Tab -->
             <div id="orders-tab" class="tab-content active">
                 <h3>Quản lý đơn hàng</h3>
-                <button class="btn btn-primary" onclick="syncWithGoogleSheets()">
-                    <i class="fas fa-sync"></i> Đồng bộ với Google Sheets
+                <button class="btn btn-primary" onclick="exportOrdersToExcel()">
+                    <i class="fas fa-file-excel"></i> Xuất Excel
                 </button>
                 <table class="data-table">
                     <thead>
@@ -639,53 +639,44 @@
                 <h3>Cài đặt hệ thống</h3>
                 
                 <div class="integration-section">
-                    <h4>Tích hợp Google Sheets</h4>
-                    <div class="integration-status">
-                        <div class="status-indicator status-connected" id="sheets-status"></div>
-                        <span id="sheets-status-text">Đã kết nối</span>
-                    </div>
-                    <div class="form-group">
-                        <label for="sheets-url">URL Google Sheets</label>
-                        <input type="url" id="sheets-url" class="form-group input" 
-                               placeholder="https://docs.google.com/spreadsheets/d/...">
-                    </div>
-                    <div class="form-group">
-                        <label for="sheets-api-key">API Key</label>
-                        <input type="password" id="sheets-api-key" class="form-group input" 
-                               placeholder="Nhập Google Sheets API Key">
-                    </div>
-                    <button class="btn btn-primary" onclick="updateSheetsIntegration()">
-                        <i class="fas fa-save"></i> Lưu cài đặt
+                    <h4>Xuất dữ liệu</h4>
+                    <p style="color: var(--gray-600); margin-bottom: 15px;">
+                        Xuất dữ liệu đơn hàng, sản phẩm và khách hàng ra file Excel
+                    </p>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <button class="btn btn-primary" onclick="exportOrdersToExcel()">
+                            <i class="fas fa-file-excel"></i> Xuất đơn hàng
                     </button>
-                    <button class="btn btn-success" onclick="testConnection()">
-                        <i class="fas fa-plug"></i> Test kết nối
+                        <button class="btn btn-primary" onclick="exportInventoryToExcel()">
+                            <i class="fas fa-file-excel"></i> Xuất sản phẩm
+                        </button>
+                        <button class="btn btn-primary" onclick="exportCustomersToExcel()">
+                            <i class="fas fa-file-excel"></i> Xuất khách hàng
                     </button>
-                </div>
-
-                <div class="integration-section">
-                    <h4>Cài đặt thông báo</h4>
-                    <div class="form-group">
-                        <label>
-                            <input type="checkbox" id="email-notifications" checked>
-                            Thông báo email khi có đơn hàng mới
-                        </label>
-                    </div>
-                    <div class="form-group">
-                        <label for="notification-email">Email nhận thông báo</label>
-                        <input type="email" id="notification-email" class="form-group input" 
-                               value="admin@lgou.com">
                     </div>
                 </div>
 
                 <div class="integration-section">
                     <h4>Backup dữ liệu</h4>
+                    <p style="color: var(--gray-600); margin-bottom: 15px;">
+                        Tải xuống toàn bộ dữ liệu dưới dạng JSON để backup
+                    </p>
                     <p>Lần backup cuối: <span id="last-backup">Chưa có</span></p>
                     <button class="btn btn-primary" onclick="backupData()">
-                        <i class="fas fa-download"></i> Backup ngay
+                        <i class="fas fa-download"></i> Backup JSON
                     </button>
                     <button class="btn btn-danger" onclick="restoreData()">
                         <i class="fas fa-upload"></i> Khôi phục dữ liệu
                     </button>
+                </div>
+                
+                <div class="integration-section">
+                    <h4>Thông tin hệ thống</h4>
+                    <p style="color: var(--gray-600);">
+                        <strong>Database:</strong> Supabase PostgreSQL<br>
+                        <strong>Storage:</strong> Vercel Blob<br>
+                        <strong>Version:</strong> 2.0.0
+                    </p>
                 </div>
             </div>
         </main>
@@ -793,6 +784,7 @@
     </div>
 
     <!-- Include inventory data files -->
+    <script src="cms-supabase-integration.js"></script>
     <script src="inventory-data.js"></script>
     <script src="accessories-pets-data.js"></script>
     
@@ -924,43 +916,75 @@
         }
 
         // Dashboard
-        function loadDashboard() {
-            // Update stats
-            document.getElementById('orders-today').textContent = orders.length;
-            document.getElementById('out-of-stock').textContent = inventory.filter(item => item.stock === 0).length;
+        async function loadDashboard() {
+            try {
+                // Get stats from API
+                const stats = await StatsAPI.get();
+                
+                // Update stats display
+                document.getElementById('orders-today').textContent = stats.ordersToday || 0;
+                document.getElementById('orders-today').nextElementSibling.textContent = stats.ordersChange + ' so với hôm qua';
+                
+                document.getElementById('revenue-month').textContent = (stats.revenueMonth || 0).toLocaleString() + '₫';
+                document.getElementById('revenue-month').nextElementSibling.textContent = stats.revenueChange + ' so với tháng trước';
+                
+                document.getElementById('out-of-stock').textContent = stats.outOfStock || 0;
+                document.getElementById('new-customers').textContent = stats.newCustomers || 0;
+            } catch (error) {
+                console.error('Error loading dashboard:', error);
+            }
             
-            // Load default tab
-            loadOrders();
-            loadInventory();
+            // Load default tabs
+            await loadOrders();
+            await loadInventory();
         }
 
         // Orders Management
-        function loadOrders() {
+        async function loadOrders() {
             const tbody = document.getElementById('orders-table-body');
-            tbody.innerHTML = '';
+            tbody.innerHTML = '<tr><td colspan="7" style="text-align: center;">Đang tải...</td></tr>';
+
+            try {
+                const orders = await OrdersAPI.getAll();
 
             if (orders.length === 0) {
                 tbody.innerHTML = '<tr><td colspan="7" style="text-align: center;">Chưa có đơn hàng nào</td></tr>';
                 return;
             }
 
+                tbody.innerHTML = '';
             orders.forEach(order => {
                 const row = `
                     <tr>
                         <td>#${order.id}</td>
-                        <td>${order.customerName}</td>
-                        <td>${order.product}</td>
-                        <td>${order.total.toLocaleString()}₫</td>
+                            <td>${order.customer_name || 'N/A'}</td>
+                            <td>${order.items ? order.items.length + ' sản phẩm' : 'N/A'}</td>
+                            <td>${(order.total || 0).toLocaleString()}₫</td>
                         <td><span class="status-badge status-${order.status}">${getStatusText(order.status)}</span></td>
-                        <td>${new Date(order.date).toLocaleDateString('vi-VN')}</td>
+                            <td>${new Date(order.created_at).toLocaleDateString('vi-VN')}</td>
                         <td>
-                            <button class="btn btn-primary" onclick="viewOrder('${order.id}')">Xem</button>
-                            <button class="btn btn-success" onclick="updateOrderStatus('${order.id}', 'completed')">Hoàn thành</button>
+                                <button class="btn btn-primary btn-sm" onclick="viewOrder('${order.id}')">Xem</button>
+                                <button class="btn btn-success btn-sm" onclick="updateOrderStatus('${order.id}', 'completed')">Hoàn thành</button>
                         </td>
                     </tr>
                 `;
                 tbody.innerHTML += row;
             });
+            } catch (error) {
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: red;">Lỗi tải đơn hàng</td></tr>';
+                console.error('Error loading orders:', error);
+            }
+        }
+
+        async function updateOrderStatus(orderId, newStatus) {
+            try {
+                await OrdersAPI.update(orderId, { status: newStatus });
+                showNotification('Cập nhật trạng thái thành công!', 'success');
+                await loadOrders();
+                await loadDashboard();
+            } catch (error) {
+                console.error('Error updating order:', error);
+            }
         }
 
         function getStatusText(status) {
@@ -974,24 +998,31 @@
         }
 
         // Inventory Management
-        function loadInventory() {
+        async function loadInventory() {
             const container = document.getElementById('inventory-list');
+            container.innerHTML = '<p style="text-align: center;">Đang tải...</p>';
+
+            try {
+                const products = await ProductsAPI.getAll();
+
+                if (products.length === 0) {
+                    container.innerHTML = '<p style="text-align: center;">Chưa có sản phẩm nào. Hãy thêm sản phẩm vào Supabase!</p>';
+                    return;
+                }
+
             container.innerHTML = '';
 
             // Group by category
             const categories = {};
-            inventory.forEach(item => {
+                products.forEach(item => {
                 if (!categories[item.category]) {
                     categories[item.category] = [];
                 }
                 categories[item.category].push(item);
             });
 
-            // Sort categories
-            const sortedCategories = Object.keys(categories).sort();
-
-            sortedCategories.forEach(categoryName => {
-                // Category header
+                // Sort and display
+                Object.keys(categories).sort().forEach(categoryName => {
                 const categoryHeader = document.createElement('div');
                 categoryHeader.style.cssText = `
                     background: var(--primary-blue, #4a90a4);
@@ -1008,7 +1039,6 @@
                 `;
                 container.appendChild(categoryHeader);
 
-                // Items in category
                 categories[categoryName].forEach(item => {
                     const div = document.createElement('div');
                     div.className = 'inventory-item';
@@ -1017,13 +1047,13 @@
                         <img src="${item.image}" alt="${item.name}" onerror="this.src='data:image/svg+xml,<svg xmlns=\\"http://www.w3.org/2000/svg\\" width=\\"60\\" height=\\"60\\"><rect width=\\"60\\" height=\\"60\\" fill=\\"%23ddd\\"/><text x=\\"50%\\" y=\\"50%\\" text-anchor=\\"middle\\" dy=\\".3em\\" fill=\\"%23999\\">No Image</text></svg>'">
                         <div class="item-info">
                             <div class="item-name">${item.name}</div>
-                            <div class="item-price">${item.price.toLocaleString()}₫ - ID: ${item.id}</div>
+                                <div class="item-price">${(item.price || 0).toLocaleString()}₫ - ID: ${item.id}</div>
                         </div>
                         <div class="quantity-control">
                             <span>Tồn kho:</span>
-                            <input type="number" class="quantity-input" value="${item.stock}" 
+                                <input type="number" class="quantity-input" value="${item.stock || 0}" 
                                    onchange="updateStock('${item.id}', this.value)" min="0">
-                            ${item.stock === 0 ? '<span style="color: var(--danger, #f44336)">Hết hàng</span>' : ''}
+                                ${(item.stock || 0) === 0 ? '<span style="color: var(--danger, #f44336)">Hết hàng</span>' : ''}
                         </div>
                         <div style="display: flex; gap: 5px; margin-left: 10px;">
                             <button class="btn btn-sm btn-primary" onclick="editProduct('${item.id}')" title="Sửa sản phẩm">
@@ -1037,6 +1067,10 @@
                     container.appendChild(div);
                 });
             });
+            } catch (error) {
+                container.innerHTML = '<p style="text-align: center; color: red;">Lỗi tải inventory</p>';
+                console.error('Error loading inventory:', error);
+            }
         }
 
         function getCategoryIcon(category) {
@@ -1052,124 +1086,165 @@
             return icons[category] || 'box';
         }
 
-        function updateStock(itemId, newStock) {
-            const item = inventory.find(i => i.id === itemId);
-            if (item) {
-                item.stock = parseInt(newStock);
-                // Save to localStorage
-                localStorage.setItem('lgou_inventory', JSON.stringify(inventory));
-                loadInventory(); // Refresh display
-                loadDashboard(); // Update stats
+        async function updateStock(itemId, newStock) {
+            try {
+                await ProductsAPI.updateStock(itemId, newStock);
+                showNotification('Cập nhật tồn kho thành công!', 'success');
+                await loadInventory();
+                await loadDashboard();
+            } catch (error) {
+                console.error('Error updating stock:', error);
             }
         }
 
         // Customers Management
-        function loadCustomers() {
+        async function loadCustomers() {
             const tbody = document.getElementById('customers-table-body');
-            tbody.innerHTML = '';
+            tbody.innerHTML = '<tr><td colspan="6" style="text-align: center;">Đang tải...</td></tr>';
+
+            try {
+                const customers = await CustomersAPI.getAll();
 
             if (customers.length === 0) {
                 tbody.innerHTML = '<tr><td colspan="6" style="text-align: center;">Chưa có khách hàng nào</td></tr>';
                 return;
             }
 
+                tbody.innerHTML = '';
             customers.forEach(customer => {
                 const row = `
                     <tr>
-                        <td>${customer.name}</td>
-                        <td>${customer.phone}</td>
+                            <td>${customer.name || 'N/A'}</td>
+                            <td>${customer.phone || 'N/A'}</td>
                         <td>${customer.email || 'Không có'}</td>
-                        <td>${customer.address}</td>
-                        <td>${customer.totalOrders}</td>
-                        <td>${customer.lastOrder ? new Date(customer.lastOrder).toLocaleDateString('vi-VN') : 'Chưa có'}</td>
+                            <td>${customer.address || 'N/A'}</td>
+                            <td>${customer.total_orders || 0}</td>
+                            <td>${customer.last_order ? new Date(customer.last_order).toLocaleDateString('vi-VN') : 'Chưa có'}</td>
                     </tr>
                 `;
                 tbody.innerHTML += row;
             });
-        }
-
-        // Google Sheets Integration
-        function syncWithGoogleSheets() {
-            // Simulate API call
-            const btn = event.target;
-            const originalText = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang đồng bộ...';
-            btn.disabled = true;
-
-            setTimeout(() => {
-                // Simulate loading data from Google Sheets
-                const sampleOrders = [
-                    {
-                        id: 'LG001',
-                        customerName: 'Nguyễn Văn A',
-                        product: 'Version 2 - Happy Anniversary',
-                        total: 265000,
-                        status: 'new',
-                        date: new Date().toISOString()
-                    },
-                    {
-                        id: 'LG002',
-                        customerName: 'Trần Thị B',
-                        product: 'Version 1 - Birthday',
-                        total: 255000,
-                        status: 'processing',
-                        date: new Date(Date.now() - 86400000).toISOString()
-                    }
-                ];
-
-                orders = sampleOrders;
-                loadOrders();
-                loadDashboard();
-
-                btn.innerHTML = originalText;
-                btn.disabled = false;
-                alert('Đồng bộ thành công!');
-            }, 2000);
-        }
-
-        function updateSheetsIntegration() {
-            const url = document.getElementById('sheets-url').value;
-            const apiKey = document.getElementById('sheets-api-key').value;
-
-            if (url && apiKey) {
-                localStorage.setItem('lgou_sheets_config', JSON.stringify({url, apiKey}));
-                alert('Cài đặt đã được lưu!');
-            } else {
-                alert('Vui lòng điền đầy đủ thông tin!');
+            } catch (error) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: red;">Lỗi tải khách hàng</td></tr>';
+                console.error('Error loading customers:', error);
             }
         }
 
-        function testConnection() {
-            const btn = event.target;
-            const originalText = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang test...';
-            btn.disabled = true;
-
-            setTimeout(() => {
-                btn.innerHTML = originalText;
-                btn.disabled = false;
+        // Excel Export Functions
+        async function exportOrdersToExcel() {
+            try {
+                const orders = await OrdersAPI.getAll();
                 
-                const config = localStorage.getItem('lgou_sheets_config');
-                if (config) {
-                    document.getElementById('sheets-status').className = 'status-indicator status-connected';
-                    document.getElementById('sheets-status-text').textContent = 'Kết nối thành công';
-                    alert('Kết nối Google Sheets thành công!');
-                } else {
-                    document.getElementById('sheets-status').className = 'status-indicator status-disconnected';
-                    document.getElementById('sheets-status-text').textContent = 'Chưa cấu hình';
-                    alert('Vui lòng cấu hình Google Sheets trước!');
+                if (orders.length === 0) {
+                    alert('Không có đơn hàng nào để xuất!');
+                    return;
                 }
-            }, 1500);
-        }
-
-        // Settings
-        function loadSettings() {
-            const config = localStorage.getItem('lgou_sheets_config');
-            if (config) {
-                const {url, apiKey} = JSON.parse(config);
-                document.getElementById('sheets-url').value = url;
-                document.getElementById('sheets-api-key').value = apiKey;
+                
+                // Prepare data for Excel
+                const excelData = orders.map(order => ({
+                    'Mã đơn': `#${order.id}`,
+                    'Khách hàng': order.customer_name || 'N/A',
+                    'Số điện thoại': order.customer_phone || 'N/A',
+                    'Email': order.customer_email || 'N/A',
+                    'Địa chỉ': order.customer_address || 'N/A',
+                    'Sản phẩm': order.items ? order.items.length + ' sản phẩm' : 'N/A',
+                    'Tổng tiền': order.total || 0,
+                    'Trạng thái': getStatusText(order.status),
+                    'Ghi chú': order.notes || '',
+                    'Ngày đặt': new Date(order.created_at).toLocaleString('vi-VN')
+                }));
+                
+                downloadExcel(excelData, 'Don_hang_' + new Date().toISOString().split('T')[0]);
+                showNotification('Xuất file Excel thành công!', 'success');
+            } catch (error) {
+                console.error('Export error:', error);
+                alert('Có lỗi khi xuất file!');
             }
+        }
+        
+        async function exportInventoryToExcel() {
+            try {
+                const products = await ProductsAPI.getAll();
+                
+                if (products.length === 0) {
+                    alert('Không có sản phẩm nào để xuất!');
+                    return;
+                }
+                
+                const excelData = products.map(product => ({
+                    'ID': product.id,
+                    'Tên sản phẩm': product.name,
+                    'Danh mục': product.category,
+                    'Giá': product.price || 0,
+                    'Tồn kho': product.stock || 0,
+                    'Trạng thái': product.stock > 0 ? 'Còn hàng' : 'Hết hàng'
+                }));
+                
+                downloadExcel(excelData, 'San_pham_' + new Date().toISOString().split('T')[0]);
+                showNotification('Xuất file Excel thành công!', 'success');
+            } catch (error) {
+                console.error('Export error:', error);
+                alert('Có lỗi khi xuất file!');
+            }
+        }
+        
+        async function exportCustomersToExcel() {
+            try {
+                const customers = await CustomersAPI.getAll();
+                
+                if (customers.length === 0) {
+                    alert('Không có khách hàng nào để xuất!');
+                    return;
+                }
+                
+                const excelData = customers.map(customer => ({
+                    'Tên khách hàng': customer.name || 'N/A',
+                    'Số điện thoại': customer.phone || 'N/A',
+                    'Email': customer.email || 'N/A',
+                    'Địa chỉ': customer.address || 'N/A',
+                    'Tổng đơn hàng': customer.total_orders || 0,
+                    'Lần cuối mua': customer.last_order ? new Date(customer.last_order).toLocaleString('vi-VN') : 'Chưa có'
+                }));
+                
+                downloadExcel(excelData, 'Khach_hang_' + new Date().toISOString().split('T')[0]);
+                showNotification('Xuất file Excel thành công!', 'success');
+            } catch (error) {
+                console.error('Export error:', error);
+                alert('Có lỗi khi xuất file!');
+            }
+        }
+        
+        // Simple Excel export using CSV format (works in all browsers)
+        function downloadExcel(data, filename) {
+            if (data.length === 0) return;
+            
+            // Get headers
+            const headers = Object.keys(data[0]);
+            
+            // Build CSV content
+            let csv = '\uFEFF'; // UTF-8 BOM for Excel
+            csv += headers.join(',') + '\n';
+            
+            data.forEach(row => {
+                const values = headers.map(header => {
+                    const value = row[header] || '';
+                    // Escape commas and quotes
+                    return `"${String(value).replace(/"/g, '""')}"`;
+                });
+                csv += values.join(',') + '\n';
+            });
+            
+            // Create download link
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            
+            link.setAttribute('href', url);
+            link.setAttribute('download', filename + '.csv');
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         }
 
         function backupData() {

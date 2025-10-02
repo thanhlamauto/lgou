@@ -2481,28 +2481,6 @@
     </footer>
 
     <!-- Form ẩn để gửi email -->
-    <form id="email-form" method="POST" style="display: none;">
-        <input type="hidden" name="_subject" value="New Order - L'Gôu">
-        <input type="hidden" name="Thời_gian_gửi" id="email-time">
-        <input type="hidden" name="Thời_gian_nhận_hàng" id="email-delivery-date">
-        <input type="hidden" name="Version" id="email-version">
-        <input type="hidden" name="Background" id="email-background">
-        <input type="hidden" name="Màu_quần_áo" id="email-clothing">
-        <input type="hidden" name="Mặt" id="email-faces">
-        <input type="hidden" name="Tóc" id="email-hairs">
-        <input type="hidden" name="Mũ" id="email-hats">
-        <input type="hidden" name="Phụ_kiện" id="email-accessories">
-        <input type="hidden" name="Thú_Cưng" id="email-pets">
-        <input type="hidden" name="Tổng_Tiền" id="email-total">
-        <input type="hidden" name="Phí_ship" id="email-shipping">
-        <input type="hidden" name="Tên_khách" id="email-name">
-        <input type="hidden" name="Số_điện_thoại" id="email-phone">
-        <input type="hidden" name="Địa_chỉ" id="email-address">
-        <input type="hidden" name="Email" id="email-email">
-        <input type="hidden" name="Ghi_Chú" id="email-note">
-        <input type="hidden" name="Mã_giảm_giá" id="email-discount">
-        <input type="hidden" name="Ghi_chú_background" id="email-background-note">
-    </form>
 <script>
     // Dữ liệu collections - Default data
     let collections = {
@@ -3796,92 +3774,111 @@
         return isValid;
     }
 
+    // Save order to Supabase database
+    async function saveToSupabase(customerInfo, orderSummary) {
+        try {
+            const orderData = {
+                customerInfo: {
+                    name: customerInfo.name,
+                    phone: customerInfo.phone,
+                    email: customerInfo.email || '',
+                    address: customerInfo.address
+                },
+                items: prepareOrderItems(),
+                total: parseInt(orderSummary.total.replace(/[^\d]/g, '')),
+                notes: customerInfo.note + ' | Ngày nhận: ' + customerInfo.deliveryDate
+            };
+
+            const response = await fetch('/api/orders', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(orderData)
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to save to database');
+            }
+
+            const result = await response.json();
+            console.log('✅ Order saved to Supabase:', result.order.id);
+            return result;
+        } catch (error) {
+            console.error('Error saving to Supabase:', error);
+            throw error;
+        }
+    }
+
+    // Prepare order items for database
+    function prepareOrderItems() {
+        const items = [];
+        
+        // Add background
+        const selectedBg = document.querySelector('#background-grid .option-item.selected');
+        if (selectedBg) {
+            items.push({
+                id: selectedBg.dataset.id || 'custom',
+                name: selectedBg.querySelector('.option-name').textContent,
+                type: 'background',
+                price: 0
+            });
+        }
+        
+        // Add hairs
+        document.querySelectorAll('#hair-options-container .option-item.selected').forEach(item => {
+            items.push({
+                id: item.dataset.id || 'hair',
+                name: item.querySelector('.option-name').textContent,
+                type: 'hair',
+                price: parseInt(item.dataset.price || 25000)
+            });
+        });
+        
+        // Add hats
+        document.querySelectorAll('#hat-grid .option-item.selected').forEach(item => {
+            const quantity = parseInt(item.dataset.quantity || 1);
+            items.push({
+                id: item.dataset.id || 'hat',
+                name: item.querySelector('.option-name').textContent,
+                type: 'hat',
+                price: parseInt(item.dataset.price || 10000),
+                quantity
+            });
+        });
+        
+        // Add accessories
+        document.querySelectorAll('#accessory-grid .option-item.selected').forEach(item => {
+            const quantity = parseInt(item.dataset.quantity || 1);
+            items.push({
+                id: item.dataset.id || 'accessory',
+                name: item.querySelector('.option-name').textContent,
+                type: 'accessory',
+                price: parseInt(item.dataset.price || 10000),
+                quantity
+            });
+        });
+        
+        // Add pets
+        document.querySelectorAll('#pet-grid .option-item.selected').forEach(item => {
+            const quantity = parseInt(item.dataset.quantity || 1);
+            items.push({
+                id: item.dataset.id || 'pet',
+                name: item.querySelector('.option-name').textContent,
+                type: 'pet',
+                price: parseInt(item.dataset.price || 15000),
+                quantity
+            });
+        });
+        
+        return items;
+    }
+
     // Gửi đơn hàng
     function sendOrder(customerInfo, orderSummary) {
-        // Tạo ngày giờ đơn hàng
-        const now = new Date();
-        const orderTime = `${now.getHours()}:${String(now.getMinutes()).padStart(2, '0')}, ${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth()+1).padStart(2, '0')}/${now.getFullYear()}`;
-        
-        // Tổng hợp thông tin sản phẩm
-        const selectedBackground = document.querySelector('#background-grid .option-item.selected');
-        const backgroundName = selectedBackground ? selectedBackground.querySelector('.option-name').textContent : 'Không chọn';
-        
-        const selectedFaces = document.querySelectorAll('#face-grid .option-item.selected');
-        const faceNames = selectedFaces.length > 0 ? 
-            Array.from(selectedFaces).map(face => face.querySelector('.option-name').textContent).join(', ') : 'Không chọn';
-        
-        const selectedHairs = document.querySelectorAll('#hair-options-container .option-item.selected');
-        const hairNames = selectedHairs.length > 0 ? 
-            Array.from(selectedHairs).map(hair => hair.querySelector('.option-name').textContent).join(', ') : 'Không chọn';
-        
-        const selectedShirts = Array.from(
-            document.querySelectorAll('.color-option.selected[data-type^="shirt"]')
-        ).map(opt => opt.dataset.color);
-        const selectedPants  = Array.from(
-            document.querySelectorAll('.color-option.selected[data-type^="pants"]')
-        ).map(opt => opt.dataset.color);
-        const clothingColors = `Áo: ${selectedShirts.join(', ')}, Quần: ${selectedPants.join(', ')}`;
-        
-        const selectedHats = document.querySelectorAll('#hat-grid .option-item.selected');
-        const hatNames = selectedHats.length > 0 ? 
-            Array.from(selectedHats).map(hat => {
-                const name = hat.querySelector('.option-name').textContent;
-                const quantity = hat.dataset.quantity || '1';
-                return `${name} (x${quantity})`;
-            }).join(', ') : 'Không chọn';
-        
-        const selectedAccessories = document.querySelectorAll('#accessory-grid .option-item.selected');
-        const accessoryNames = selectedAccessories.length > 0 ? 
-            Array.from(selectedAccessories).map(acc => {
-                const name = acc.querySelector('.option-name').textContent;
-                const quantity = acc.dataset.quantity || '1';
-                return `${name} (x${quantity})`;
-            }).join(', ') : 'Không chọn';
-        
-        const selectedPets = document.querySelectorAll('#pet-grid .option-item.selected');
-        const petNames = selectedPets.length > 0 ? 
-            Array.from(selectedPets).map(pet => {
-                const name = pet.querySelector('.option-name').textContent;
-                const quantity = pet.dataset.quantity || '1';
-                return `${name} (x${quantity})`;
-            }).join(', ') : 'Không chọn';
-        
-        // Đặt giá trị cho các trường trong form ẩn
-        document.getElementById('email-time').value = orderTime;
-        document.getElementById('email-delivery-date').value = customerInfo.deliveryDate;
-        document.getElementById('email-version').value = document.getElementById('version-select').value;
-        document.getElementById('email-background').value = backgroundName;
-        document.getElementById('email-clothing').value = clothingColors;
-        document.getElementById('email-faces').value = faceNames;
-        document.getElementById('email-hairs').value = hairNames;
-        document.getElementById('email-hats').value = hatNames;
-        document.getElementById('email-accessories').value = accessoryNames;
-        document.getElementById('email-pets').value = petNames;
-        document.getElementById('email-total').value = orderSummary.total.toLocaleString() + '₫';
-        document.getElementById('email-shipping').value = orderSummary.shippingFee === 0 ? 'Miễn phí' : orderSummary.shippingFee.toLocaleString() + '₫';
-        document.getElementById('email-name').value = customerInfo.name;
-        document.getElementById('email-phone').value = customerInfo.phone;
-        document.getElementById('email-address').value = customerInfo.address;
-        document.getElementById('email-email').value = customerInfo.email || 'Không có';
-        document.getElementById('email-note').value = customerInfo.note || 'Không có ghi chú';
-        document.getElementById('email-discount').value = orderSummary.discountCode || 'Không có';
-        document.getElementById('email-background-note').value = document.getElementById('background-note').value;
-        
-        // Tạo FormData từ form ẩn
-        const form = document.getElementById('email-form');
-        const formData = new FormData(form);
-        
-        // URL của Apps Script - Cần thay bằng URL Apps Script mới của L'Gôu
-        const scriptURL = 'https://script.google.com/macros/s/YOUR_NEW_SCRIPT_ID_HERE/exec';
-        
-        // Gửi dữ liệu bằng fetch
-        fetch(scriptURL, {
-            method: 'POST',
-            body: formData,
-            mode: 'no-cors' // Vì Apps Script không trả về CORS
-        })
+        // Save to Supabase database
+        saveToSupabase(customerInfo, orderSummary)
         .then(() => {
-            // Coi như thành công vì no-cors không trả về response rõ ràng
             // Hiển thị popup xác nhận
             document.getElementById('customer-name-display').textContent = customerInfo.name;
             document.getElementById('customer-phone-display').textContent = customerInfo.phone;
@@ -3893,8 +3890,8 @@
             document.getElementById('confirmation-popup').style.display = 'block';
         })
         .catch(error => {
-            console.error('Error:', error);
-            alert('Có lỗi xảy ra khi gửi đơn hàng. Vui lòng thử lại hoặc liên hệ shop.');
+            console.error('Order submission error:', error);
+            alert('Có lỗi xảy ra khi gửi đơn hàng. Vui lòng kiểm tra kết nối và thử lại.');
         })
         .finally(() => {
             // Ẩn spinner và kích hoạt lại nút
