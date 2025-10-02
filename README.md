@@ -70,9 +70,36 @@ L'Gôu là hệ thống website đặt hàng tranh Lego cá nhân hóa với tí
 - **Styling**: CSS Custom Properties, Flexbox, Grid
 - **Icons**: Font Awesome 6
 - **Fonts**: Google Fonts (Poppins, Montserrat)
-- **Backend**: Google Apps Script
-- **Database**: Google Sheets
-- **Storage**: LocalStorage cho client-side
+- **Backend**: Vercel Serverless Functions + Google Apps Script
+- **Database**: Supabase PostgreSQL (500MB free) + Google Sheets (optional)
+- **Storage**: Vercel Blob (images) + LocalStorage (client-side)
+- **Hosting**: Vercel
+
+## 🗄️ **NEW: Supabase Database Integration**
+
+L'Gôu giờ đây có hệ thống database chuyên nghiệp với Supabase PostgreSQL!
+
+### Tính năng mới
+- 📦 **Order Tracking** - Tự động lưu và quản lý đơn hàng
+- 👥 **Customer Management** - Theo dõi lịch sử và insights khách hàng
+- 📊 **Inventory Control** - Quản lý kho real-time
+- 🎨 **Collections** - Quản lý collections phiên bản giới hạn
+- 📈 **Analytics** - Dashboard với thống kê kinh doanh
+- 💾 **Data Persistence** - PostgreSQL database với 500MB free
+- 🎯 **Visual Dashboard** - Xem và edit data trực tiếp trong Supabase
+
+### Hướng dẫn mới
+- **[Quick Start (15 phút)](QUICK_START_SUPABASE.md)** - Setup siêu nhanh
+- **[Supabase Setup Guide](SUPABASE_SETUP.md)** - Hướng dẫn chi tiết
+- **[CMS Usage Guide](CMS_USAGE_GUIDE.md)** - Cách sử dụng hệ thống quản lý
+- **[Implementation Summary](IMPLEMENTATION_SUMMARY.md)** - Chi tiết kỹ thuật
+
+### Quick Start với Supabase
+1. Làm theo [QUICK_START_SUPABASE.md](QUICK_START_SUPABASE.md) - chỉ 15 phút!
+2. Deploy lên Vercel
+3. Add products vào database
+4. Truy cập CMS tại `/cms` hoặc `/cms.html`
+5. Bắt đầu quản lý business của bạn!
 
 ## 📁 Cấu trúc project
 
@@ -80,8 +107,28 @@ L'Gôu là hệ thống website đặt hàng tranh Lego cá nhân hóa với tí
 new web/
 ├── index.html                    # Website chính
 ├── cms.html                      # Trang CMS
+├── cms-api-integration.js        # Library tích hợp API cho CMS
 ├── google-apps-script.js         # Script tích hợp Google Sheets
-├── SETUP_GUIDE.md               # Hướng dẫn setup chi tiết
+├── inventory-data.js             # Dữ liệu sản phẩm
+├── accessories-pets-data.js      # Dữ liệu phụ kiện và thú cưng
+├── package.json                  # Dependencies
+├── vercel.json                   # Cấu hình Vercel
+├── env.example                   # Template biến môi trường
+├── api/
+│   ├── orders.js                # API quản lý đơn hàng
+│   ├── customers.js             # API quản lý khách hàng
+│   ├── products.js              # API quản lý sản phẩm
+│   ├── collections.js           # API quản lý collections
+│   ├── stats.js                 # API thống kê
+│   └── upload.js                # API upload ảnh
+├── lib/
+│   └── supabase.js              # Supabase client setup
+├── supabase-schema.sql          # Database schema (chạy trong Supabase)
+├── SETUP_GUIDE.md               # Hướng dẫn setup cơ bản
+├── QUICK_START_SUPABASE.md      # Setup nhanh 15 phút ⚡
+├── SUPABASE_SETUP.md            # Hướng dẫn chi tiết Supabase
+├── CMS_USAGE_GUIDE.md           # Hướng dẫn sử dụng CMS
+├── IMPLEMENTATION_SUMMARY.md    # Tổng kết triển khai
 └── README.md                    # File này
 
 Note: Logo được sử dụng từ URL online: https://i.postimg.cc/7YKWGsqK/logo-L-Go-u-tra-ng-page-0001.jpg
@@ -144,6 +191,18 @@ Note: Logo được sử dụng từ URL online: https://i.postimg.cc/7YKWGsqK/l
 - 🌐 Website: https://lgou.com
 
 ## 📝 Changelog
+
+### Version 2.0.0 (2025-01-02) - **NEW** 🎉
+- 🗄️ **Supabase Integration** - PostgreSQL database với dashboard đẹp
+- 📦 **Full Order Tracking** - Complete order management system
+- 👥 **Customer Database** - Customer history and insights
+- 📊 **Real-time Inventory** - Stock management with PostgreSQL
+- 🎨 **Collections System** - Limited edition management
+- 📈 **Analytics Dashboard** - Business statistics and metrics
+- 🔌 **RESTful APIs** - Professional API endpoints
+- 💾 **Data Persistence** - No more data loss (500MB free tier)
+- 📚 **Complete Documentation** - Setup chỉ 15 phút!
+- 🎯 **Visual Data Management** - Supabase dashboard tích hợp
 
 ### Version 1.0.0 (2025-01-01)
 - ✨ Ra mắt website L'Gôu
