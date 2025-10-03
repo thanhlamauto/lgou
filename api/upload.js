@@ -31,8 +31,22 @@ module.exports = async function handler(req, res) {
     // Simple approach: accept base64 data instead of multipart
     console.log('📤 Parsing request body...');
     
-    const body = await req.text();
-    const data = JSON.parse(body);
+    // Read request body using Node.js streams
+    let body = '';
+    req.on('data', chunk => {
+      body += chunk.toString();
+    });
+    
+    const data = await new Promise((resolve, reject) => {
+      req.on('end', () => {
+        try {
+          resolve(JSON.parse(body));
+        } catch (error) {
+          reject(error);
+        }
+      });
+      req.on('error', reject);
+    });
     
     if (!data.file || !data.filename || !data.type) {
       console.error('❌ Missing file data');
