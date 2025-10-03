@@ -4112,7 +4112,8 @@
                 hair: [],
                 hat: [],
                 accessories: [],
-                pets: []
+                pets: [],
+                background: []
             };
             
             products.forEach(product => {
@@ -4135,6 +4136,7 @@
             productOptions.hats = productsByCategory.hat;
             productOptions.accessories = productsByCategory.accessories;
             productOptions.pets = productsByCategory.pets;
+            productOptions.backgrounds = productsByCategory.background;
             
             console.log('✅ Updated product options:', productOptions);
             
@@ -4164,6 +4166,9 @@
         
         // Render pet options
         renderOptions(document.getElementById('pet-grid'), productOptions.pets, 'pet');
+        
+        // Render background options
+        renderOptions(document.getElementById('background-grid'), productOptions.backgrounds, 'background');
     }
     
     // Khởi động trang
