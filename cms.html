@@ -1572,13 +1572,27 @@
             try {
                 console.log('🔄 Starting image upload...', file.name, file.size, file.type);
                 
-                const formData = new FormData();
-                formData.append('file', file);
+                // Convert file to base64
+                const base64 = await new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = () => resolve(reader.result.split(',')[1]); // Remove data:image/...;base64, prefix
+                    reader.onerror = reject;
+                    reader.readAsDataURL(file);
+                });
+                
+                const uploadData = {
+                    file: base64,
+                    filename: file.name,
+                    type: file.type
+                };
                 
                 console.log('📤 Sending request to /api/upload...');
                 const response = await fetch('/api/upload', {
                     method: 'POST',
-                    body: formData
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(uploadData)
                 });
                 
                 console.log('📡 Response status:', response.status, response.statusText);
