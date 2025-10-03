@@ -2756,7 +2756,7 @@
     }
     
     function createCollectionCard(collection) {
-        const isActive = isCollectionActive(collection);
+        const isActive = true; // Allow selecting any collection card
         const timeRemaining = getTimeRemaining(collection.endDate);
         
         const card = document.createElement('div');
@@ -2785,9 +2785,7 @@
             </div>
         `;
         
-        if (isActive) {
             card.addEventListener('click', () => selectCollection(collection.id));
-        }
         
         return card;
     }
@@ -2801,8 +2799,22 @@
             container.appendChild(card);
         });
         
-        // Auto-select regular collection by default
+        // Ensure regular card is clickable
+        const regularCard = document.querySelector('.regular-collection .collection-card.regular');
+        if (regularCard && !regularCard.dataset._bound) {
+            regularCard.addEventListener('click', () => selectCollection('regular'));
+            regularCard.dataset._bound = 'true';
+        }
+        
+        // Respect existing selection; only default to regular if none selected
+        const current = window.selectedCollection;
+        if (!current) {
         selectCollection('regular');
+        } else {
+            // Re-apply active class to current selection after re-render
+            const selectedCard = document.querySelector(`[data-collection="${current}"]`);
+            if (selectedCard) selectedCard.classList.add('active');
+        }
     }
     
     function selectCollection(collectionId) {
