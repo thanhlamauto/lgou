@@ -2313,6 +2313,8 @@
                             <p style="margin-bottom: 12px; color: var(--light-pastel-pink); text-align: center;">
                                 <i class="fas fa-gift"></i> Miễn phí lựa chọn
                             </p>
+                            <!-- Debug button -->
+                            <button onclick="forceRefreshProducts()" style="background: #ff6b6b; color: white; border: none; padding: 5px 10px; border-radius: 4px; font-size: 12px; margin-bottom: 10px;">🔄 Refresh Products</button>
                             <div class="options-grid" id="face-grid"></div>
                             <div class="max-selection-info" id="face-selection-info" style="text-align: center; color: var(--light-pastel-pink); font-size: 0.85rem; margin-top: 5px;">(Chọn tối đa 1 khuôn mặt)</div>
                         </div>
@@ -4067,6 +4069,7 @@
         };
         
         products.forEach(product => {
+            console.log('🔄 Processing product:', product.name, 'category:', product.category);
             if (productsByCategory[product.category]) {
                 productsByCategory[product.category].push({
                     id: product.id,
@@ -4074,6 +4077,9 @@
                     image: product.image,
                     price: product.price || 0
                 });
+                console.log('✅ Added to category:', product.category);
+            } else {
+                console.log('❌ Unknown category:', product.category);
             }
         });
         
@@ -4081,8 +4087,14 @@
         
         // Update product options
         productOptions.faces = productsByCategory.face;
-        productOptions.maleHairs = productsByCategory.hair.filter(p => p.label.toLowerCase().includes('nam') || p.label.toLowerCase().includes('male'));
-        productOptions.femaleHairs = productsByCategory.hair.filter(p => p.label.toLowerCase().includes('nữ') || p.label.toLowerCase().includes('female'));
+        
+        // Filter hair by gender
+        const allHairs = productsByCategory.hair;
+        productOptions.maleHairs = allHairs.filter(p => p.label.toLowerCase().includes('nam') || p.label.toLowerCase().includes('male'));
+        productOptions.femaleHairs = allHairs.filter(p => p.label.toLowerCase().includes('nữ') || p.label.toLowerCase().includes('female'));
+        
+        console.log('💇 Hair filtering - total:', allHairs.length, 'male:', productOptions.maleHairs.length, 'female:', productOptions.femaleHairs.length);
+        
         productOptions.hats = productsByCategory.hat;
         productOptions.accessories = productsByCategory.accessories;
         productOptions.pets = productsByCategory.pets;
@@ -4093,29 +4105,47 @@
 
     // Re-render all option grids
     function renderAllOptionGrids() {
+        console.log('🎨 Rendering all option grids...');
+        console.log('📊 Product options:', productOptions);
+        
         // Render face options
+        console.log('👤 Rendering face options:', productOptions.faces.length);
         renderOptions(document.getElementById('face-grid'), productOptions.faces, 'face');
         
         // Render hair options - create the container first, then render
+        console.log('💇 Rendering hair options - male:', productOptions.maleHairs.length, 'female:', productOptions.femaleHairs.length);
         createHairOptions();
         
         // Render hat options
+        console.log('🎩 Rendering hat options:', productOptions.hats.length);
         renderOptions(document.getElementById('hat-grid'), productOptions.hats, 'hat');
         
         // Render accessory options
+        console.log('📱 Rendering accessory options:', productOptions.accessories.length);
         renderOptions(document.getElementById('accessory-grid'), productOptions.accessories, 'accessory');
         
         // Render pet options
+        console.log('🐾 Rendering pet options:', productOptions.pets.length);
         renderOptions(document.getElementById('pet-grid'), productOptions.pets, 'pet');
         
         // Render background options
+        console.log('🖼️ Rendering background options:', productOptions.backgrounds.length);
         renderOptions(document.getElementById('background-grid'), productOptions.backgrounds, 'background');
+        
+        console.log('✅ All option grids rendered');
     }
     
     // Cache invalidation - call this when data changes
     function invalidateCache() {
         console.log('🗑️ Invalidating cache...');
         clearCache();
+    }
+
+    // Force refresh products (for debugging)
+    async function forceRefreshProducts() {
+        console.log('🔄 Force refreshing products...');
+        clearCache();
+        await fetchProductsFromSupabase(true);
     }
 
     // Check for updates periodically (every 2 minutes)
@@ -4136,7 +4166,7 @@
             }
         }, 2 * 60 * 1000); // Check every 2 minutes
     }
-
+    
     // Khởi động trang
     document.addEventListener('DOMContentLoaded', function() {
         console.log('🚀 Initializing website with caching...');
