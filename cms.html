@@ -820,6 +820,11 @@
             </div>
             <form id="collection-form">
                 <div class="form-group">
+                    <label for="collection-id">ID Collection <span style="color: red;">*</span></label>
+                    <input type="text" id="collection-id" style="width: 100%; padding: 12px; border: 2px solid var(--gray-300); border-radius: 8px;" required placeholder="vd: christmas-2024">
+                    <small style="color: var(--gray-600);">ID phải unique, dùng ký tự thường và dấu gạch ngang</small>
+                </div>
+                <div class="form-group">
                     <label for="collection-name">Tên Collection</label>
                     <input type="text" id="collection-name" style="width: 100%; padding: 12px; border: 2px solid var(--gray-300); border-radius: 8px;" required>
                 </div>
@@ -1997,12 +2002,23 @@
             return typeMap[type] || 'Khác';
         }
 
-        function loadCollections() {
+        async function loadCollections() {
             const container = document.getElementById('collections-list');
+            container.innerHTML = '<p style="text-align: center;">Đang tải...</p>';
+
+            try {
+                const collectionsData = await CollectionsAPI.getAll();
+                console.log('📦 Loaded collections from Supabase:', collectionsData);
+
+                if (collectionsData.length === 0) {
+                    container.innerHTML = '<p style="text-align: center;">Chưa có collection nào. Hãy thêm collection mới!</p>';
+                    return;
+                }
+
             container.innerHTML = '';
 
-            Object.values(collections).forEach(collection => {
-                const isActive = new Date() < new Date(collection.endDate);
+                collectionsData.forEach(collection => {
+                    const isActive = collection.end_date ? new Date() < new Date(collection.end_date) : true;
                 const div = document.createElement('div');
                 div.className = 'inventory-item';
                 div.style.flexDirection = 'column';
@@ -2014,12 +2030,13 @@
                             ${isActive ? 'Active' : 'Expired'}
                         </span>
                     </div>
-                    <p style="margin-bottom: 10px;">${collection.description}</p>
+                    <p style="margin-bottom: 10px;">${collection.description || 'Không có mô tả'}</p>
                     <div style="display: flex; gap: 15px; margin-bottom: 10px; font-size: 0.9rem; color: var(--gray-600);">
-                        <span><strong>Kết thúc:</strong> ${new Date(collection.endDate).toLocaleString('vi-VN')}</span>
-                        <span><strong>Giảm giá:</strong> ${collection.discount}%</span>
+                        <span><strong>ID:</strong> ${collection.id}</span>
+                        <span><strong>Kết thúc:</strong> ${collection.end_date ? new Date(collection.end_date).toLocaleString('vi-VN') : 'Không giới hạn'}</span>
+                        <span><strong>Giảm giá:</strong> ${collection.discount || 0}%</span>
                     </div>
-                    <p style="margin-bottom: 15px;"><strong>Features:</strong> ${collection.features.join(', ')}</p>
+                    <p style="margin-bottom: 15px;"><strong>Features:</strong> ${Array.isArray(collection.features) ? collection.features.join(', ') : 'Không có'}</p>
                     <div>
                         <button class="btn btn-primary" onclick="editCollection('${collection.id}')">
                             <i class="fas fa-edit"></i> Sửa
@@ -2034,26 +2051,48 @@
                 `;
                 container.appendChild(div);
             });
+            
+            } catch (error) {
+                console.error('❌ Error loading collections:', error);
+                container.innerHTML = '<p style="text-align: center; color: red;">Lỗi khi tải collections. Vui lòng thử lại.</p>';
+                showNotification('Lỗi khi tải collections: ' + error.message, 'error');
+            }
         }
 
-        function openCollectionModal(collectionId = null) {
+        async function openCollectionModal(collectionId = null) {
             const modal = document.getElementById('collection-modal');
             const form = document.getElementById('collection-form');
             const title = document.getElementById('modal-title');
             
             if (collectionId) {
-                const collection = collections[collectionId];
+                try {
+                    const collections = await CollectionsAPI.getAll();
+                    const collection = collections.find(c => c.id === collectionId);
+                    
+                    if (!collection) {
+                        showNotification('Không tìm thấy collection!', 'error');
+                        return;
+                    }
+                    
                 title.textContent = 'Sửa Collection';
+                    document.getElementById('collection-id').value = collection.id;
+                    document.getElementById('collection-id').disabled = true;
                 document.getElementById('collection-name').value = collection.name;
-                document.getElementById('collection-description').value = collection.description;
-                document.getElementById('collection-end-date').value = collection.endDate;
-                document.getElementById('collection-discount').value = collection.discount;
-                document.getElementById('collection-icon').value = collection.icon;
-                document.getElementById('collection-features').value = collection.features.join(', ');
+                    document.getElementById('collection-description').value = collection.description || '';
+                    document.getElementById('collection-end-date').value = collection.end_date ? collection.end_date.split('T')[0] + 'T' + collection.end_date.split('T')[1].substring(0, 5) : '';
+                    document.getElementById('collection-discount').value = collection.discount || 0;
+                    document.getElementById('collection-icon').value = collection.icon || 'fas fa-star';
+                    document.getElementById('collection-features').value = Array.isArray(collection.features) ? collection.features.join(', ') : '';
                 form.dataset.editId = collectionId;
+                } catch (error) {
+                    console.error('Error loading collection:', error);
+                    showNotification('Lỗi khi tải collection: ' + error.message, 'error');
+                    return;
+                }
             } else {
                 title.textContent = 'Thêm Collection Mới';
                 form.reset();
+                document.getElementById('collection-id').disabled = false;
                 delete form.dataset.editId;
             }
             
@@ -2068,80 +2107,108 @@
             openCollectionModal(collectionId);
         }
 
-        function deleteCollection(collectionId) {
-            if (confirm('Bạn có chắc chắn muốn xóa collection này?')) {
-                delete collections[collectionId];
-                loadCollections();
-                saveCollections();
-                alert('Đã xóa collection thành công!');
+        async function deleteCollection(collectionId) {
+            if (!confirm('Bạn có chắc chắn muốn xóa collection này?\nHành động này không thể hoàn tác!')) {
+                return;
+            }
+            
+            try {
+                await CollectionsAPI.delete(collectionId);
+                showNotification('Đã xóa collection thành công!', 'success');
+                await loadCollections();
+            } catch (error) {
+                console.error('Error deleting collection:', error);
+                showNotification('Lỗi khi xóa collection: ' + error.message, 'error');
             }
         }
 
-        function toggleCollectionStatus(collectionId) {
-            const collection = collections[collectionId];
-            if (collection) {
+        async function toggleCollectionStatus(collectionId) {
+            try {
+                const collections = await CollectionsAPI.getAll();
+                const collection = collections.find(c => c.id === collectionId);
+                
+                if (!collection) {
+                    showNotification('Không tìm thấy collection!', 'error');
+                    return;
+                }
+                
                 const now = new Date();
-                const isActive = now < new Date(collection.endDate);
+                const isActive = collection.end_date ? now < new Date(collection.end_date) : true;
+                
+                let newEndDate;
+                let newStatus;
                 
                 if (isActive) {
                     // Set to expired
-                    collection.endDate = new Date(now.getTime() - 1000).toISOString();
-                    collection.status = 'expired';
+                    newEndDate = new Date(now.getTime() - 1000).toISOString();
+                    newStatus = 'expired';
                 } else {
                     // Set to active for 30 days
-                    collection.endDate = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000).toISOString();
-                    collection.status = 'active';
+                    newEndDate = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000).toISOString();
+                    newStatus = 'active';
                 }
                 
-                loadCollections();
-                saveCollections();
+                await CollectionsAPI.update(collectionId, {
+                    end_date: newEndDate,
+                    status: newStatus
+                });
+                
+                showNotification(`Collection đã ${newStatus === 'active' ? 'kích hoạt' : 'tắt'}!`, 'success');
+                await loadCollections();
+                
+            } catch (error) {
+                console.error('Error toggling collection status:', error);
+                showNotification('Lỗi khi cập nhật trạng thái: ' + error.message, 'error');
             }
         }
 
-        function saveCollections() {
-            localStorage.setItem('lgou_collections', JSON.stringify(collections));
-        }
-
-        function loadSavedCollections() {
-            const saved = localStorage.getItem('lgou_collections');
-            if (saved) {
-                collections = JSON.parse(saved);
-            }
-        }
+        // Removed localStorage functions - now using Supabase
 
         // Form submission for collections
-        document.getElementById('collection-form').addEventListener('submit', function(e) {
+        document.getElementById('collection-form').addEventListener('submit', async function(e) {
             e.preventDefault();
             
+            const id = document.getElementById('collection-id').value.trim();
             const collectionData = {
-                name: document.getElementById('collection-name').value,
-                description: document.getElementById('collection-description').value,
-                endDate: document.getElementById('collection-end-date').value,
+                name: document.getElementById('collection-name').value.trim(),
+                description: document.getElementById('collection-description').value.trim(),
+                end_date: document.getElementById('collection-end-date').value,
                 discount: parseInt(document.getElementById('collection-discount').value) || 0,
-                icon: document.getElementById('collection-icon').value || 'fas fa-star',
+                icon: document.getElementById('collection-icon').value.trim() || 'fas fa-star',
                 features: document.getElementById('collection-features').value.split(',').map(f => f.trim()).filter(f => f),
                 status: 'active'
             };
 
             const editId = this.dataset.editId;
+            
+            try {
             if (editId) {
-                collections[editId] = { ...collections[editId], ...collectionData };
-                alert('Đã cập nhật collection thành công!');
+                    // Update existing collection
+                    await CollectionsAPI.update(editId, collectionData);
+                    showNotification('Đã cập nhật collection thành công!', 'success');
             } else {
-                const id = 'collection_' + Date.now();
-                collections[id] = { id, ...collectionData };
-                alert('Đã thêm collection mới thành công!');
-            }
+                    // Create new collection
+                    if (!id) {
+                        showNotification('Vui lòng nhập ID cho collection!', 'error');
+                        return;
+                    }
+                    collectionData.id = id;
+                    await CollectionsAPI.create(collectionData);
+                    showNotification('Đã thêm collection mới thành công!', 'success');
+                }
 
-            loadCollections();
-            saveCollections();
+                await loadCollections();
             closeCollectionModal();
+                
+            } catch (error) {
+                console.error('Error saving collection:', error);
+                showNotification('Lỗi khi lưu collection: ' + error.message, 'error');
+            }
         });
 
-        // Auto-save inventory changes
+        // Auto-save inventory changes (collections now saved to Supabase automatically)
         window.addEventListener('beforeunload', () => {
             localStorage.setItem('lgou_inventory', JSON.stringify(inventory));
-            localStorage.setItem('lgou_collections', JSON.stringify(collections));
         });
 
         // Initialize CMS
@@ -2162,8 +2229,7 @@
                 }
             }
             
-            // Load saved collections on init
-            loadSavedCollections();
+            // Collections now loaded from Supabase when tab is opened
             
             // Setup product form handler
             setupProductFormHandler();
