@@ -998,12 +998,27 @@
         }
 
         // Orders Management
-        async function loadOrders() {
+        async function loadOrders(forceRefresh = false) {
             const tbody = document.getElementById('orders-table-body');
             tbody.innerHTML = '<tr><td colspan="7" style="text-align: center;">Đang tải...</td></tr>';
 
             try {
-                const orders = await OrdersAPI.getAll();
+                // Check cache first
+                let orders;
+                if (!forceRefresh) {
+                    const cachedOrders = getCMSCache(CMS_CACHE_KEYS.ORDERS);
+                    if (cachedOrders) {
+                        console.log('📦 Loading orders from CMS cache...');
+                        orders = cachedOrders;
+                    }
+                }
+
+                // Fetch from API if no cache or force refresh
+                if (!orders) {
+                    console.log('🔄 Fetching orders from Supabase...');
+                    orders = await OrdersAPI.getAll();
+                    setCMSCache(CMS_CACHE_KEYS.ORDERS, orders);
+                }
 
             if (orders.length === 0) {
                 tbody.innerHTML = '<tr><td colspan="7" style="text-align: center;">Chưa có đơn hàng nào</td></tr>';
@@ -1196,13 +1211,28 @@
             return statusMap[status] || status;
         }
 
-        // Inventory Management
-        async function loadInventory() {
+        // Inventory Management with caching
+        async function loadInventory(forceRefresh = false) {
             const container = document.getElementById('inventory-list');
             container.innerHTML = '<p style="text-align: center;">Đang tải...</p>';
 
             try {
-                const products = await ProductsAPI.getAll();
+                // Check cache first
+                let products;
+                if (!forceRefresh) {
+                    const cachedProducts = getCMSCache(CMS_CACHE_KEYS.PRODUCTS);
+                    if (cachedProducts) {
+                        console.log('📦 Loading products from CMS cache...');
+                        products = cachedProducts;
+                    }
+                }
+
+                // Fetch from API if no cache or force refresh
+                if (!products) {
+                    console.log('🔄 Fetching products from Supabase...');
+                    products = await ProductsAPI.getAll();
+                    setCMSCache(CMS_CACHE_KEYS.PRODUCTS, products);
+                }
 
                 if (products.length === 0) {
                     container.innerHTML = '<p style="text-align: center;">Chưa có sản phẩm nào. Hãy thêm sản phẩm vào Supabase!</p>';
@@ -1502,6 +1532,54 @@
         // Product Management
         let currentEditingProductId = null;
 
+        // Cache management for CMS
+        const CMS_CACHE_KEYS = {
+            PRODUCTS: 'lgou_cms_products_cache',
+            ORDERS: 'lgou_cms_orders_cache',
+            CUSTOMERS: 'lgou_cms_customers_cache',
+            STATS: 'lgou_cms_stats_cache'
+        };
+
+        const CMS_CACHE_DURATION = 2 * 60 * 1000; // 2 minutes for CMS
+
+        // Cache utilities for CMS
+        function setCMSCache(key, data) {
+            try {
+                localStorage.setItem(key, JSON.stringify({
+                    data: data,
+                    timestamp: Date.now()
+                }));
+            } catch (error) {
+                console.warn('CMS Cache storage failed:', error);
+            }
+        }
+
+        function getCMSCache(key) {
+            try {
+                const cached = localStorage.getItem(key);
+                if (!cached) return null;
+                
+                const parsed = JSON.parse(cached);
+                const isExpired = Date.now() - parsed.timestamp > CMS_CACHE_DURATION;
+                
+                if (isExpired) {
+                    localStorage.removeItem(key);
+                    return null;
+                }
+                
+                return parsed.data;
+            } catch (error) {
+                console.warn('CMS Cache retrieval failed:', error);
+                return null;
+            }
+        }
+
+        function clearCMSCache() {
+            Object.values(CMS_CACHE_KEYS).forEach(key => {
+                localStorage.removeItem(key);
+            });
+        }
+
         function openAddProductModal() {
             currentEditingProductId = null;
             document.getElementById('product-modal-title').textContent = 'Thêm sản phẩm mới';
@@ -1588,8 +1666,11 @@
                     
                     await ProductsAPI.delete(productId);
                     
+                    // Clear cache to force refresh
+                    clearCMSCache();
+                    
                     showNotification('Đã xóa sản phẩm thành công!', 'success');
-                    await loadInventory();
+                    await loadInventory(true); // Force refresh
                     await loadDashboard();
                 }
             } catch (error) {
@@ -1721,18 +1802,21 @@
                 image: imageUrl
             };
 
-            if (currentEditingProductId) {
-                // Update existing product
+                if (currentEditingProductId) {
+                    // Update existing product
                     await ProductsAPI.update(currentEditingProductId, productData);
                     showNotification('Cập nhật sản phẩm thành công!', 'success');
-            } else {
-                // Add new product
+                } else {
+                    // Add new product
                     await ProductsAPI.create(productData);
-                showNotification('Thêm sản phẩm mới thành công!', 'success');
-            }
-            
-            // Refresh inventory display
-                await loadInventory();
+                    showNotification('Thêm sản phẩm mới thành công!', 'success');
+                }
+                
+                // Clear cache to force refresh
+                clearCMSCache();
+                
+                // Refresh inventory display
+                await loadInventory(true); // Force refresh
                 await loadDashboard();
             
             // Close modal
@@ -2074,6 +2158,22 @@
             
             console.log(`CMS initialized with ${inventory.length} products`);
         });
+
+        // Refresh all data function
+        async function refreshAllData() {
+            console.log('🔄 Refreshing all data...');
+            showNotification('Đang làm mới dữ liệu...', 'info');
+            
+            // Clear all caches
+            clearCMSCache();
+            
+            // Reload all data
+            await loadDashboard();
+            await loadOrders(true);
+            await loadInventory(true);
+            
+            showNotification('Đã làm mới dữ liệu thành công!', 'success');
+        }
     </script>
 </body>
 </html>

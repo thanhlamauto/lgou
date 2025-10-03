@@ -2632,6 +2632,54 @@
         pets: []
     };
 
+    // Cache management
+    const CACHE_KEYS = {
+        PRODUCTS: 'lgou_products_cache',
+        PRODUCTS_TIMESTAMP: 'lgou_products_timestamp',
+        COLLECTIONS: 'lgou_collections_cache',
+        COLLECTIONS_TIMESTAMP: 'lgou_collections_timestamp'
+    };
+
+    const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes in milliseconds
+
+    // Cache utilities
+    function setCache(key, data) {
+        try {
+            localStorage.setItem(key, JSON.stringify({
+                data: data,
+                timestamp: Date.now()
+            }));
+        } catch (error) {
+            console.warn('Cache storage failed:', error);
+        }
+    }
+
+    function getCache(key) {
+        try {
+            const cached = localStorage.getItem(key);
+            if (!cached) return null;
+            
+            const parsed = JSON.parse(cached);
+            const isExpired = Date.now() - parsed.timestamp > CACHE_DURATION;
+            
+            if (isExpired) {
+                localStorage.removeItem(key);
+                return null;
+            }
+            
+            return parsed.data;
+        } catch (error) {
+            console.warn('Cache retrieval failed:', error);
+            return null;
+        }
+    }
+
+    function clearCache() {
+        Object.values(CACHE_KEYS).forEach(key => {
+            localStorage.removeItem(key);
+        });
+    }
+
     // Mã giảm giá hợp lệ
     const validDiscountCodes = {
         'FREESHIPLUVIN': { type: 'freeship', value: 25000 },
@@ -3954,9 +4002,20 @@
         document.getElementById('confirmation-popup').style.display = 'none';
     });
     
-    // Fetch products from Supabase
-    async function fetchProductsFromSupabase() {
+    // Fetch products from Supabase with caching
+    async function fetchProductsFromSupabase(forceRefresh = false) {
         try {
+            // Check cache first (unless force refresh)
+            if (!forceRefresh) {
+                const cachedProducts = getCache(CACHE_KEYS.PRODUCTS);
+                if (cachedProducts) {
+                    console.log('📦 Loading products from cache...');
+                    updateProductOptions(cachedProducts);
+                    renderAllOptionGrids();
+                    return;
+                }
+            }
+            
             console.log('🔄 Fetching products from Supabase...');
             
             // Fetch all products
@@ -3970,48 +4029,66 @@
             const products = data.products || [];
             console.log('✅ Fetched products:', products.length);
             
-            // Group products by category
-            const productsByCategory = {
-                face: [],
-                hair: [],
-                hat: [],
-                accessories: [],
-                pets: [],
-                background: []
-            };
-            
-            products.forEach(product => {
-                if (productsByCategory[product.category]) {
-                    productsByCategory[product.category].push({
-                        id: product.id,
-                        label: product.name,
-                        image: product.image,
-                        price: product.price || 0
-                    });
-                }
-            });
-            
-            console.log('📦 Products by category:', productsByCategory);
+            // Cache the products
+            setCache(CACHE_KEYS.PRODUCTS, products);
             
             // Update product options
-            productOptions.faces = productsByCategory.face;
-            productOptions.maleHairs = productsByCategory.hair.filter(p => p.label.toLowerCase().includes('nam') || p.label.toLowerCase().includes('male'));
-            productOptions.femaleHairs = productsByCategory.hair.filter(p => p.label.toLowerCase().includes('nữ') || p.label.toLowerCase().includes('female'));
-            productOptions.hats = productsByCategory.hat;
-            productOptions.accessories = productsByCategory.accessories;
-            productOptions.pets = productsByCategory.pets;
-            productOptions.backgrounds = productsByCategory.background;
-            
-            console.log('✅ Updated product options:', productOptions);
+            updateProductOptions(products);
             
             // Re-render all option grids
             renderAllOptionGrids();
             
         } catch (error) {
             console.error('❌ Error fetching products from Supabase:', error);
-            console.log('🔄 Falling back to hardcoded data...');
-            // Keep using hardcoded data as fallback
+            
+            // Try to load from cache as fallback
+            const cachedProducts = getCache(CACHE_KEYS.PRODUCTS);
+            if (cachedProducts) {
+                console.log('🔄 Using cached products as fallback...');
+                updateProductOptions(cachedProducts);
+                renderAllOptionGrids();
+            } else {
+                console.log('🔄 No cache available, using empty arrays...');
+                renderAllOptionGrids();
+            }
         }
+    }
+
+    // Update product options from products data
+    function updateProductOptions(products) {
+        // Group products by category
+        const productsByCategory = {
+            face: [],
+            hair: [],
+            hat: [],
+            accessories: [],
+            pets: [],
+            background: []
+        };
+        
+        products.forEach(product => {
+            if (productsByCategory[product.category]) {
+                productsByCategory[product.category].push({
+                    id: product.id,
+                    label: product.name,
+                    image: product.image,
+                    price: product.price || 0
+                });
+            }
+        });
+        
+        console.log('📦 Products by category:', productsByCategory);
+        
+        // Update product options
+        productOptions.faces = productsByCategory.face;
+        productOptions.maleHairs = productsByCategory.hair.filter(p => p.label.toLowerCase().includes('nam') || p.label.toLowerCase().includes('male'));
+        productOptions.femaleHairs = productsByCategory.hair.filter(p => p.label.toLowerCase().includes('nữ') || p.label.toLowerCase().includes('female'));
+        productOptions.hats = productsByCategory.hat;
+        productOptions.accessories = productsByCategory.accessories;
+        productOptions.pets = productsByCategory.pets;
+        productOptions.backgrounds = productsByCategory.background;
+        
+        console.log('✅ Updated product options:', productOptions);
     }
 
     // Re-render all option grids
@@ -4035,8 +4112,44 @@
         renderOptions(document.getElementById('background-grid'), productOptions.backgrounds, 'background');
     }
     
+    // Cache invalidation - call this when data changes
+    function invalidateCache() {
+        console.log('🗑️ Invalidating cache...');
+        clearCache();
+    }
+
+    // Check for updates periodically (every 2 minutes)
+    function startCacheUpdateCheck() {
+        setInterval(async () => {
+            try {
+                // Check if we need to refresh cache
+                const response = await fetch('/api/products?check_update=true');
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.updated) {
+                        console.log('🔄 Data updated, refreshing cache...');
+                        await fetchProductsFromSupabase(true);
+                    }
+                }
+            } catch (error) {
+                console.warn('Cache update check failed:', error);
+            }
+        }, 2 * 60 * 1000); // Check every 2 minutes
+    }
+
     // Khởi động trang
     document.addEventListener('DOMContentLoaded', function() {
+        console.log('🚀 Initializing website with caching...');
+        
+        // Load cached data first for instant display
+        const cachedProducts = getCache(CACHE_KEYS.PRODUCTS);
+        if (cachedProducts) {
+            console.log('⚡ Loading from cache for instant display...');
+            updateProductOptions(cachedProducts);
+            renderAllOptionGrids();
+        }
+        
+        // Initialize other components
         loadInventoryFromCMS(); // Load inventory from CMS first
         loadCollectionsFromCMS(); // Load collections from CMS first
         setupCollectionSync(); // Setup sync with CMS
@@ -4046,8 +4159,11 @@
         updateCharacterDisplay('1');
         loadSelections();
         
-        // Fetch products from Supabase
+        // Fetch fresh data from Supabase (will update cache)
         fetchProductsFromSupabase();
+        
+        // Start periodic cache updates
+        startCacheUpdateCheck();
         
         if (!document.querySelector('#background-grid .option-item.selected')) {
             const firstBackground = document.querySelector('#background-grid .option-item');
