@@ -1570,22 +1570,30 @@
         // Upload image to Vercel Blob Storage
         async function uploadImageToVercel(file) {
             try {
+                console.log('🔄 Starting image upload...', file.name, file.size, file.type);
+                
                 const formData = new FormData();
                 formData.append('file', file);
                 
+                console.log('📤 Sending request to /api/upload...');
                 const response = await fetch('/api/upload', {
                     method: 'POST',
                     body: formData
                 });
                 
+                console.log('📡 Response status:', response.status, response.statusText);
+                
                 if (!response.ok) {
-                    throw new Error('Upload failed');
+                    const errorText = await response.text();
+                    console.error('❌ Upload failed:', errorText);
+                    throw new Error(`Upload failed: ${response.status} - ${errorText}`);
                 }
                 
                 const result = await response.json();
+                console.log('✅ Upload successful:', result);
                 return result.url;
             } catch (error) {
-                console.error('Upload error:', error);
+                console.error('❌ Upload error:', error);
                 throw error;
             }
         }
@@ -1619,20 +1627,26 @@
                 if (fileInput.files && fileInput.files[0]) {
                     // Upload to Vercel Blob Storage
                     try {
+                        console.log('🔄 Starting product creation with image upload...');
                         showNotification('Đang upload ảnh...', 'info');
                         const uploadedUrl = await uploadImageToVercel(fileInput.files[0]);
+                        console.log('✅ Image uploaded successfully:', uploadedUrl);
                         imageUrl = uploadedUrl;
-                        saveProduct(id, name, category, price, stock, imageUrl);
-                        showNotification('Upload ảnh thành công!', 'success');
+                        await saveProduct(id, name, category, price, stock, imageUrl);
+                        showNotification('Upload ảnh và lưu sản phẩm thành công!', 'success');
                     } catch (error) {
+                        console.error('❌ Error in upload process:', error);
                         showNotification('Lỗi upload ảnh: ' + error.message, 'error');
                         return;
                     }
                 } else if (imageUrl) {
-                    saveProduct(id, name, category, price, stock, imageUrl);
+                    console.log('🔄 Saving product with existing image URL...');
+                    await saveProduct(id, name, category, price, stock, imageUrl);
                 } else {
-                    alert('Vui lòng chọn ảnh hoặc nhập URL ảnh!');
-                    return;
+                    // Allow saving without image (use placeholder)
+                    console.log('🔄 Saving product without image...');
+                    const placeholderImage = 'https://via.placeholder.com/200x200/cccccc/666666?text=No+Image';
+                    await saveProduct(id, name, category, price, stock, placeholderImage);
                 }
             });
         }
