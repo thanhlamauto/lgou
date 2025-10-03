@@ -2379,13 +2379,7 @@
                         <h3 class="summary-title">ĐƠN HÀNG CỦA BẠN</h3>
                         <div class="summary-items" id="order-summary"></div>
                         
-                        <div class="free-ship-progress" id="free-ship-progress">
-                            <div class="progress-text" id="progress-text">Còn 349.000₫ nữa để được Miễn phí ship</div>
-                            <div class="progress-bar">
-                                <div class="progress-fill" id="progress-fill"></div>
-                                <div class="progress-percent" id="progress-percent">0%</div>
-                            </div>
-                        </div>
+                <div class="free-ship-progress" id="free-ship-progress" style="display:none"></div>
                         
                         <div class="discount-section">
                             <div class="discount-toggle" id="discount-toggle">
@@ -2684,7 +2678,6 @@
 
     // Mã giảm giá hợp lệ
     const validDiscountCodes = {
-        'FREESHIPLUVIN': { type: 'freeship', value: 25000 },
         'GRADUATION': { type: 'fixed', value: 20000 },
     };
 
@@ -3123,7 +3116,7 @@
         let html = `
             <h3>Version ${version}</h3>
             <div class="version-price">${details.price}</div>
-            <p>(Chưa gồm phí ship)</p>
+            <p></p>
             <ul class="version-includes">
         `;
         
@@ -3523,12 +3516,8 @@
             <span>${subtotal.toLocaleString()}₫</span>
         </div>`;
         
-        const shippingFee = subtotal >= 349000 ? 0 : 25000;
-        html += `<div class="summary-item shipping">
-            <span>Phí vận chuyển</span>
-            <span>${shippingFee === 0 ? 'Miễn phí' : shippingFee.toLocaleString() + '₫'}</span>
-        </div>`;
-        
+        const shippingFee = 0; // Shipping removed
+        // Shipping row hidden
         const totalBeforeDiscount = subtotal + shippingFee;
         
         let discount = 0;
@@ -3537,11 +3526,8 @@
         
         if (discountInfo) {
             if (discountInfo.type === 'freeship') {
-                discount = shippingFee;
-                html += `<div class="summary-item discount">
-                    <span>Giảm giá (${discountCode.toUpperCase()}): Miễn phí vận chuyển</span>
-                    <span>-${discount.toLocaleString()}₫</span>
-                </div>`;
+                // No shipping fee; freeship has no effect now
+                discount = 0;
             } else if (discountInfo.type === 'percent') {
                 discount = Math.round(totalBeforeDiscount * discountInfo.value / 100);
                 html += `<div class="summary-item discount">
@@ -3578,20 +3564,9 @@
             resultDiv.style.display = 'none';
         }
         
-        const freeShipThreshold = 349000;
-        const progress = Math.min(subtotal / freeShipThreshold, 1);
-        const progressPercent = Math.round(progress * 100);
-        const remaining = Math.max(freeShipThreshold - subtotal, 0);
-        
-        document.getElementById('progress-fill').style.width = `${progressPercent}%`;
-        document.getElementById('progress-percent').textContent = `${progressPercent}%`;
-        
-        if (subtotal >= freeShipThreshold) {
-            document.getElementById('progress-text').innerHTML = `<span class="highlight">Đạt ngưỡng miễn phí ship!</span>`;
-        } else {
-            document.getElementById('progress-text').textContent = 
-                `Còn ${remaining.toLocaleString()}₫ nữa để được Miễn phí ship`;
-        }
+        // Hide free-ship progress UI when shipping is removed
+        const freeShipEl = document.getElementById('free-ship-progress');
+        if (freeShipEl) freeShipEl.style.display = 'none';
         
         return {
             subtotal,
