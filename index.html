@@ -2940,6 +2940,9 @@
     function createHairOptions() {
         const container = document.getElementById('hair-options-container');
         
+        // Clear existing content to avoid duplicates
+        container.innerHTML = '';
+        
         const maleHairBox = document.createElement('div');
         maleHairBox.className = 'hair-option-box';
         maleHairBox.innerHTML = `
@@ -4016,8 +4019,8 @@
         // Render face options
         renderOptions(document.getElementById('face-grid'), productOptions.faces, 'face');
         
-        // Render hair options
-        renderHairOptions();
+        // Render hair options - create the container first, then render
+        createHairOptions();
         
         // Render hat options
         renderOptions(document.getElementById('hat-grid'), productOptions.hats, 'hat');
