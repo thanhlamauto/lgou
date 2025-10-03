@@ -771,6 +771,15 @@
                     </select>
                 </div>
                 <div class="form-group">
+                    <label for="product-collection">Collection</label>
+                    <select id="product-collection">
+                        <option value="">Không thuộc collection nào</option>
+                        <option value="regular">Regular (Thường xuyên)</option>
+                        <option value="womens-day-2024">Bộ Sưu Tập 20/10</option>
+                    </select>
+                    <small style="color: var(--gray-600);">Chọn collection mà sản phẩm thuộc về</small>
+                </div>
+                <div class="form-group">
                     <label for="product-price">Giá (VND)</label>
                     <input type="number" id="product-price" min="0" step="1000" placeholder="0" value="0">
                     <small style="color: var(--gray-600);">Để 0 nếu miễn phí</small>
@@ -1617,31 +1626,32 @@
                     return;
                 }
 
-                currentEditingProductId = productId;
-                document.getElementById('product-modal-title').textContent = 'Sửa sản phẩm';
-                document.getElementById('product-submit-text').textContent = 'Cập nhật sản phẩm';
-                
+            currentEditingProductId = productId;
+            document.getElementById('product-modal-title').textContent = 'Sửa sản phẩm';
+            document.getElementById('product-submit-text').textContent = 'Cập nhật sản phẩm';
+            
                 // Fill form with existing data
-                document.getElementById('product-id').value = product.id;
-                document.getElementById('product-name').value = product.name;
-                document.getElementById('product-category').value = product.category;
+            document.getElementById('product-id').value = product.id;
+            document.getElementById('product-name').value = product.name;
+            document.getElementById('product-category').value = product.category;
+                document.getElementById('product-collection').value = product.collection_id || '';
                 document.getElementById('product-price').value = product.price || 0;
                 document.getElementById('product-stock').value = product.stock || 0;
                 document.getElementById('product-image-url').value = product.image || '';
-                
-                // Show preview
-                const previewImg = document.getElementById('preview-img');
+            
+            // Show preview
+            const previewImg = document.getElementById('preview-img');
                 if (product.image) {
-                    previewImg.src = product.image;
-                    previewImg.style.display = 'block';
+            previewImg.src = product.image;
+            previewImg.style.display = 'block';
                 } else {
                     previewImg.style.display = 'none';
                 }
                 
                 // Disable ID field when editing
                 document.getElementById('product-id').disabled = true; // Don't allow changing ID when editing
-                
-                document.getElementById('product-modal').style.display = 'flex';
+            
+            document.getElementById('product-modal').style.display = 'flex';
                 
                 console.log('✅ Product loaded for editing:', product);
                 
@@ -1661,7 +1671,7 @@
                     return;
                 }
 
-                if (confirm(`Bạn có chắc muốn xóa sản phẩm "${product.name}"?\\nHành động này không thể hoàn tác!`)) {
+            if (confirm(`Bạn có chắc muốn xóa sản phẩm "${product.name}"?\\nHành động này không thể hoàn tác!`)) {
                     console.log('🗑️ Deleting product:', productId);
                     
                     await ProductsAPI.delete(productId);
@@ -1669,7 +1679,7 @@
                     // Clear cache to force refresh
                     clearCMSCache();
                     
-                    showNotification('Đã xóa sản phẩm thành công!', 'success');
+                showNotification('Đã xóa sản phẩm thành công!', 'success');
                     await loadInventory(true); // Force refresh
                     await loadDashboard();
                 }
@@ -1757,6 +1767,7 @@
                 const id = document.getElementById('product-id').value.trim();
                 const name = document.getElementById('product-name').value.trim();
                 const category = document.getElementById('product-category').value;
+                const collectionId = document.getElementById('product-collection').value || null;
                 const price = parseInt(document.getElementById('product-price').value) || 0;
                 const stock = parseInt(document.getElementById('product-stock').value) || 0;
                 
@@ -1772,7 +1783,7 @@
                         const uploadedUrl = await uploadImageToVercel(fileInput.files[0]);
                         console.log('✅ Image uploaded successfully:', uploadedUrl);
                         imageUrl = uploadedUrl;
-                        await saveProduct(id, name, category, price, stock, imageUrl);
+                        await saveProduct(id, name, category, collectionId, price, stock, imageUrl);
                         showNotification('Upload ảnh và lưu sản phẩm thành công!', 'success');
                     } catch (error) {
                         console.error('❌ Error in upload process:', error);
@@ -1781,41 +1792,42 @@
                     }
                 } else if (imageUrl) {
                     console.log('🔄 Saving product with existing image URL...');
-                    await saveProduct(id, name, category, price, stock, imageUrl);
+                    await saveProduct(id, name, category, collectionId, price, stock, imageUrl);
                 } else {
                     // Allow saving without image (use placeholder)
                     console.log('🔄 Saving product without image...');
                     const placeholderImage = 'https://via.placeholder.com/200x200/cccccc/666666?text=No+Image';
-                    await saveProduct(id, name, category, price, stock, placeholderImage);
+                    await saveProduct(id, name, category, collectionId, price, stock, placeholderImage);
                 }
             });
         }
 
-        async function saveProduct(id, name, category, price, stock, imageUrl) {
+        async function saveProduct(id, name, category, collectionId, price, stock, imageUrl) {
             try {
             const productData = {
                 id: id,
                 name: name,
                 category: category,
+                collection_id: collectionId,
                     price: parseInt(price) || 0,
                     stock: parseInt(stock) || 0,
                 image: imageUrl
             };
 
-                if (currentEditingProductId) {
-                    // Update existing product
+            if (currentEditingProductId) {
+                // Update existing product
                     await ProductsAPI.update(currentEditingProductId, productData);
                     showNotification('Cập nhật sản phẩm thành công!', 'success');
-                } else {
-                    // Add new product
+            } else {
+                // Add new product
                     await ProductsAPI.create(productData);
-                    showNotification('Thêm sản phẩm mới thành công!', 'success');
-                }
-                
+                showNotification('Thêm sản phẩm mới thành công!', 'success');
+            }
+
                 // Clear cache to force refresh
                 clearCMSCache();
-                
-                // Refresh inventory display
+            
+            // Refresh inventory display
                 await loadInventory(true); // Force refresh
                 await loadDashboard();
             

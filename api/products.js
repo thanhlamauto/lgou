@@ -32,7 +32,7 @@ module.exports = async function handler(req, res) {
 
 // GET /api/products
 async function getProducts(req, res) {
-  const { id, category } = req.query;
+  const { id, category, collection_id } = req.query;
 
   if (id) {
     const { data, error } = await supabase
@@ -51,6 +51,10 @@ async function getProducts(req, res) {
   
   if (category) {
     query = query.eq('category', category);
+  }
+
+  if (collection_id) {
+    query = query.eq('collection_id', collection_id);
   }
 
   const { data, error } = await query.order('category').order('name');

@@ -2560,19 +2560,47 @@
         return false;
     }
 
-    // Load collections from CMS localStorage if available
-    function loadCollectionsFromCMS() {
-        const savedCollections = localStorage.getItem('lgou_collections');
-        if (savedCollections) {
-            try {
-                const cmsCollections = JSON.parse(savedCollections);
-                // Merge with default collections, CMS data takes priority
-                collections = { ...collections, ...cmsCollections };
-                console.log('Collections loaded from CMS:', collections);
+    // Load collections from Supabase
+    async function loadCollectionsFromSupabase() {
+        try {
+            console.log('🔄 Fetching collections from Supabase...');
+            const response = await fetch('/api/collections?status=active');
+            const data = await response.json();
+            
+            if (!response.ok) {
+                throw new Error(data.error || 'Failed to fetch collections');
+            }
+            
+            const fetchedCollections = data.collections || [];
+            console.log('✅ Fetched collections:', fetchedCollections.length);
+            
+            // Convert array to object keyed by id
+            collections = {};
+            fetchedCollections.forEach(col => {
+                collections[col.id] = {
+                    name: col.name,
+                    description: col.description,
+                    endDate: col.end_date,
+                    discount: col.discount || 0,
+                    icon: col.icon || 'fas fa-star',
+                    features: col.features || [],
+                    limitedProducts: col.limited_products || [],
+                    status: col.status
+                };
+            });
+            
+            console.log('✅ Loaded collections:', collections);
+            renderCollections();
+            
             } catch (error) {
-                console.error('Error loading collections from CMS:', error);
+            console.error('❌ Error loading collections from Supabase:', error);
+            // Keep default collections if fetch fails
             }
         }
+    
+    // Legacy function for backward compatibility
+    function loadCollectionsFromCMS() {
+        loadCollectionsFromSupabase();
     }
     
     // Listen for changes in localStorage (from CMS updates)
@@ -2602,15 +2630,17 @@
     }
     
     // Manual refresh function
-    function refreshCollections() {
+    async function refreshCollections() {
         console.log('Manually refreshing collections...');
-        loadCollectionsFromCMS();
-        renderCollections();
-        startCollectionTimers();
         
         // Show feedback
         const btn = event.target;
         const originalText = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-sync fa-spin"></i> Đang cập nhật...';
+        
+        await loadCollectionsFromSupabase();
+        startCollectionTimers();
+        
         btn.innerHTML = '<i class="fas fa-check"></i> Đã cập nhật!';
         btn.style.background = 'var(--success-green)';
         
@@ -2783,8 +2813,9 @@
         // Update global selected collection
         window.selectedCollection = collectionId;
         
-        // Update available products based on collection
-        updateProductsForCollection(collectionId);
+        // Fetch products for the selected collection from Supabase
+        console.log(`🎯 Collection selected: ${collectionId}`);
+        fetchProductsFromSupabase(true, collectionId);
         
         // Save selection
         saveSelections();
@@ -3988,24 +4019,29 @@
         document.getElementById('confirmation-popup').style.display = 'none';
     });
     
-    // Fetch products from Supabase with caching
-    async function fetchProductsFromSupabase(forceRefresh = false) {
+    // Fetch products from Supabase with caching and collection filtering
+    async function fetchProductsFromSupabase(forceRefresh = false, collectionId = null) {
         try {
+            // Use selected collection if not provided
+            const targetCollection = collectionId || window.selectedCollection || 'regular';
+            
             // Check cache first (unless force refresh)
+            const cacheKey = `${CACHE_KEYS.PRODUCTS}_${targetCollection}`;
             if (!forceRefresh) {
-                const cachedProducts = getCache(CACHE_KEYS.PRODUCTS);
+                const cachedProducts = getCache(cacheKey);
                 if (cachedProducts) {
-                    console.log('📦 Loading products from cache...');
+                    console.log(`📦 Loading products from cache for collection: ${targetCollection}...`);
                     updateProductOptions(cachedProducts);
                     renderAllOptionGrids();
                     return;
                 }
             }
             
-            console.log('🔄 Fetching products from Supabase...');
+            console.log(`🔄 Fetching products from Supabase for collection: ${targetCollection}...`);
             
-            // Fetch all products
-            const response = await fetch('/api/products');
+            // Fetch products filtered by collection
+            const url = `/api/products${targetCollection && targetCollection !== 'all' ? `?collection_id=${targetCollection}` : ''}`;
+            const response = await fetch(url);
             const data = await response.json();
             
             if (!response.ok) {
@@ -4013,10 +4049,10 @@
             }
             
             const products = data.products || [];
-            console.log('✅ Fetched products:', products.length);
+            console.log(`✅ Fetched ${products.length} products for collection: ${targetCollection}`);
             
-            // Cache the products
-            setCache(CACHE_KEYS.PRODUCTS, products);
+            // Cache the products by collection
+            setCache(cacheKey, products);
             
             // Update product options
             updateProductOptions(products);
@@ -4028,7 +4064,9 @@
             console.error('❌ Error fetching products from Supabase:', error);
             
             // Try to load from cache as fallback
-            const cachedProducts = getCache(CACHE_KEYS.PRODUCTS);
+            const targetCollection = collectionId || window.selectedCollection || 'regular';
+            const cacheKey = `${CACHE_KEYS.PRODUCTS}_${targetCollection}`;
+            const cachedProducts = getCache(cacheKey);
             if (cachedProducts) {
                 console.log('🔄 Using cached products as fallback...');
                 updateProductOptions(cachedProducts);
