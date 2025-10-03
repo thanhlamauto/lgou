@@ -1510,47 +1510,91 @@
             document.getElementById('product-stock').value = '5';
             document.getElementById('product-price').value = '0';
             document.getElementById('preview-img').style.display = 'none';
+            
+            // Re-enable ID field for new products
+            document.getElementById('product-id').disabled = false;
+            
             document.getElementById('product-modal').style.display = 'flex';
         }
 
         function closeProductModal() {
             document.getElementById('product-modal').style.display = 'none';
             currentEditingProductId = null;
+            
+            // Reset form and re-enable ID field
+            document.getElementById('product-form').reset();
+            document.getElementById('product-id').disabled = false;
+            document.getElementById('preview-img').style.display = 'none';
         }
 
-        function editProduct(productId) {
-            const product = inventory.find(p => p.id === productId);
-            if (!product) return;
+        async function editProduct(productId) {
+            try {
+                console.log('🔄 Loading product for editing:', productId);
+                
+                // Fetch product details from Supabase
+                const product = await ProductsAPI.getById(productId);
+                
+                if (!product) {
+                    showNotification('Không tìm thấy sản phẩm!', 'error');
+                    return;
+                }
 
-            currentEditingProductId = productId;
-            document.getElementById('product-modal-title').textContent = 'Sửa sản phẩm';
-            document.getElementById('product-submit-text').textContent = 'Cập nhật sản phẩm';
-            
-            document.getElementById('product-id').value = product.id;
-            document.getElementById('product-id').disabled = true; // Don't allow changing ID when editing
-            document.getElementById('product-name').value = product.name;
-            document.getElementById('product-category').value = product.category;
-            document.getElementById('product-price').value = product.price;
-            document.getElementById('product-stock').value = product.stock;
-            document.getElementById('product-image-url').value = product.image;
-            
-            // Show preview
-            const previewImg = document.getElementById('preview-img');
-            previewImg.src = product.image;
-            previewImg.style.display = 'block';
-            
-            document.getElementById('product-modal').style.display = 'flex';
+                currentEditingProductId = productId;
+                document.getElementById('product-modal-title').textContent = 'Sửa sản phẩm';
+                document.getElementById('product-submit-text').textContent = 'Cập nhật sản phẩm';
+                
+                // Fill form with existing data
+                document.getElementById('product-id').value = product.id;
+                document.getElementById('product-name').value = product.name;
+                document.getElementById('product-category').value = product.category;
+                document.getElementById('product-price').value = product.price || 0;
+                document.getElementById('product-stock').value = product.stock || 0;
+                document.getElementById('product-image-url').value = product.image || '';
+                
+                // Show preview
+                const previewImg = document.getElementById('preview-img');
+                if (product.image) {
+                    previewImg.src = product.image;
+                    previewImg.style.display = 'block';
+                } else {
+                    previewImg.style.display = 'none';
+                }
+                
+                // Disable ID field when editing
+                document.getElementById('product-id').disabled = true; // Don't allow changing ID when editing
+                
+                document.getElementById('product-modal').style.display = 'flex';
+                
+                console.log('✅ Product loaded for editing:', product);
+                
+            } catch (error) {
+                console.error('❌ Error loading product for editing:', error);
+                showNotification('Lỗi khi tải thông tin sản phẩm: ' + error.message, 'error');
+            }
         }
 
-        function deleteProduct(productId) {
-            const product = inventory.find(p => p.id === productId);
-            if (!product) return;
+        async function deleteProduct(productId) {
+            try {
+                // First get product details for confirmation
+                const product = await ProductsAPI.getById(productId);
+                
+                if (!product) {
+                    showNotification('Không tìm thấy sản phẩm!', 'error');
+                    return;
+                }
 
-            if (confirm(`Bạn có chắc muốn xóa sản phẩm "${product.name}"?\\nHành động này không thể hoàn tác!`)) {
-                inventory = inventory.filter(p => p.id !== productId);
-                localStorage.setItem('lgou_inventory', JSON.stringify(inventory));
-                loadInventory();
-                showNotification('Đã xóa sản phẩm thành công!', 'success');
+                if (confirm(`Bạn có chắc muốn xóa sản phẩm "${product.name}"?\\nHành động này không thể hoàn tác!`)) {
+                    console.log('🗑️ Deleting product:', productId);
+                    
+                    await ProductsAPI.delete(productId);
+                    
+                    showNotification('Đã xóa sản phẩm thành công!', 'success');
+                    await loadInventory();
+                    await loadDashboard();
+                }
+            } catch (error) {
+                console.error('❌ Error deleting product:', error);
+                showNotification('Lỗi khi xóa sản phẩm: ' + error.message, 'error');
             }
         }
 
