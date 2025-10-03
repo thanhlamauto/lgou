@@ -2172,6 +2172,13 @@
                             <i class="fas fa-star"></i> Chọn Collection Đặc Biệt
                         </h3>
                         <p class="collection-subtitle">Các bộ sưu tập limited edition cho những dịp đặc biệt</p>
+                        <!-- Selected collection indicator -->
+                        <div id="selected-collection-indicator" style="display:none; text-align:center; margin:-10px 0 20px 0;">
+                            <span style="display:inline-flex; align-items:center; gap:8px; background:rgba(0,0,0,0.08); color:var(--text-dark); border-radius:999px; padding:8px 14px; font-weight:600;">
+                                <i class="fas fa-check-circle" style="color:#2ecc71;"></i>
+                                <span>Đang chọn: <span id="selected-collection-name">—</span></span>
+                            </span>
+                        </div>
                         
                         <div class="collection-options" id="collection-options">
                             <!-- Collections will be populated by JavaScript -->
@@ -2813,6 +2820,19 @@
         // Update global selected collection
         window.selectedCollection = collectionId;
         
+        // Update selected collection UI indicator
+        try {
+            const indicator = document.getElementById('selected-collection-indicator');
+            const nameEl = document.getElementById('selected-collection-name');
+            const col = collections[collectionId];
+            if (indicator && nameEl) {
+                nameEl.textContent = col?.name || (collectionId === 'regular' ? 'Bộ Sưu Tập Thường' : collectionId);
+                indicator.style.display = 'block';
+            }
+        } catch (e) {
+            console.warn('Could not update selected collection indicator:', e);
+        }
+
         // Fetch products for the selected collection from Supabase
         console.log(`🎯 Collection selected: ${collectionId}`);
         fetchProductsFromSupabase(true, collectionId);
