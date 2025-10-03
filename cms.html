@@ -322,6 +322,65 @@
             font-weight: 500;
         }
 
+        /* Order Modal Styles */
+        .order-details {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .detail-section {
+            background: var(--gray-50);
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid var(--gray-200);
+        }
+
+        .detail-section h4 {
+            margin: 0 0 10px 0;
+            color: var(--primary);
+            font-size: 16px;
+        }
+
+        .detail-section p {
+            margin: 5px 0;
+            color: var(--gray-700);
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background: white;
+            border: 1px solid var(--gray-200);
+            border-radius: 6px;
+            margin-bottom: 8px;
+        }
+
+        .item-info {
+            flex: 1;
+        }
+
+        .item-info strong {
+            display: block;
+            color: var(--gray-800);
+            margin-bottom: 4px;
+        }
+
+        .item-type {
+            font-size: 12px;
+            color: var(--gray-500);
+            background: var(--gray-100);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .item-price {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
         .status-new {
             background: var(--info);
             color: white;
@@ -964,7 +1023,9 @@
                             <td>${new Date(order.created_at).toLocaleDateString('vi-VN')}</td>
                         <td>
                                 <button class="btn btn-primary btn-sm" onclick="viewOrder('${order.id}')">Xem</button>
-                                <button class="btn btn-success btn-sm" onclick="updateOrderStatus('${order.id}', 'completed')">Hoàn thành</button>
+                                <button class="btn btn-success btn-sm" onclick="updateOrderStatus('${order.id}')" id="status-btn-${order.id}">
+                                    ${order.status === 'completed' ? 'Chưa hoàn thành' : 'Hoàn thành'}
+                                </button>
                         </td>
                     </tr>
                 `;
@@ -976,14 +1037,153 @@
             }
         }
 
+        // View order details
+        async function viewOrder(orderId) {
+            try {
+                const order = await OrdersAPI.getById(orderId);
+                showOrderModal(order);
+            } catch (error) {
+                console.error('Error fetching order:', error);
+                showNotification('Không thể tải chi tiết đơn hàng', 'error');
+            }
+        }
+
+        // Show order details modal
+        function showOrderModal(order) {
+            const modal = document.getElementById('order-modal');
+            if (!modal) {
+                createOrderModal();
+            }
+            
+            // Populate modal with order data
+            document.getElementById('order-id').textContent = order.id;
+            document.getElementById('order-customer-name').textContent = order.customer_name || 'N/A';
+            document.getElementById('order-customer-phone').textContent = order.customer_phone || 'N/A';
+            document.getElementById('order-customer-email').textContent = order.customer_email || 'N/A';
+            document.getElementById('order-customer-address').textContent = order.customer_address || 'N/A';
+            document.getElementById('order-total').textContent = (order.total || 0).toLocaleString() + '₫';
+            document.getElementById('order-status').textContent = getStatusText(order.status);
+            document.getElementById('order-notes').textContent = order.notes || 'Không có ghi chú';
+            document.getElementById('order-date').textContent = new Date(order.created_at).toLocaleString('vi-VN');
+            
+            // Populate items
+            const itemsContainer = document.getElementById('order-items');
+            itemsContainer.innerHTML = '';
+            
+            if (order.items && order.items.length > 0) {
+                order.items.forEach(item => {
+                    const itemDiv = document.createElement('div');
+                    itemDiv.className = 'order-item';
+                    itemDiv.innerHTML = `
+                        <div class="item-info">
+                            <strong>${item.name}</strong>
+                            <span class="item-type">${item.type}</span>
+                        </div>
+                        <div class="item-price">
+                            ${(item.price || 0).toLocaleString()}₫
+                            ${item.quantity ? ` x${item.quantity}` : ''}
+                        </div>
+                    `;
+                    itemsContainer.appendChild(itemDiv);
+                });
+            } else {
+                itemsContainer.innerHTML = '<p>Không có sản phẩm</p>';
+            }
+            
+            // Show modal
+            modal.style.display = 'flex';
+        }
+
+        // Create order modal if it doesn't exist
+        function createOrderModal() {
+            const modal = document.createElement('div');
+            modal.id = 'order-modal';
+            modal.style.cssText = `
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.5);
+                z-index: 1000;
+                align-items: center;
+                justify-content: center;
+            `;
+            
+            modal.innerHTML = `
+                <div style="background: white; padding: 30px; border-radius: 12px; max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h3>Chi tiết đơn hàng</h3>
+                        <span onclick="closeOrderModal()" style="cursor: pointer; font-size: 24px; color: var(--gray-500);">&times;</span>
+                    </div>
+                    
+                    <div class="order-details">
+                        <div class="detail-section">
+                            <h4>Thông tin khách hàng</h4>
+                            <p><strong>Tên:</strong> <span id="order-customer-name"></span></p>
+                            <p><strong>Số điện thoại:</strong> <span id="order-customer-phone"></span></p>
+                            <p><strong>Email:</strong> <span id="order-customer-email"></span></p>
+                            <p><strong>Địa chỉ:</strong> <span id="order-customer-address"></span></p>
+                        </div>
+                        
+                        <div class="detail-section">
+                            <h4>Sản phẩm</h4>
+                            <div id="order-items"></div>
+                        </div>
+                        
+                        <div class="detail-section">
+                            <h4>Thông tin đơn hàng</h4>
+                            <p><strong>Mã đơn:</strong> <span id="order-id"></span></p>
+                            <p><strong>Tổng tiền:</strong> <span id="order-total"></span></p>
+                            <p><strong>Trạng thái:</strong> <span id="order-status"></span></p>
+                            <p><strong>Ghi chú:</strong> <span id="order-notes"></span></p>
+                            <p><strong>Ngày đặt:</strong> <span id="order-date"></span></p>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
+                        <button class="btn btn-secondary" onclick="closeOrderModal()">Đóng</button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+
+        // Close order modal
+        function closeOrderModal() {
+            const modal = document.getElementById('order-modal');
+            if (modal) {
+                modal.style.display = 'none';
+            }
+        }
+
         async function updateOrderStatus(orderId, newStatus) {
             try {
-                await OrdersAPI.update(orderId, { status: newStatus });
-                showNotification('Cập nhật trạng thái thành công!', 'success');
+                // Get current order to check status
+                const currentOrder = await OrdersAPI.getById(orderId);
+                const currentStatus = currentOrder.status;
+                
+                // Toggle status logic
+                let targetStatus;
+                let buttonText;
+                
+                if (currentStatus === 'completed') {
+                    targetStatus = 'new';
+                    buttonText = 'Hoàn thành';
+                } else {
+                    targetStatus = 'completed';
+                    buttonText = 'Chưa hoàn thành';
+                }
+                
+                await OrdersAPI.update(orderId, { status: targetStatus });
+                showNotification(`Đã ${targetStatus === 'completed' ? 'hoàn thành' : 'chuyển về trạng thái mới'} đơn hàng!`, 'success');
                 await loadOrders();
                 await loadDashboard();
             } catch (error) {
                 console.error('Error updating order:', error);
+                showNotification('Có lỗi khi cập nhật trạng thái', 'error');
             }
         }
 

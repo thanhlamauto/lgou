@@ -35,6 +35,10 @@ window.OrdersAPI = {
         return data.orders || [];
     },
 
+    async getById(id) {
+        return await callAPI(`/orders?id=${id}`);
+    },
+
     async create(orderData) {
         return await callAPI('/orders', {
             method: 'POST',
