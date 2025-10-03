@@ -28,49 +28,78 @@ module.exports = async function handler(req, res) {
       });
     }
 
-    // Parse multipart form data
+    // Parse multipart form data using busboy
     console.log('📤 Parsing form data...');
-    const formData = await req.formData();
-    const file = formData.get('file');
-
-    if (!file) {
-      console.error('❌ No file provided');
-      return res.status(400).json({ error: 'No file provided' });
-    }
-
-    console.log('📁 File details:', {
-      name: file.name,
-      size: file.size,
-      type: file.type
-    });
-
-    // Convert file to buffer
-    const buffer = await file.arrayBuffer();
-    const filename = `products/${Date.now()}-${file.name}`;
     
-    console.log('📤 Uploading to Vercel Blob:', filename);
+    // Use busboy for multipart parsing in Vercel
+    const Busboy = require('busboy');
+    const path = require('path');
+    const os = require('os');
+    const fs = require('fs');
+    
+    const busboy = new Busboy({ headers: req.headers });
+    let fileBuffer = null;
+    let fileName = null;
+    let fileType = null;
+    
+    return new Promise((resolve, reject) => {
+      busboy.on('file', (fieldname, file, filename, encoding, mimetype) => {
+        console.log('📁 File received:', { fieldname, filename, mimetype });
+        
+        const chunks = [];
+        file.on('data', (data) => {
+          chunks.push(data);
+        });
+        
+        file.on('end', () => {
+          fileBuffer = Buffer.concat(chunks);
+          fileName = filename;
+          fileType = mimetype;
+        });
+      });
+      
+      busboy.on('finish', async () => {
+        try {
+          if (!fileBuffer) {
+            console.error('❌ No file provided');
+            return res.status(400).json({ error: 'No file provided' });
+          }
 
-    // Upload file to Vercel Blob
-    const blob = await put(filename, buffer, {
-      access: 'public',
-      contentType: file.type,
+          console.log('📁 File details:', {
+            name: fileName,
+            size: fileBuffer.length,
+            type: fileType
+          });
+
+          // Convert file to buffer
+          const filename = `products/${Date.now()}-${fileName}`;
+          
+          console.log('📤 Uploading to Vercel Blob:', filename);
+
+          // Upload file to Vercel Blob
+          const blob = await put(filename, fileBuffer, {
+            access: 'public',
+            contentType: fileType,
+          });
+
+          console.log('✅ Upload successful:', blob.url);
+
+          return res.status(200).json({
+            success: true,
+            url: blob.url,
+            downloadUrl: blob.downloadUrl,
+            pathname: blob.pathname
+          });
+        } catch (error) {
+          console.error('❌ Upload error:', error);
+          return res.status(500).json({ 
+            error: 'Upload failed',
+            details: error.message,
+            stack: error.stack
+          });
+        }
+      });
+      
+      req.pipe(busboy);
     });
-
-    console.log('✅ Upload successful:', blob.url);
-
-    return res.status(200).json({
-      success: true,
-      url: blob.url,
-      downloadUrl: blob.downloadUrl,
-      pathname: blob.pathname
-    });
-
-  } catch (error) {
-    console.error('❌ Upload error:', error);
-    return res.status(500).json({ 
-      error: 'Upload failed',
-      details: error.message,
-      stack: error.stack
-    });
-  }
 }
