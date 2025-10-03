@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "python -m http.server 3000",
     "build": "echo 'Static site - no build needed'",
-    "start": "python -m http.server 8000"
+    "start": "python -m http.server 8000",
+    "test:supabase": "node test-supabase.js"
   },
   "keywords": [
     "lego",
@@ -24,6 +25,7 @@
   },
   "dependencies": {
     "@vercel/blob": "^0.19.0",
-    "@supabase/supabase-js": "^2.39.0"
+    "@supabase/supabase-js": "^2.39.0",
+    "dotenv": "^16.3.1"
   }
 }

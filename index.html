@@ -3776,7 +3776,14 @@
 
     // Save order to Supabase database
     async function saveToSupabase(customerInfo, orderSummary) {
+        console.log('🚀 [DEBUG] Starting saveToSupabase...');
+        console.log('📋 [DEBUG] Customer Info:', customerInfo);
+        console.log('💰 [DEBUG] Order Summary:', orderSummary);
+        
         try {
+            const items = prepareOrderItems();
+            console.log('📦 [DEBUG] Prepared items:', items);
+            
             const orderData = {
                 customerInfo: {
                     name: customerInfo.name,
@@ -3784,10 +3791,13 @@
                     email: customerInfo.email || '',
                     address: customerInfo.address
                 },
-                items: prepareOrderItems(),
+                items: items,
                 total: parseInt(orderSummary.total.replace(/[^\d]/g, '')),
                 notes: customerInfo.note + ' | Ngày nhận: ' + customerInfo.deliveryDate
             };
+            
+            console.log('📤 [DEBUG] Sending order data to API:', orderData);
+            console.log('🔗 [DEBUG] API Endpoint: /api/orders');
 
             const response = await fetch('/api/orders', {
                 method: 'POST',
@@ -3797,21 +3807,30 @@
                 body: JSON.stringify(orderData)
             });
 
+            console.log('📡 [DEBUG] Response status:', response.status, response.statusText);
+            console.log('📡 [DEBUG] Response headers:', Object.fromEntries(response.headers.entries()));
+
             if (!response.ok) {
-                throw new Error('Failed to save to database');
+                const errorText = await response.text();
+                console.error('❌ [DEBUG] Response not OK:', errorText);
+                throw new Error(`Failed to save to database: ${response.status} - ${errorText}`);
             }
 
             const result = await response.json();
-            console.log('✅ Order saved to Supabase:', result.order.id);
+            console.log('✅ [DEBUG] API Response:', result);
+            console.log('✅ Order saved to Supabase:', result.order?.id || 'ID not found');
             return result;
         } catch (error) {
-            console.error('Error saving to Supabase:', error);
+            console.error('❌ [DEBUG] Error in saveToSupabase:', error);
+            console.error('❌ [DEBUG] Error stack:', error.stack);
+            console.error('❌ [DEBUG] Error message:', error.message);
             throw error;
         }
     }
 
     // Prepare order items for database
     function prepareOrderItems() {
+        console.log('📦 [DEBUG] prepareOrderItems called');
         const items = [];
         
         // Add background
@@ -3871,14 +3890,22 @@
             });
         });
         
+        console.log('📦 [DEBUG] Total items prepared:', items.length);
+        console.log('📦 [DEBUG] Items:', items);
         return items;
     }
 
     // Gửi đơn hàng
     function sendOrder(customerInfo, orderSummary) {
+        console.log('🎯 [DEBUG] sendOrder called');
+        console.log('👤 [DEBUG] Customer Info:', customerInfo);
+        console.log('📊 [DEBUG] Order Summary:', orderSummary);
+        
         // Save to Supabase database
         saveToSupabase(customerInfo, orderSummary)
-        .then(() => {
+        .then((result) => {
+            console.log('✅ [DEBUG] Order saved successfully!', result);
+            
             // Hiển thị popup xác nhận
             document.getElementById('customer-name-display').textContent = customerInfo.name;
             document.getElementById('customer-phone-display').textContent = customerInfo.phone;
@@ -3888,16 +3915,28 @@
             // Hiển thị overlay và popup
             document.getElementById('popup-overlay').style.display = 'block';
             document.getElementById('confirmation-popup').style.display = 'block';
+            
+            console.log('✅ [DEBUG] Success popup displayed');
         })
         .catch(error => {
-            console.error('Order submission error:', error);
-            alert('Có lỗi xảy ra khi gửi đơn hàng. Vui lòng kiểm tra kết nối và thử lại.');
+            console.error('❌ [DEBUG] Order submission error:', error);
+            console.error('❌ [DEBUG] Error type:', error.constructor.name);
+            console.error('❌ [DEBUG] Error message:', error.message);
+            console.error('❌ [DEBUG] Full error:', error);
+            
+            // Show detailed error message to user
+            const errorMsg = error.message || 'Unknown error';
+            alert(`Có lỗi xảy ra khi gửi đơn hàng:\n\n${errorMsg}\n\nVui lòng kiểm tra console (F12) và liên hệ hỗ trợ.`);
         })
         .finally(() => {
+            console.log('🏁 [DEBUG] sendOrder finally block - cleaning up');
+            
             // Ẩn spinner và kích hoạt lại nút
             document.getElementById('order-spinner').style.display = 'none';
             document.getElementById('order-text').style.display = 'inline';
             document.getElementById('confirm-button').disabled = false;
+            
+            console.log('🏁 [DEBUG] UI cleanup complete');
         });
     }
 
