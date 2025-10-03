@@ -2421,6 +2421,11 @@
                             </div>
                             
                             <div class="form-group">
+                                <label for="customer-instagram">Tên Instagram</label>
+                                <input type="text" id="customer-instagram" name="instagram" placeholder="@ten_instagram (không bắt buộc)">
+                            </div>
+                            
+                            <div class="form-group">
                                 <label for="delivery-date">Ngày nhận hàng <span class="required-star">*</span></label>
                                 <input
                                     type="text"
@@ -3615,6 +3620,7 @@
         const address = document.getElementById('customer-address').value.trim();
         const deliveryDate = document.getElementById('delivery-date').value.trim();
         const email = document.getElementById('customer-email').value.trim();
+        const instagram = (document.getElementById('customer-instagram')?.value || '').trim();
 
         // Reset errors
         document.querySelectorAll('.form-error').forEach(el => el.style.display = 'none');
@@ -3678,7 +3684,8 @@
                     name: customerInfo.name,
                     phone: customerInfo.phone,
                     email: customerInfo.email || '',
-                    address: customerInfo.address
+                    address: customerInfo.address,
+                    instagram: customerInfo.instagram || ''
                 },
                 items: items,
                 total: orderSummary.total || 0,
@@ -3839,6 +3846,7 @@
         const address = document.getElementById('customer-address').value.trim();
         const email = document.getElementById('customer-email').value.trim();
         const note = document.getElementById('customer-note').value.trim();
+        const instagram = (document.getElementById('customer-instagram')?.value || '').trim();
         const deliveryDate = document.getElementById('delivery-date').value.trim();
         
         if (!document.getElementById('policy-agreement').checked) {
@@ -3858,6 +3866,7 @@
             address: address,
             email: email,
             note: note || 'Không có ghi chú',
+            instagram: instagram,
             deliveryDate: deliveryDate
         };
         
