@@ -3792,12 +3792,13 @@
                     address: customerInfo.address
                 },
                 items: items,
-                total: parseInt(orderSummary.total.replace(/[^\d]/g, '')),
+                total: orderSummary.total || 0,
                 notes: customerInfo.note + ' | Ngày nhận: ' + customerInfo.deliveryDate
             };
             
             console.log('📤 [DEBUG] Sending order data to API:', orderData);
             console.log('🔗 [DEBUG] API Endpoint: /api/orders');
+            console.log('💰 [DEBUG] Total value:', orderSummary.total, 'Type:', typeof orderSummary.total);
 
             const response = await fetch('/api/orders', {
                 method: 'POST',
@@ -3973,6 +3974,8 @@
         
         // Lấy thông tin tóm tắt đơn hàng
         const orderSummary = updateOrderSummary();
+        console.log('📊 [DEBUG] Order Summary from updateOrderSummary():', orderSummary);
+        console.log('📊 [DEBUG] Order Summary total value:', orderSummary.total, 'Type:', typeof orderSummary.total);
         
         // Gửi đơn hàng
         sendOrder(customerInfo, orderSummary);
