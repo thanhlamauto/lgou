@@ -54,7 +54,8 @@ async function getProducts(req, res) {
   }
 
   if (collection_id) {
-    query = query.eq('collection_id', collection_id);
+    // Support both old single collection_id and new collection_ids array
+    query = query.or(`collection_id.eq.${collection_id},collection_ids.cs.{${collection_id}}`);
   }
 
   const { data, error } = await query.order('category').order('name');

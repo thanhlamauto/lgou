@@ -771,13 +771,12 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="product-collection">Collection</label>
-                    <select id="product-collection">
-                        <option value="">Không thuộc collection nào</option>
-                        <option value="regular">Regular (Thường xuyên)</option>
-                        <option value="womens-day-2024">Bộ Sưu Tập 20/10</option>
-                    </select>
-                    <small style="color: var(--gray-600);">Chọn collection mà sản phẩm thuộc về</small>
+                    <label for="product-collections">Collections</label>
+                    <div id="product-collections-container" style="border: 2px solid var(--gray-300); border-radius: 8px; padding: 10px; max-height: 200px; overflow-y: auto;">
+                        <!-- Collections checkboxes will be loaded here -->
+                        <p style="color: var(--gray-600); text-align: center;">Đang tải collections...</p>
+                    </div>
+                    <small style="color: var(--gray-600);">Chọn một hoặc nhiều collections mà sản phẩm thuộc về</small>
                 </div>
                 <div class="form-group">
                     <label for="product-price">Giá (VND)</label>
@@ -1594,7 +1593,40 @@
             });
         }
 
-        function openAddProductModal() {
+        async function loadCollectionsForProduct() {
+            const container = document.getElementById('product-collections-container');
+            
+            try {
+                const collections = await CollectionsAPI.getAll();
+                
+                if (collections.length === 0) {
+                    container.innerHTML = '<p style="color: var(--gray-600); text-align: center;">Chưa có collection nào</p>';
+                    return;
+                }
+                
+                container.innerHTML = '';
+                collections.forEach(col => {
+                    const checkbox = document.createElement('div');
+                    checkbox.style.cssText = 'margin-bottom: 8px;';
+                    checkbox.innerHTML = `
+                        <label style="display: flex; align-items: center; cursor: pointer;">
+                            <input type="checkbox" 
+                                   class="collection-checkbox" 
+                                   value="${col.id}" 
+                                   style="margin-right: 8px; width: 18px; height: 18px; cursor: pointer;">
+                            <span><strong>${col.name}</strong> (${col.id})</span>
+                        </label>
+                    `;
+                    container.appendChild(checkbox);
+                });
+                
+            } catch (error) {
+                console.error('Error loading collections:', error);
+                container.innerHTML = '<p style="color: red; text-align: center;">Lỗi khi tải collections</p>';
+            }
+        }
+
+        async function openAddProductModal() {
             currentEditingProductId = null;
             document.getElementById('product-modal-title').textContent = 'Thêm sản phẩm mới';
             document.getElementById('product-submit-text').textContent = 'Thêm sản phẩm';
@@ -1605,6 +1637,9 @@
             
             // Re-enable ID field for new products
             document.getElementById('product-id').disabled = false;
+            
+            // Load collections
+            await loadCollectionsForProduct();
             
             document.getElementById('product-modal').style.display = 'flex';
         }
@@ -1636,13 +1671,24 @@
             document.getElementById('product-submit-text').textContent = 'Cập nhật sản phẩm';
             
                 // Fill form with existing data
-            document.getElementById('product-id').value = product.id;
-            document.getElementById('product-name').value = product.name;
-            document.getElementById('product-category').value = product.category;
-                document.getElementById('product-collection').value = product.collection_id || '';
+                document.getElementById('product-id').value = product.id;
+                document.getElementById('product-name').value = product.name;
+                document.getElementById('product-category').value = product.category;
                 document.getElementById('product-price').value = product.price || 0;
                 document.getElementById('product-stock').value = product.stock || 0;
                 document.getElementById('product-image-url').value = product.image || '';
+                
+                // Load collections and check the ones this product belongs to
+                await loadCollectionsForProduct();
+                
+                // Get product's collections (support both old and new format)
+                const productCollections = product.collection_ids || 
+                                         (product.collection_id ? [product.collection_id] : []);
+                
+                // Check the appropriate checkboxes
+                document.querySelectorAll('.collection-checkbox').forEach(checkbox => {
+                    checkbox.checked = productCollections.includes(checkbox.value);
+                });
             
             // Show preview
             const previewImg = document.getElementById('preview-img');
@@ -1772,7 +1818,11 @@
                 const id = document.getElementById('product-id').value.trim();
                 const name = document.getElementById('product-name').value.trim();
                 const category = document.getElementById('product-category').value;
-                const collectionId = document.getElementById('product-collection').value || null;
+                
+                // Get selected collections
+                const selectedCollections = Array.from(document.querySelectorAll('.collection-checkbox:checked'))
+                    .map(cb => cb.value);
+                
                 const price = parseInt(document.getElementById('product-price').value) || 0;
                 const stock = parseInt(document.getElementById('product-stock').value) || 0;
                 
@@ -1788,7 +1838,7 @@
                         const uploadedUrl = await uploadImageToVercel(fileInput.files[0]);
                         console.log('✅ Image uploaded successfully:', uploadedUrl);
                         imageUrl = uploadedUrl;
-                        await saveProduct(id, name, category, collectionId, price, stock, imageUrl);
+                        await saveProduct(id, name, category, selectedCollections, price, stock, imageUrl);
                         showNotification('Upload ảnh và lưu sản phẩm thành công!', 'success');
                     } catch (error) {
                         console.error('❌ Error in upload process:', error);
@@ -1797,23 +1847,23 @@
                     }
                 } else if (imageUrl) {
                     console.log('🔄 Saving product with existing image URL...');
-                    await saveProduct(id, name, category, collectionId, price, stock, imageUrl);
+                    await saveProduct(id, name, category, selectedCollections, price, stock, imageUrl);
                 } else {
                     // Allow saving without image (use placeholder)
                     console.log('🔄 Saving product without image...');
                     const placeholderImage = 'https://via.placeholder.com/200x200/cccccc/666666?text=No+Image';
-                    await saveProduct(id, name, category, collectionId, price, stock, placeholderImage);
+                    await saveProduct(id, name, category, selectedCollections, price, stock, placeholderImage);
                 }
             });
         }
 
-        async function saveProduct(id, name, category, collectionId, price, stock, imageUrl) {
+        async function saveProduct(id, name, category, collectionIds, price, stock, imageUrl) {
             try {
             const productData = {
                 id: id,
                 name: name,
                 category: category,
-                collection_id: collectionId,
+                collection_ids: collectionIds, // Now using array
                     price: parseInt(price) || 0,
                     stock: parseInt(stock) || 0,
                 image: imageUrl
