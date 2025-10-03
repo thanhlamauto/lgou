@@ -4090,6 +4090,82 @@
         document.getElementById('confirmation-popup').style.display = 'none';
     });
     
+    // Fetch products from Supabase
+    async function fetchProductsFromSupabase() {
+        try {
+            console.log('🔄 Fetching products from Supabase...');
+            
+            // Fetch all products
+            const response = await fetch('/api/products');
+            const data = await response.json();
+            
+            if (!response.ok) {
+                throw new Error(data.error || 'Failed to fetch products');
+            }
+            
+            const products = data.products || [];
+            console.log('✅ Fetched products:', products.length);
+            
+            // Group products by category
+            const productsByCategory = {
+                face: [],
+                hair: [],
+                hat: [],
+                accessories: [],
+                pets: []
+            };
+            
+            products.forEach(product => {
+                if (productsByCategory[product.category]) {
+                    productsByCategory[product.category].push({
+                        id: product.id,
+                        label: product.name,
+                        image: product.image,
+                        price: product.price || 0
+                    });
+                }
+            });
+            
+            console.log('📦 Products by category:', productsByCategory);
+            
+            // Update product options
+            productOptions.faces = productsByCategory.face;
+            productOptions.maleHairs = productsByCategory.hair.filter(p => p.label.toLowerCase().includes('nam') || p.label.toLowerCase().includes('male'));
+            productOptions.femaleHairs = productsByCategory.hair.filter(p => p.label.toLowerCase().includes('nữ') || p.label.toLowerCase().includes('female'));
+            productOptions.hats = productsByCategory.hat;
+            productOptions.accessories = productsByCategory.accessories;
+            productOptions.pets = productsByCategory.pets;
+            
+            console.log('✅ Updated product options:', productOptions);
+            
+            // Re-render all option grids
+            renderAllOptionGrids();
+            
+        } catch (error) {
+            console.error('❌ Error fetching products from Supabase:', error);
+            console.log('🔄 Falling back to hardcoded data...');
+            // Keep using hardcoded data as fallback
+        }
+    }
+
+    // Re-render all option grids
+    function renderAllOptionGrids() {
+        // Render face options
+        renderOptions(document.getElementById('face-grid'), productOptions.faces, 'face');
+        
+        // Render hair options
+        renderHairOptions();
+        
+        // Render hat options
+        renderOptions(document.getElementById('hat-grid'), productOptions.hats, 'hat');
+        
+        // Render accessory options
+        renderOptions(document.getElementById('accessory-grid'), productOptions.accessories, 'accessory');
+        
+        // Render pet options
+        renderOptions(document.getElementById('pet-grid'), productOptions.pets, 'pet');
+    }
+    
     // Khởi động trang
     document.addEventListener('DOMContentLoaded', function() {
         loadInventoryFromCMS(); // Load inventory from CMS first
@@ -4100,6 +4176,9 @@
         initOptions();
         updateCharacterDisplay('1');
         loadSelections();
+        
+        // Fetch products from Supabase
+        fetchProductsFromSupabase();
         
         if (!document.querySelector('#background-grid .option-item.selected')) {
             const firstBackground = document.querySelector('#background-grid .option-item');

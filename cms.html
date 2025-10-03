@@ -762,13 +762,11 @@
                     <label for="product-category">Danh mục <span style="color: red;">*</span></label>
                     <select id="product-category" required>
                         <option value="">Chọn danh mục</option>
-                        <option value="Background">Background</option>
-                        <option value="Nhân vật - Khuôn mặt">Nhân vật - Khuôn mặt</option>
-                        <option value="Nhân vật - Tóc Nam">Nhân vật - Tóc Nam</option>
-                        <option value="Nhân vật - Tóc Nữ">Nhân vật - Tóc Nữ</option>
-                        <option value="Nhân vật - Mũ">Nhân vật - Mũ</option>
-                        <option value="Phụ kiện">Phụ kiện</option>
-                        <option value="Thú cưng">Thú cưng</option>
+                        <option value="face">Khuôn Mặt</option>
+                        <option value="hair">Tóc</option>
+                        <option value="hat">Mũ</option>
+                        <option value="accessories">Phụ Kiện</option>
+                        <option value="pets">Thú Cưng</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -1639,46 +1637,40 @@
             });
         }
 
-        function saveProduct(id, name, category, price, stock, imageUrl) {
-            // Validate unique ID (only for new products)
-            if (!currentEditingProductId && inventory.find(p => p.id === id)) {
-                alert('ID sản phẩm đã tồn tại! Vui lòng chọn ID khác.');
-                return;
-            }
-
+        async function saveProduct(id, name, category, price, stock, imageUrl) {
+            try {
             const productData = {
                 id: id,
                 name: name,
                 category: category,
-                price: price,
-                stock: stock,
+                    price: parseInt(price) || 0,
+                    stock: parseInt(stock) || 0,
                 image: imageUrl
             };
 
             if (currentEditingProductId) {
                 // Update existing product
-                const index = inventory.findIndex(p => p.id === currentEditingProductId);
-                if (index !== -1) {
-                    inventory[index] = productData;
+                    await ProductsAPI.update(currentEditingProductId, productData);
                     showNotification('Cập nhật sản phẩm thành công!', 'success');
-                }
             } else {
                 // Add new product
-                inventory.push(productData);
+                    await ProductsAPI.create(productData);
                 showNotification('Thêm sản phẩm mới thành công!', 'success');
             }
-
-            // Save to localStorage
-            localStorage.setItem('lgou_inventory', JSON.stringify(inventory));
             
             // Refresh inventory display
-            loadInventory();
+                await loadInventory();
+                await loadDashboard();
             
             // Close modal
             closeProductModal();
             
             // Re-enable ID field for next use
             document.getElementById('product-id').disabled = false;
+            } catch (error) {
+                console.error('Error saving product:', error);
+                showNotification('Có lỗi khi lưu sản phẩm: ' + error.message, 'error');
+            }
         }
 
         function showNotification(message, type = 'info') {
