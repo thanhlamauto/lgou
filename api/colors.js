@@ -23,6 +23,7 @@ async function getColors(req, res) {
             return res.status(500).json({ error: 'Failed to fetch colors' });
         }
         
+        console.log('✅ Colors fetched successfully:', data);
         res.json(data || []);
     } catch (error) {
         console.error('Error in getColors:', error);
