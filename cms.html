@@ -792,7 +792,8 @@
                     <select id="product-category" required>
                         <option value="">Chọn danh mục</option>
                         <option value="face">Khuôn Mặt</option>
-                        <option value="hair">Tóc</option>
+                        <option value="male_hair">Tóc Nam</option>
+                        <option value="female_hair">Tóc Nữ</option>
                         <option value="hat">Mũ</option>
                         <option value="accessories">Phụ Kiện</option>
                         <option value="pets">Thú Cưng</option>
@@ -1396,9 +1397,10 @@
                     font-weight: bold;
                     font-size: 1.1rem;
                 `;
+                const categoryDisplayName = getCategoryDisplayName(categoryName);
                 categoryHeader.innerHTML = `
                     <i class="fas fa-${getCategoryIcon(categoryName)}"></i> 
-                    ${categoryName} (${categories[categoryName].length} sản phẩm)
+                    ${categoryDisplayName} (${categories[categoryName].length} sản phẩm)
                 `;
                 container.appendChild(categoryHeader);
 
@@ -1440,15 +1442,28 @@
 
         function getCategoryIcon(category) {
             const icons = {
-                'Background': 'image',
-                'Nhân vật - Khuôn mặt': 'user',
-                'Nhân vật - Tóc Nam': 'mars',
-                'Nhân vật - Tóc Nữ': 'venus', 
-                'Nhân vật - Mũ': 'hat-cowboy',
-                'Phụ kiện': 'mobile-alt',
-                'Thú cưng': 'paw'
+                'face': 'user',
+                'male_hair': 'mars',
+                'female_hair': 'venus', 
+                'hat': 'hat-cowboy',
+                'accessories': 'mobile-alt',
+                'pets': 'paw',
+                'background': 'image'
             };
             return icons[category] || 'box';
+        }
+
+        function getCategoryDisplayName(category) {
+            const displayNames = {
+                'face': 'Khuôn Mặt',
+                'male_hair': 'Tóc Nam',
+                'female_hair': 'Tóc Nữ',
+                'hat': 'Mũ',
+                'accessories': 'Phụ Kiện',
+                'pets': 'Thú Cưng',
+                'background': 'Nền'
+            };
+            return displayNames[category] || category;
         }
 
         async function updateStock(itemId, newStock) {

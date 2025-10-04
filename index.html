@@ -3175,9 +3175,13 @@
                         productOptions.accessories.unshift(product);
                     }
                     break;
-                case 'hair':
+                case 'male_hair':
                     if (!productOptions.maleHairs.find(hair => hair.id === product.id)) {
                         productOptions.maleHairs.unshift(product);
+                    }
+                    break;
+                case 'female_hair':
+                    if (!productOptions.femaleHairs.find(hair => hair.id === product.id)) {
                         productOptions.femaleHairs.unshift(product);
                     }
                     break;
@@ -4437,7 +4441,8 @@
         // Group products by category
         const productsByCategory = {
             face: [],
-            hair: [],
+            male_hair: [],
+            female_hair: [],
             hat: [],
             accessories: [],
             pets: [],
@@ -4477,21 +4482,11 @@
         // Update product options
         productOptions.faces = productsByCategory.face;
         
-        // Filter hair by gender - show all hair products in both categories if no gender specified
-        const allHairs = productsByCategory.hair;
-        const maleHairs = allHairs.filter(p => p.label.toLowerCase().includes('nam') || p.label.toLowerCase().includes('male'));
-        const femaleHairs = allHairs.filter(p => p.label.toLowerCase().includes('nữ') || p.label.toLowerCase().includes('female'));
+        // Directly assign hair categories from database
+        productOptions.maleHairs = productsByCategory.male_hair;
+        productOptions.femaleHairs = productsByCategory.female_hair;
         
-        // If no gender-specific hair found, show all hair in both categories
-        if (maleHairs.length === 0 && femaleHairs.length === 0 && allHairs.length > 0) {
-            productOptions.maleHairs = allHairs;
-            productOptions.femaleHairs = allHairs;
-        } else {
-            productOptions.maleHairs = maleHairs;
-            productOptions.femaleHairs = femaleHairs;
-        }
-        
-        console.log('💇 Hair filtering - total:', allHairs.length, 'male:', productOptions.maleHairs.length, 'female:', productOptions.femaleHairs.length);
+        console.log('💇 Hair categories - male_hair:', productOptions.maleHairs.length, 'female_hair:', productOptions.femaleHairs.length);
         
         productOptions.hats = productsByCategory.hat;
         productOptions.accessories = productsByCategory.accessories;
