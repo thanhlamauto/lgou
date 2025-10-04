@@ -1787,9 +1787,13 @@
         async function editProduct(productId) {
             try {
                 console.log('🔄 Loading product for editing:', productId);
+                console.log('🔄 ProductsAPI available:', typeof ProductsAPI);
+                console.log('🔄 ProductsAPI.getById available:', typeof ProductsAPI.getById);
                 
                 // Fetch product details from Supabase
                 const product = await ProductsAPI.getById(productId);
+                
+                console.log('📦 Product data received:', product);
                 
                 if (!product) {
                     showNotification('Không tìm thấy sản phẩm!', 'error');

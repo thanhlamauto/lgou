@@ -69,7 +69,17 @@ window.ProductsAPI = {
     },
 
     async getById(id) {
-        return await callAPI(`/products?id=${id}`);
+        try {
+            const response = await fetch(`${API_BASE}/products?id=${id}`);
+            if (!response.ok) {
+                throw new Error(`Product not found: ${response.status}`);
+            }
+            const data = await response.json();
+            return data; // API returns product directly, not wrapped
+        } catch (error) {
+            console.error('Error fetching product:', error);
+            throw error;
+        }
     },
 
     async create(productData) {
