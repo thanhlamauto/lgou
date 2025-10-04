@@ -4332,10 +4332,19 @@
         // Update product options
         productOptions.faces = productsByCategory.face;
         
-        // Filter hair by gender
+        // Filter hair by gender - show all hair products in both categories if no gender specified
         const allHairs = productsByCategory.hair;
-        productOptions.maleHairs = allHairs.filter(p => p.label.toLowerCase().includes('nam') || p.label.toLowerCase().includes('male'));
-        productOptions.femaleHairs = allHairs.filter(p => p.label.toLowerCase().includes('nữ') || p.label.toLowerCase().includes('female'));
+        const maleHairs = allHairs.filter(p => p.label.toLowerCase().includes('nam') || p.label.toLowerCase().includes('male'));
+        const femaleHairs = allHairs.filter(p => p.label.toLowerCase().includes('nữ') || p.label.toLowerCase().includes('female'));
+        
+        // If no gender-specific hair found, show all hair in both categories
+        if (maleHairs.length === 0 && femaleHairs.length === 0 && allHairs.length > 0) {
+            productOptions.maleHairs = allHairs;
+            productOptions.femaleHairs = allHairs;
+        } else {
+            productOptions.maleHairs = maleHairs;
+            productOptions.femaleHairs = femaleHairs;
+        }
         
         console.log('💇 Hair filtering - total:', allHairs.length, 'male:', productOptions.maleHairs.length, 'female:', productOptions.femaleHairs.length);
         

@@ -1729,26 +1729,39 @@
                 
                 const collections = await CollectionsAPI.getAll();
                 
-                if (collections.length === 0) {
-                    container.innerHTML = '<p style="color: var(--gray-600); text-align: center;">Chưa có collection nào</p>';
-                    return;
-                }
-                
                 container.innerHTML = '';
-                collections.forEach(col => {
-                    const checkbox = document.createElement('div');
-                    checkbox.style.cssText = 'margin-bottom: 8px;';
-                    checkbox.innerHTML = `
-                        <label style="display: flex; align-items: center; cursor: pointer;">
-                            <input type="checkbox" 
-                                   class="collection-checkbox" 
-                                   value="${col.id}" 
-                                   style="margin-right: 8px; width: 18px; height: 18px; cursor: pointer;">
-                            <span><strong>${col.name}</strong> (${col.id})</span>
-                        </label>
-                    `;
-                    container.appendChild(checkbox);
-                });
+                
+                // Always add "regular" collection first
+                const regularCheckbox = document.createElement('div');
+                regularCheckbox.style.cssText = 'margin-bottom: 8px;';
+                regularCheckbox.innerHTML = `
+                    <label style="display: flex; align-items: center; cursor: pointer;">
+                        <input type="checkbox" 
+                               class="collection-checkbox" 
+                               value="regular" 
+                               style="margin-right: 8px; width: 18px; height: 18px; cursor: pointer;">
+                        <span><strong>Bộ Sưu Tập Thường Xuyên</strong> (regular)</span>
+                    </label>
+                `;
+                container.appendChild(regularCheckbox);
+                
+                // Add other collections
+                if (collections.length > 0) {
+                    collections.forEach(col => {
+                        const checkbox = document.createElement('div');
+                        checkbox.style.cssText = 'margin-bottom: 8px;';
+                        checkbox.innerHTML = `
+                            <label style="display: flex; align-items: center; cursor: pointer;">
+                                <input type="checkbox" 
+                                       class="collection-checkbox" 
+                                       value="${col.id}" 
+                                       style="margin-right: 8px; width: 18px; height: 18px; cursor: pointer;">
+                                <span><strong>${col.name}</strong> (${col.id})</span>
+                            </label>
+                        `;
+                        container.appendChild(checkbox);
+                    });
+                }
                 
             } catch (error) {
                 console.error('Error loading collections:', error);
