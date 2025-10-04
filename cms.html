@@ -2280,16 +2280,18 @@
 
                 // Process each collection
                 allCollections.forEach(collection => {
-                    console.log(`🔄 Processing collection: ${collection.name} (${collection.id})`);
-                    console.log(`🔍 Collection ID type: ${typeof collection.id}, length: ${collection.id ? collection.id.length : 'undefined'}`);
-                    console.log(`🔍 Collection ID value: "${collection.id}"`);
+                    // Trim collection ID to remove newlines and whitespace
+                    const cleanCollectionId = collection.id.trim();
+                    console.log(`🔄 Processing collection: ${collection.name} (${cleanCollectionId})`);
+                    console.log(`🔍 Original ID: "${collection.id}"`);
+                    console.log(`🔍 Cleaned ID: "${cleanCollectionId}"`);
                     
                     // Find products that belong to this collection
                     const collectionProducts = allProducts.filter(product => {
-                        const productCollectionIds = product.collection_ids || [];
+                        const productCollectionIds = (product.collection_ids || []).map(id => id.trim());
                         console.log(`🔍 Product ${product.name} collection_ids:`, productCollectionIds);
-                        console.log(`🔍 Checking if ${collection.id} is in:`, productCollectionIds);
-                        const isIncluded = productCollectionIds.includes(collection.id);
+                        console.log(`🔍 Checking if ${cleanCollectionId} is in:`, productCollectionIds);
+                        const isIncluded = productCollectionIds.includes(cleanCollectionId);
                         console.log(`🔍 Is included: ${isIncluded}`);
                         return isIncluded;
                     });
