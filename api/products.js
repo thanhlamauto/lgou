@@ -63,14 +63,28 @@ async function getProducts(req, res) {
   }
 
   if (collection_id) {
+    console.log('🔍 Filtering by collection_id:', collection_id);
+    console.log('🔍 Collection ID type:', typeof collection_id);
+    console.log('🔍 Collection ID length:', collection_id.length);
+    
     // Support both old single collection_id and new collection_ids array
-    query = query.or(`collection_id.eq.${collection_id},collection_ids.cs.{${collection_id}}`);
+    const filterQuery = `collection_id.eq.${collection_id},collection_ids.cs.{${collection_id}}`;
+    console.log('🔍 Filter query:', filterQuery);
+    
+    query = query.or(filterQuery);
   }
 
   const { data, error } = await query.order('category').order('name');
 
-  if (error) throw error;
+  console.log('🔍 Query result:', { data, error });
+  console.log('🔍 Found products:', data ? data.length : 0);
 
+  if (error) {
+    console.log('❌ Query error:', error);
+    throw error;
+  }
+
+  console.log('✅ Returning products:', data);
   return res.status(200).json({ products: data, total: data.length });
 }
 

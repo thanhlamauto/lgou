@@ -4252,11 +4252,18 @@
             }
             
             console.log(`🔄 Fetching products from Supabase for collection: ${targetCollection}...`);
+            console.log(`🔄 Collection ID type: ${typeof targetCollection}, length: ${targetCollection ? targetCollection.length : 'undefined'}`);
+            console.log(`🔄 Collection ID value: "${targetCollection}"`);
             
             // Fetch products filtered by collection
-            const url = `/api/products${targetCollection && targetCollection !== 'all' ? `?collection_id=${targetCollection}` : ''}`;
+            const url = `/api/products${targetCollection && targetCollection !== 'all' ? `?collection_id=${encodeURIComponent(targetCollection)}` : ''}`;
+            console.log(`🔄 Fetching from URL: ${url}`);
+            
             const response = await fetch(url);
             const data = await response.json();
+            
+            console.log(`🔄 Response status: ${response.status}`);
+            console.log(`🔄 Response data:`, data);
             
             if (!response.ok) {
                 throw new Error(data.error || 'Failed to fetch products');
@@ -4264,6 +4271,7 @@
             
             const products = data.products || [];
             console.log(`✅ Fetched ${products.length} products for collection: ${targetCollection}`);
+            console.log(`📦 Products:`, products);
             
             // Cache the products by collection
             setCache(cacheKey, products);
