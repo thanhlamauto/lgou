@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Hair Upload - L'Gôu</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .test-form {
+            display: grid;
+            gap: 15px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        .form-group label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .btn {
+            background: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .btn:hover {
+            background: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 4px;
+            display: none;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .test-data {
+            background: #e9ecef;
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 20px;
+        }
+        .test-data h4 {
+            margin-top: 0;
+        }
+        .test-item {
+            margin: 10px 0;
+            padding: 10px;
+            background: white;
+            border-radius: 4px;
+            border-left: 4px solid #007bff;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Test Hair Upload - L'Gôu</h1>
+    
+    <div class="test-container">
+        <h2>Test Upload Hair Products</h2>
+        <form id="test-form" class="test-form">
+            <div class="form-group">
+                <label for="product-id">Product ID:</label>
+                <input type="text" id="product-id" value="test-hair-001" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="product-name">Product Name:</label>
+                <input type="text" id="product-name" value="Tóc Nam Test" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="product-category">Category:</label>
+                <select id="product-category" required>
+                    <option value="male_hair">Tóc Nam (male_hair)</option>
+                    <option value="female_hair">Tóc Nữ (female_hair)</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="product-price">Price (VND):</label>
+                <input type="number" id="product-price" value="25000" min="0">
+            </div>
+            
+            <div class="form-group">
+                <label for="product-stock">Stock:</label>
+                <input type="number" id="product-stock" value="10" min="0">
+            </div>
+            
+            <div class="form-group">
+                <label for="product-image">Image URL:</label>
+                <input type="url" id="product-image" value="https://via.placeholder.com/200x200/4a90e2/ffffff?text=Hair+Test" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="collections">Collections (comma-separated):</label>
+                <input type="text" id="collections" value="regular" placeholder="regular,collection1,collection2">
+            </div>
+            
+            <button type="submit" class="btn">🚀 Test Upload</button>
+        </form>
+        
+        <div id="result" class="result"></div>
+    </div>
+    
+    <div class="test-container">
+        <h2>Test Data for Hair Categories</h2>
+        <div class="test-data">
+            <h4>Male Hair Test Products:</h4>
+            <div class="test-item">
+                <strong>ID:</strong> male-hair-001<br>
+                <strong>Name:</strong> Tóc Nam Ngắn<br>
+                <strong>Category:</strong> male_hair<br>
+                <strong>Price:</strong> 25000₫
+            </div>
+            <div class="test-item">
+                <strong>ID:</strong> male-hair-002<br>
+                <strong>Name:</strong> Tóc Nam Dài<br>
+                <strong>Category:</strong> male_hair<br>
+                <strong>Price:</strong> 30000₫
+            </div>
+            
+            <h4>Female Hair Test Products:</h4>
+            <div class="test-item">
+                <strong>ID:</strong> female-hair-001<br>
+                <strong>Name:</strong> Tóc Nữ Đuôi Ngựa<br>
+                <strong>Category:</strong> female_hair<br>
+                <strong>Price:</strong> 25000₫
+            </div>
+            <div class="test-item">
+                <strong>ID:</strong> female-hair-002<br>
+                <strong>Name:</strong> Tóc Nữ Búi Củ Tỏi<br>
+                <strong>Category:</strong> female_hair<br>
+                <strong>Price:</strong> 30000₫
+            </div>
+        </div>
+    </div>
+    
+    <div class="test-container">
+        <h2>Verify Frontend Display</h2>
+        <p>After uploading test products, check the frontend to verify:</p>
+        <ul>
+            <li>✅ Male hair products appear in "Tóc nhân vật nam" column</li>
+            <li>✅ Female hair products appear in "Tóc nhân vật nữ" column</li>
+            <li>✅ Stock quantities are displayed correctly</li>
+            <li>✅ Products are selectable and functional</li>
+        </ul>
+        <button class="btn" onclick="window.open('/index.html', '_blank')">🔍 Open Frontend</button>
+    </div>
+
+    <script>
+        document.getElementById('test-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const resultDiv = document.getElementById('result');
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'result';
+            resultDiv.innerHTML = '⏳ Uploading...';
+            
+            try {
+                const productData = {
+                    id: document.getElementById('product-id').value,
+                    name: document.getElementById('product-name').value,
+                    category: document.getElementById('product-category').value,
+                    price: parseInt(document.getElementById('product-price').value) || 0,
+                    stock: parseInt(document.getElementById('product-stock').value) || 0,
+                    image: document.getElementById('product-image').value,
+                    collection_ids: document.getElementById('collections').value.split(',').map(s => s.trim())
+                };
+                
+                console.log('🚀 Testing upload with data:', productData);
+                
+                const response = await fetch('/api/products', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(productData)
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    resultDiv.className = 'result success';
+                    resultDiv.innerHTML = `
+                        ✅ <strong>Upload Successful!</strong><br>
+                        Product ID: ${result.id}<br>
+                        Category: ${result.category}<br>
+                        <a href="/index.html" target="_blank">🔍 Check Frontend Display</a>
+                    `;
+                } else {
+                    const error = await response.json();
+                    throw new Error(error.error || 'Upload failed');
+                }
+                
+            } catch (error) {
+                console.error('❌ Upload error:', error);
+                resultDiv.className = 'result error';
+                resultDiv.innerHTML = `❌ <strong>Upload Failed:</strong> ${error.message}`;
+            }
+        });
+        
+        // Auto-fill form based on category selection
+        document.getElementById('product-category').addEventListener('change', function() {
+            const category = this.value;
+            const nameField = document.getElementById('product-name');
+            const idField = document.getElementById('product-id');
+            
+            if (category === 'male_hair') {
+                nameField.value = 'Tóc Nam Test';
+                idField.value = 'test-male-hair-' + Date.now();
+            } else if (category === 'female_hair') {
+                nameField.value = 'Tóc Nữ Test';
+                idField.value = 'test-female-hair-' + Date.now();
+            }
+        });
+    </script>
+</body>
+</html>
