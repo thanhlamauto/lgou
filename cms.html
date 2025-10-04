@@ -923,55 +923,97 @@
     <script src="accessories-pets-data.js"></script>
     
     <script>
-        // Sample data
+        // Data storage
         let orders = [];
         let customers = [];
-        let collections = {
-            womensday: {
-                id: 'womensday',
-                name: 'Happy Women\'s Day 20.10',
-                description: 'Celebrate inspiring women with this special collection. Featuring empowering themes and elegant designs.',
-                icon: 'fas fa-female',
-                status: 'active',
-                endDate: '2024-10-25T23:59:59',
-                limitedProducts: [
-                    { id: 'wd_bg1', label: 'Women Power Background', image: 'https://example.com/women-bg1.jpg', type: 'background' },
-                    { id: 'wd_acc1', label: 'Crown Accessory', image: 'https://example.com/crown.jpg', type: 'accessory', price: 15000 },
-                    { id: 'wd_hair1', label: 'Elegant Hair Style', image: 'https://example.com/elegant-hair.jpg', type: 'hair', price: 25000 }
-                ],
-                features: ['Thiết kế đặc biệt', 'Phiên bản giới hạn', 'Tặng kèm thiệp chúc mừng'],
-                discount: 10
-            },
-            valentine: {
-                id: 'valentine',
-                name: 'Valentine Collection 2024',
-                description: 'Romantic designs perfect for couples and love celebrations.',
-                icon: 'fas fa-heart',
-                status: 'active',
-                endDate: '2024-02-20T23:59:59',
-                limitedProducts: [
-                    { id: 'vl_bg1', label: 'Love Story Background', image: 'https://example.com/love-bg.jpg', type: 'background' },
-                    { id: 'vl_acc1', label: 'Heart Necklace', image: 'https://example.com/heart-necklace.jpg', type: 'accessory', price: 12000 }
-                ],
-                features: ['Thiết kế lãng mạn', 'Màu hồng đặc biệt', 'Box quà Valentine'],
-                discount: 15
-            },
-            christmas: {
-                id: 'christmas',
-                name: 'Christmas Magic 2024',
-                description: 'Festive holiday collection with Christmas themes and winter wonderland designs.',
-                icon: 'fas fa-tree',
-                status: 'expired',
-                endDate: '2023-12-31T23:59:59',
-                limitedProducts: [
-                    { id: 'xm_bg1', label: 'Christmas Tree Background', image: 'https://example.com/xmas-bg.jpg', type: 'background' },
-                    { id: 'xm_hat1', label: 'Santa Hat', image: 'https://example.com/santa-hat.jpg', type: 'hat', price: 18000 }
-                ],
-                features: ['Chủ đề Giáng sinh', 'Màu đỏ xanh truyền thống', 'Tặng kèm card Noel'],
-                discount: 20
-            }
-        };
+        let collections = {};
+        let products = {};
         let inventory = [];
+        
+        // Load collections and products from Supabase
+        async function loadCollectionsAndProducts() {
+            try {
+                console.log('🔄 Loading collections and products from Supabase...');
+                
+                // Load collections
+                const collectionsResponse = await fetch('/api/collections');
+                const collectionsData = await collectionsResponse.json();
+                
+                if (collectionsData && collectionsData.length > 0) {
+                    collections = {};
+                    collectionsData.forEach(col => {
+                        const cleanId = col.id.trim();
+                        collections[cleanId] = {
+                            id: cleanId,
+                            name: col.name,
+                            description: col.description,
+                            endDate: col.end_date,
+                            discount: col.discount || 0,
+                            icon: col.icon || 'fas fa-star',
+                            features: col.features || [],
+                            status: col.status || 'active'
+                        };
+                    });
+                    console.log('✅ Loaded collections:', Object.keys(collections));
+                }
+                
+                // Load products
+                const productsResponse = await fetch('/api/products');
+                const productsData = await productsResponse.json();
+                
+                if (productsData && productsData.length > 0) {
+                    products = {};
+                    productsData.forEach(product => {
+                        const cleanId = product.id.trim();
+                        products[cleanId] = {
+                            id: cleanId,
+                            name: product.name,
+                            category: product.category,
+                            price: product.price || 0,
+                            stock: product.stock || 0,
+                            image: product.image,
+                            collection_ids: product.collection_ids || []
+                        };
+                    });
+                    console.log('✅ Loaded products:', Object.keys(products));
+                }
+                
+                // Add regular collection if not exists
+                if (!collections.regular) {
+                    collections.regular = {
+                        id: 'regular',
+                        name: 'Bộ Sưu Tập Thường Xuyên',
+                        description: 'Các sản phẩm thường xuyên luôn có sẵn để bạn lựa chọn',
+                        icon: 'fas fa-star',
+                        status: 'active',
+                        features: ['Luôn có sẵn', 'Đa dạng lựa chọn', 'Chất lượng ổn định'],
+                        discount: 0
+                    };
+                }
+                
+                // Get products for regular collection
+                const regularProducts = Object.values(products).filter(product => 
+                    product.collection_ids.includes('regular') || 
+                    product.collection_ids.length === 0
+                );
+                
+                if (regularProducts.length > 0) {
+                    collections.regular.limitedProducts = regularProducts.map(product => ({
+                        id: product.id,
+                        label: product.name,
+                        image: product.image,
+                        type: product.category,
+                        price: product.price
+                    }));
+                }
+                
+                console.log('✅ Collections and products loaded successfully');
+                
+            } catch (error) {
+                console.error('❌ Error loading collections and products:', error);
+                showNotification('Lỗi khi tải collections và products: ' + error.message, 'error');
+            }
+        }
         
         // Load inventory from data files
         function loadInventoryData() {
@@ -1377,9 +1419,11 @@
                     container.appendChild(div);
                 });
             });
+            
             } catch (error) {
-                container.innerHTML = '<p style="text-align: center; color: red;">Lỗi tải inventory</p>';
-                console.error('Error loading inventory:', error);
+                console.error('❌ Error loading collection inventories:', error);
+                container.innerHTML = '<p style="text-align: center; color: red;">Lỗi khi tải dữ liệu collections</p>';
+                showNotification('Lỗi khi tải collections: ' + error.message, 'error');
             }
         }
 
@@ -1665,6 +1709,9 @@
             const container = document.getElementById('product-collections-container');
             
             try {
+                // Load collections and products first
+                await loadCollectionsAndProducts();
+                
                 const collections = await CollectionsAPI.getAll();
                 
                 if (collections.length === 0) {
@@ -2164,8 +2211,14 @@
         });
 
         // Collections Management
-        function loadCollectionInventories() {
+        async function loadCollectionInventories() {
             const container = document.getElementById('collection-inventory-list');
+            container.innerHTML = '<p style="text-align: center;">Đang tải...</p>';
+
+            try {
+                // Load collections and products first
+                await loadCollectionsAndProducts();
+                
             container.innerHTML = '';
 
             Object.values(collections).forEach(collection => {
@@ -2293,6 +2346,9 @@
             container.innerHTML = '<p style="text-align: center;">Đang tải...</p>';
 
             try {
+                // Load collections and products first
+                await loadCollectionsAndProducts();
+                
                 const collectionsData = await CollectionsAPI.getAll();
                 console.log('📦 Loaded collections from Supabase:', collectionsData);
 
@@ -2498,7 +2554,7 @@
         });
 
         // Initialize CMS
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', async function() {
             // Load inventory data from files
             loadInventoryData();
             
@@ -2515,7 +2571,8 @@
                 }
             }
             
-            // Collections now loaded from Supabase when tab is opened
+            // Load collections and products from Supabase
+            await loadCollectionsAndProducts();
             
             // Setup product form handler
             setupProductFormHandler();
