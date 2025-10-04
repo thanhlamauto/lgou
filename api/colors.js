@@ -33,7 +33,7 @@ async function getColors(req, res) {
 // Create new color
 async function createColor(req, res) {
     try {
-        const { name, hex_code, category } = req.body;
+        const { name, hex_code, category, quantity = 0 } = req.body;
         
         if (!name || !hex_code || !category) {
             return res.status(400).json({ error: 'Name, hex_code, and category are required' });
@@ -55,6 +55,7 @@ async function createColor(req, res) {
                 name,
                 hex_code,
                 category,
+                quantity: parseInt(quantity) || 0,
                 is_active: true
             })
             .select()
@@ -76,13 +77,15 @@ async function createColor(req, res) {
 async function updateColor(req, res) {
     try {
         const { id } = req.params;
-        const { name, hex_code, is_active } = req.body;
+        const { name, hex_code, category, quantity, is_active } = req.body;
         
         const supabase = createClient();
         
         const updateData = {};
         if (name !== undefined) updateData.name = name;
         if (hex_code !== undefined) updateData.hex_code = hex_code;
+        if (category !== undefined) updateData.category = category;
+        if (quantity !== undefined) updateData.quantity = parseInt(quantity) || 0;
         if (is_active !== undefined) updateData.is_active = is_active;
         
         const { data, error } = await supabase
@@ -143,6 +146,15 @@ module.exports = async (req, res) => {
     }
 
     try {
+        // Parse URL to get ID for PUT/DELETE operations
+        const url = new URL(req.url, `http://${req.headers.host}`);
+        const pathParts = url.pathname.split('/');
+        const id = pathParts[pathParts.length - 1];
+        
+        if (id && id !== 'colors') {
+            req.params = { id };
+        }
+
         switch (req.method) {
             case 'GET':
                 await getColors(req, res);
@@ -151,15 +163,15 @@ module.exports = async (req, res) => {
                 await createColor(req, res);
                 break;
             case 'PUT':
-                // Extract ID from URL path
-                const putId = req.url.split('/').pop();
-                req.params = { id: putId };
+                if (!id || id === 'colors') {
+                    return res.status(400).json({ error: 'Color ID is required for update' });
+                }
                 await updateColor(req, res);
                 break;
             case 'DELETE':
-                // Extract ID from URL path
-                const deleteId = req.url.split('/').pop();
-                req.params = { id: deleteId };
+                if (!id || id === 'colors') {
+                    return res.status(400).json({ error: 'Color ID is required for deletion' });
+                }
                 await deleteColor(req, res);
                 break;
             default:

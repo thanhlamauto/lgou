@@ -911,6 +911,11 @@
                         <option value="trouser">Quần</option>
                     </select>
                 </div>
+                <div class="form-group">
+                    <label for="color-quantity">Số lượng <span style="color: red;">*</span></label>
+                    <input type="number" id="color-quantity" min="0" required placeholder="50" value="50">
+                    <small style="color: var(--gray-600);">Số lượng tồn kho cho màu này</small>
+                </div>
                 <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
                     <button type="button" class="btn btn-secondary" onclick="closeColorModal()">Hủy</button>
                     <button type="submit" class="btn btn-primary" id="color-submit-text">Thêm màu</button>
@@ -2106,6 +2111,7 @@
                             <div style="flex: 1;">
                                 <h4>${color.name}</h4>
                                 <p style="color: var(--gray-600); margin: 5px 0;">${color.hex_code} - ${color.category === 'shirt' ? 'Áo' : 'Quần'}</p>
+                                <p class="color-quantity" style="color: var(--gray-600); margin: 5px 0; font-size: 0.9rem;">Số lượng: ${color.quantity || 0}</p>
                             </div>
                             <div style="display: flex; gap: 10px;">
                                 <button class="btn btn-sm btn-secondary" onclick="editColor('${color.id}')">
@@ -2152,6 +2158,7 @@
             document.getElementById('color-modal').style.display = 'flex';
             document.getElementById('color-form').reset();
             document.getElementById('color-id').value = '';
+            document.getElementById('color-quantity').value = '50';
         }
 
         function editColor(colorId) {
@@ -2165,8 +2172,9 @@
                     const name = item.querySelector('h4').textContent;
                     const hexCode = item.querySelector('p').textContent.split(' - ')[0];
                     const category = item.querySelector('p').textContent.includes('Áo') ? 'shirt' : 'trouser';
+                    const quantity = item.querySelector('.color-quantity') ? item.querySelector('.color-quantity').textContent.replace('Số lượng: ', '') : '50';
                     
-                    colorData = { id: colorId, name, hex_code: hexCode, category };
+                    colorData = { id: colorId, name, hex_code: hexCode, category, quantity };
                 }
             });
             
@@ -2175,6 +2183,7 @@
                 document.getElementById('color-name').value = colorData.name;
                 document.getElementById('color-hex').value = colorData.hex_code;
                 document.getElementById('color-category').value = colorData.category;
+                document.getElementById('color-quantity').value = colorData.quantity;
                 document.getElementById('color-modal').style.display = 'flex';
             }
         }
@@ -2212,6 +2221,7 @@
             const name = document.getElementById('color-name').value.trim();
             const hex_code = document.getElementById('color-hex').value.trim();
             const category = document.getElementById('color-category').value;
+            const quantity = parseInt(document.getElementById('color-quantity').value) || 0;
             
             if (!name || !hex_code || !category) {
                 showNotification('Vui lòng điền đầy đủ thông tin!', 'error');
@@ -2225,14 +2235,14 @@
                     response = await fetch(`/api/colors/${id}`, {
                         method: 'PUT',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ name, hex_code })
+                        body: JSON.stringify({ name, hex_code, category, quantity })
                     });
                 } else {
                     // Create new color
                     response = await fetch('/api/colors', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ name, hex_code, category })
+                        body: JSON.stringify({ name, hex_code, category, quantity })
                     });
                 }
                 
