@@ -2678,7 +2678,13 @@
     }
     
     function getInventoryStock(productId) {
-        return cmsInventory.find(item => item.id === productId);
+        const item = cmsInventory.find(item => item.id === productId);
+        if (item) {
+            return item;
+        }
+        // If not found in inventory, return null (will show as out of stock)
+        console.log('⚠️ Product not found in inventory:', productId);
+        return null;
     }
     
     function updateInventoryStock(productId, quantityUsed = 1) {
@@ -2686,9 +2692,34 @@
         if (item && item.stock > 0) {
             item.stock -= quantityUsed;
             localStorage.setItem('lgou_inventory', JSON.stringify(cmsInventory));
+            
+            // Update stock in Supabase
+            updateStockInSupabase(productId, item.stock);
+            
             return true;
         }
         return false;
+    }
+
+    // Update stock in Supabase
+    async function updateStockInSupabase(productId, newStock) {
+        try {
+            const response = await fetch(`/api/products/${productId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ stock: newStock })
+            });
+            
+            if (response.ok) {
+                console.log(`✅ Updated stock for ${productId} to ${newStock} in Supabase`);
+            } else {
+                console.error(`❌ Failed to update stock for ${productId} in Supabase`);
+            }
+            } catch (error) {
+            console.error('❌ Error updating stock in Supabase:', error);
+        }
     }
 
     // Load collections from Supabase
@@ -3100,7 +3131,7 @@
         const stockDiv = document.createElement('div');
         stockDiv.className = 'option-stock';
         const inventoryItem = getInventoryStock(option.id);
-        const stock = inventoryItem ? inventoryItem.stock : 999;
+        const stock = inventoryItem ? inventoryItem.stock : 0;
         const isOutOfStock = stock <= 0;
         
         if (isOutOfStock) {
@@ -4311,6 +4342,19 @@
             pets: [],
             background: []
         };
+        
+        // Update inventory with real stock data from Supabase
+        cmsInventory = products.map(product => ({
+            id: product.id,
+            name: product.name,
+            stock: product.stock || 0,
+            price: product.price || 0,
+            category: product.category
+        }));
+        
+        // Save updated inventory to localStorage
+        localStorage.setItem('lgou_inventory', JSON.stringify(cmsInventory));
+        console.log('📦 Updated inventory with Supabase data:', cmsInventory.length, 'items');
         
         products.forEach(product => {
             console.log('🔄 Processing product:', product.name, 'category:', product.category);
