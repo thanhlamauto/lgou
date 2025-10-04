@@ -2078,7 +2078,7 @@
                             </h3>
                             <p class="product-desc">Hoàn hảo cho hiển thị nhân vật đơn</p>
                             <p class="product-price">
-                                <i class="fas fa-tag"></i> 230.000₫
+                                <i class="fas fa-tag"></i> 189.000₫
                             </p>
                         </div>
                     </div>
@@ -2092,7 +2092,7 @@
                             </h3>
                             <p class="product-desc">Hiển thị cặp đôi yêu thích của bạn</p>
                             <p class="product-price">
-                                <i class="fas fa-tag"></i> 240.000₫
+                                <i class="fas fa-tag"></i> 199.000₫
                             </p>
                         </div>
                     </div>
@@ -4186,6 +4186,9 @@
         console.log('🖼️ Rendering background options:', productOptions.backgrounds.length);
         renderOptions(document.getElementById('background-grid'), productOptions.backgrounds, 'background');
         
+        // Update default image with first background after rendering
+        updateDefaultImageFromFirstBackground();
+        
         console.log('✅ All option grids rendered');
     }
     
@@ -4200,6 +4203,29 @@
         console.log('🔄 Force refreshing products...');
         clearCache();
         await fetchProductsFromSupabase(true);
+    }
+
+    // Update default image with first background from Supabase
+    function updateDefaultImageFromFirstBackground() {
+        console.log('🖼️ Updating default image with first background...');
+        
+        // Wait a bit for DOM to be ready
+        setTimeout(() => {
+            const firstBackground = document.querySelector('#background-grid .option-item');
+            if (firstBackground) {
+                const imageUrl = firstBackground.dataset.image;
+                if (imageUrl) {
+                    console.log('✅ Setting default image to:', imageUrl);
+                    document.querySelectorAll('.main-image').forEach(img => {
+                        img.src = imageUrl;
+                    });
+                    // Also select the first background
+                    firstBackground.classList.add('selected');
+                }
+            } else {
+                console.log('⚠️ No background products found');
+            }
+        }, 100);
     }
 
     // Check for updates periodically (every 2 minutes)
@@ -4244,21 +4270,13 @@
         loadSelections();
         
         // Fetch fresh data from Supabase (will update cache)
-        fetchProductsFromSupabase();
+        fetchProductsFromSupabase().then(() => {
+            // Set first background as default image after products are loaded
+            updateDefaultImageFromFirstBackground();
+        });
         
         // Start periodic cache updates
         startCacheUpdateCheck();
-        
-        if (!document.querySelector('#background-grid .option-item.selected')) {
-            const firstBackground = document.querySelector('#background-grid .option-item');
-            if (firstBackground) {
-                firstBackground.classList.add('selected');
-                const imageUrl = firstBackground.dataset.image;
-                document.querySelectorAll('.main-image').forEach(img => {
-                    img.src = imageUrl;
-                });
-            }
-        }
         
         document.getElementById('discount-code').value = '';
         updateOrderSummary();
