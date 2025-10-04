@@ -2539,8 +2539,9 @@
                             </div>
                             
                             <div class="form-group">
-                                <label for="customer-instagram">Tên Instagram</label>
-                                <input type="text" id="customer-instagram" name="instagram" placeholder="@ten_instagram (không bắt buộc)">
+                                <label for="customer-instagram">Tên Instagram <span class="required-star">*</span></label>
+                                <input type="text" id="customer-instagram" name="instagram" placeholder="@ten_instagram" required>
+                                <div class="form-error" id="instagram-error">Vui lòng nhập tên Instagram</div>
                             </div>
                             
                             <div class="form-group">
@@ -2575,9 +2576,9 @@
                             </div> 
 
                             <div class="form-group">
-                                <label for="customer-email">Email (nếu có)</label>
-                                <input type="email" id="customer-email" name="email">
-                                <div class="form-error" id="email-error"></div>
+                                <label for="customer-email">Email <span class="required-star">*</span></label>
+                                <input type="email" id="customer-email" name="email" required>
+                                <div class="form-error" id="email-error">Vui lòng nhập email</div>
                             </div>
                             
                             <div class="form-group">
@@ -3883,10 +3884,21 @@
             }
         }
 
-        // Validate email (optional but must be valid if exists)
-        if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        // Validate email (required)
+        if (!email) {
+            document.getElementById('email-error').textContent = 'Vui lòng nhập email';
+            document.getElementById('email-error').style.display = 'block';
+            isValid = false;
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
             document.getElementById('email-error').textContent = 'Email không hợp lệ';
             document.getElementById('email-error').style.display = 'block';
+            isValid = false;
+        }
+
+        // Validate instagram (required)
+        if (!instagram) {
+            document.getElementById('instagram-error').textContent = 'Vui lòng nhập tên Instagram';
+            document.getElementById('instagram-error').style.display = 'block';
             isValid = false;
         }
 
@@ -4039,17 +4051,21 @@
         .then((result) => {
             console.log('✅ [DEBUG] Order saved successfully!', result);
             
-            // Hiển thị popup xác nhận
-            document.getElementById('customer-name-display').textContent = customerInfo.name;
-            document.getElementById('customer-phone-display').textContent = customerInfo.phone;
-            document.getElementById('customer-address-display').textContent = customerInfo.address;
-            document.getElementById('delivery-date-display').textContent = customerInfo.deliveryDate;
+            // Redirect to success page with order data
+            const orderData = {
+                name: customerInfo.name,
+                phone: customerInfo.phone,
+                email: customerInfo.email,
+                instagram: customerInfo.instagram,
+                address: customerInfo.address,
+                deliveryDate: customerInfo.deliveryDate,
+                total: orderSummary.total.toLocaleString() + '₫'
+            };
             
-            // Hiển thị overlay và popup
-            document.getElementById('popup-overlay').style.display = 'block';
-            document.getElementById('confirmation-popup').style.display = 'block';
+            const params = new URLSearchParams(orderData);
+            window.location.href = `success.html?${params.toString()}`;
             
-            console.log('✅ [DEBUG] Success popup displayed');
+            console.log('✅ [DEBUG] Redirecting to success page');
         })
         .catch(error => {
             console.error('❌ [DEBUG] Order submission error:', error);
@@ -4637,6 +4653,7 @@
         document.getElementById('customer-address').addEventListener('input', validateForm);
         document.getElementById('delivery-date').addEventListener('input', validateForm);
         document.getElementById('customer-email').addEventListener('input', validateForm);
+        document.getElementById('customer-instagram').addEventListener('input', validateForm);
     });
 </script>
 </body>
