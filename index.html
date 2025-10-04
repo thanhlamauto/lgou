@@ -4508,8 +4508,16 @@
 
                 // Handle calendar day clicks using event delegation
                 this.calendar.addEventListener('click', (e) => {
+                    console.log('🔍 Calendar click detected:', e.target);
+                    console.log('🔍 Target classes:', e.target.classList);
+                    console.log('🔍 Is calendar-day:', e.target.classList.contains('calendar-day'));
+                    console.log('🔍 Is disabled:', e.target.classList.contains('disabled'));
+                    
                     if (e.target.classList.contains('calendar-day') && !e.target.classList.contains('disabled')) {
+                        console.log('✅ Valid date click, selecting date:', e.target.dataset.date);
                         this.selectDate(e.target);
+                    } else {
+                        console.log('❌ Invalid date click - not selectable');
                     }
                 });
 
@@ -4527,8 +4535,18 @@
 
             toggleCalendar() {
                 console.log('🔄 Toggling calendar...');
-                this.calendar.classList.toggle('show');
-                console.log('📅 Calendar classes:', this.calendar.className);
+                if (this.calendar.classList.contains('show')) {
+                    this.hideCalendar();
+                } else {
+                    this.showCalendar();
+                }
+            }
+
+            showCalendar() {
+                console.log('📅 Showing calendar');
+                this.renderCalendar();
+                this.calendar.classList.add('show');
+                console.log('📅 Calendar classes after show:', this.calendar.className);
             }
 
             hideCalendar() {
@@ -4536,8 +4554,10 @@
             }
 
             renderCalendar() {
+                console.log('🎨 Rendering calendar...');
                 const year = this.currentDate.getFullYear();
                 const month = this.currentDate.getMonth();
+                console.log('📅 Rendering for:', year, month);
                 
                 // Update month/year display
                 const monthNames = [
@@ -4545,6 +4565,7 @@
                     'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'
                 ];
                 document.getElementById('calendar-month-year').textContent = `${monthNames[month]} ${year}`;
+                console.log('📅 Month/year updated:', document.getElementById('calendar-month-year').textContent);
 
                 // Get first day of month and number of days
                 const firstDay = new Date(year, month, 1);
@@ -4590,16 +4611,28 @@
             }
 
             selectDate(element) {
+                console.log('🎯 selectDate called with element:', element);
                 const dateStr = element.dataset.date;
-                const date = new Date(dateStr);
+                console.log('📅 Date string from dataset:', dateStr);
                 
-                if (date < this.minDate) return;
+                const date = new Date(dateStr);
+                console.log('📅 Parsed date:', date);
+                console.log('📅 Min date:', this.minDate);
+                console.log('📅 Date < minDate:', date < this.minDate);
+                
+                if (date < this.minDate) {
+                    console.log('❌ Date is before minimum date, ignoring');
+                    return;
+                }
                 
                 this.selectedDate = date;
                 this.input.value = this.formatDateForDisplay(date);
+                console.log('✅ Date selected and input updated:', this.input.value);
+                
                 this.hideCalendar();
                 
                 // Trigger validation
+                console.log('🔍 Triggering form validation');
                 validateForm();
             }
 
