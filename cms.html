@@ -965,6 +965,9 @@
                     products = {};
                     productsData.forEach(product => {
                         const cleanId = product.id.trim();
+                        // Clean collection_ids by trimming each ID
+                        const cleanCollectionIds = (product.collection_ids || []).map(id => id.trim()).filter(id => id);
+                        
                         products[cleanId] = {
                             id: cleanId,
                             name: product.name,
@@ -972,7 +975,7 @@
                             price: product.price || 0,
                             stock: product.stock || 0,
                             image: product.image,
-                            collection_ids: product.collection_ids || []
+                            collection_ids: cleanCollectionIds
                         };
                     });
                     console.log('✅ Loaded products:', Object.keys(products));
@@ -2284,8 +2287,8 @@
                     
                     // Find products that belong to this collection
                     const collectionProducts = allProducts.filter(product => {
-                        const productCollectionIds = product.collection_ids || [];
-                        return productCollectionIds.includes(collection.id);
+                        const productCollectionIds = (product.collection_ids || []).map(id => id.trim());
+                        return productCollectionIds.includes(collection.id.trim());
                     });
                     
                     console.log(`📦 Products in ${collection.name}:`, collectionProducts.length);
