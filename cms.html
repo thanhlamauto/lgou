@@ -1039,12 +1039,18 @@
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
 
+            console.log('🔐 Login attempt:', { username, password: '***' });
+            console.log('🔐 Available credentials:', Object.keys(ADMIN_CREDENTIALS));
+            console.log('🔐 Expected password for user:', ADMIN_CREDENTIALS[username] ? '***' : 'undefined');
+
             if (ADMIN_CREDENTIALS[username] && ADMIN_CREDENTIALS[username] === password) {
+                console.log('✅ Login successful for user:', username);
                 document.getElementById('login-screen').style.display = 'none';
                 document.getElementById('cms-interface').style.display = 'block';
                 document.getElementById('current-user').textContent = username;
                 loadDashboard();
             } else {
+                console.log('❌ Login failed for user:', username);
                 document.getElementById('error-message').style.display = 'block';
             }
         }
@@ -1646,7 +1652,16 @@
         }
 
         // Initialize
-        document.getElementById('login-form').addEventListener('submit', login);
+        console.log('🔧 Initializing CMS...');
+        console.log('🔧 Login form element:', document.getElementById('login-form'));
+        
+        const loginForm = document.getElementById('login-form');
+        if (loginForm) {
+            console.log('✅ Login form found, adding event listener');
+            loginForm.addEventListener('submit', login);
+        } else {
+            console.log('❌ Login form not found!');
+        }
 
         // Load saved data
         const savedInventory = localStorage.getItem('lgou_inventory');
@@ -2555,6 +2570,10 @@
 
         // Initialize CMS
         document.addEventListener('DOMContentLoaded', async function() {
+            console.log('🚀 CMS DOMContentLoaded triggered');
+            console.log('🚀 Login screen visible:', document.getElementById('login-screen').style.display);
+            console.log('🚀 CMS interface visible:', document.getElementById('cms-interface').style.display);
+            
             // Load inventory data from files
             loadInventoryData();
             
