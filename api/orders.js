@@ -65,6 +65,15 @@ async function getOrders(req, res) {
 async function createOrder(req, res) {
   const orderData = req.body;
 
+  // Validate stock availability before creating order
+  const stockValidation = await validateStockAvailability(orderData.items);
+  if (!stockValidation.valid) {
+    return res.status(400).json({ 
+      error: 'Insufficient stock', 
+      details: stockValidation.errors 
+    });
+  }
+
   // Generate unique order ID
   const orderId = `LG${Date.now()}`;
   
@@ -91,6 +100,9 @@ async function createOrder(req, res) {
     throw error;
   }
 
+  // Update stock levels (decrease stock)
+  await updateStockLevels(orderData.items, 'decrease');
+
   // Update customer info
   if (orderData.customerInfo) {
     await updateCustomerData(orderData.customerInfo, orderId);
@@ -112,6 +124,22 @@ async function updateOrder(req, res) {
 
   if (!id) {
     return res.status(400).json({ error: 'Order ID is required' });
+  }
+
+  // Get current order to check status changes
+  const { data: currentOrder } = await supabase
+    .from('orders')
+    .select('*')
+    .eq('id', id)
+    .single();
+
+  if (!currentOrder) {
+    return res.status(404).json({ error: 'Order not found' });
+  }
+
+  // Handle status changes for stock management
+  if (updates.status && updates.status !== currentOrder.status) {
+    await handleOrderStatusChange(currentOrder, updates.status);
   }
 
   const { data, error } = await supabase
@@ -201,6 +229,81 @@ async function updateCustomerData(customerInfo, orderId) {
         first_order: new Date().toISOString(),
         last_order: new Date().toISOString()
       }]);
+  }
+}
+
+// Helper function to validate stock availability
+async function validateStockAvailability(items) {
+  const errors = [];
+  
+  for (const item of items) {
+    if (item.type === 'clothing') continue; // Clothing doesn't have stock
+    
+    const { data: product } = await supabase
+      .from('products')
+      .select('stock, name')
+      .eq('id', item.id)
+      .single();
+    
+    if (!product) {
+      errors.push(`Product ${item.id} not found`);
+      continue;
+    }
+    
+    const requestedQuantity = item.quantity || 1;
+    if (product.stock < requestedQuantity) {
+      errors.push(`Insufficient stock for ${product.name}. Available: ${product.stock}, Requested: ${requestedQuantity}`);
+    }
+  }
+  
+  return {
+    valid: errors.length === 0,
+    errors
+  };
+}
+
+// Helper function to update stock levels
+async function updateStockLevels(items, action) {
+  for (const item of items) {
+    if (item.type === 'clothing') continue; // Clothing doesn't have stock
+    
+    const { data: product } = await supabase
+      .from('products')
+      .select('stock')
+      .eq('id', item.id)
+      .single();
+    
+    if (!product) continue;
+    
+    const quantity = item.quantity || 1;
+    const newStock = action === 'decrease' 
+      ? product.stock - quantity 
+      : product.stock + quantity;
+    
+    // Ensure stock doesn't go below 0
+    const finalStock = Math.max(0, newStock);
+    
+    await supabase
+      .from('products')
+      .update({ 
+        stock: finalStock,
+        updated_at: new Date().toISOString()
+      })
+      .eq('id', item.id);
+  }
+}
+
+// Helper function to handle order status changes
+async function handleOrderStatusChange(currentOrder, newStatus) {
+  // If order is being cancelled or refunded, restore stock
+  if (newStatus === 'cancelled' || newStatus === 'refunded') {
+    await updateStockLevels(currentOrder.items, 'increase');
+  }
+  
+  // If order was cancelled/refunded and is now being reactivated, decrease stock again
+  if ((currentOrder.status === 'cancelled' || currentOrder.status === 'refunded') && 
+      (newStatus === 'new' || newStatus === 'processing' || newStatus === 'completed')) {
+    await updateStockLevels(currentOrder.items, 'decrease');
   }
 }
 

@@ -1274,6 +1274,8 @@
                 showNotification(`Đã ${targetStatus === 'completed' ? 'hoàn thành' : 'chuyển về trạng thái mới'} đơn hàng!`, 'success');
                 await loadOrders();
                 await loadDashboard();
+                // Refresh inventory to show updated stock levels
+                await loadInventory();
             } catch (error) {
                 console.error('Error updating order:', error);
                 showNotification('Có lỗi khi cập nhật trạng thái', 'error');
@@ -1737,9 +1739,9 @@
             document.getElementById('product-submit-text').textContent = 'Cập nhật sản phẩm';
             
                 // Fill form with existing data
-                document.getElementById('product-id').value = product.id;
-                document.getElementById('product-name').value = product.name;
-                document.getElementById('product-category').value = product.category;
+            document.getElementById('product-id').value = product.id;
+            document.getElementById('product-name').value = product.name;
+            document.getElementById('product-category').value = product.category;
                 document.getElementById('product-price').value = product.price || 0;
                 document.getElementById('product-stock').value = product.stock || 0;
                 document.getElementById('product-image-url').value = product.image || '';
