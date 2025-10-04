@@ -2288,11 +2288,6 @@
                         </div>
                         
                         <div class="preview-container" id="zoom-image">
-                            <img src="https://lh7-rt.googleusercontent.com/sheetsz/AHOq17FocT0TmB8C0fL2fxQwS9DmmLRqmQwST8BVD6KKOi98I7EbZkUL4EXftBejoOvL5JKR8EwMqOHxg6R1IOuICiPHbVcr30t4Vtck-LJqjs9dIRYxuv7xRrdLK3n4AOsGbc2Rh5RPWg?key=jFadiPCg65rD47U_s1R6ZA" 
-                                 alt="Preview sản phẩm" 
-                                 class="main-image" 
-                                 id="main-default" 
-                                 loading="lazy">
                         </div>
                         
                         <div class="background-options">
@@ -3850,6 +3845,18 @@
             });
         });
         
+        // Add clothing colors
+        document.querySelectorAll('.color-option.selected').forEach(item => {
+            items.push({
+                id: item.dataset.code || 'color',
+                name: `${item.dataset.color} (${item.dataset.type})`,
+                type: 'clothing',
+                price: 0,
+                color: item.dataset.color,
+                clothing_type: item.dataset.type
+            });
+        });
+        
         console.log('📦 [DEBUG] Total items prepared:', items.length);
         console.log('📦 [DEBUG] Items:', items);
         return items;
@@ -4027,16 +4034,13 @@
     });
     
     // Xử lý nút trong popup xác nhận
-    document.getElementById('popup-zalo').addEventListener('click', function() {
-        window.open('https://zalo.me/0964393115', '_blank');
-    });
 
     document.getElementById('popup-facebook').addEventListener('click', function() {
-        window.open('https://www.facebook.com/theluvingifts', '_blank');
+        window.open('https://www.facebook.com/lgou.official', '_blank');
     });
 
     document.getElementById('popup-instagram').addEventListener('click', function() {
-        window.open('https://www.instagram.com/the_luvin/', '_blank');
+        window.open('https://www.instagram.com/lgou.official/', '_blank');
     });
 
     // Đóng popup khi bấm nút đóng
