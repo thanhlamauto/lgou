@@ -1,10 +1,10 @@
-const { createClient } = require('../lib/supabase');
+const { supabase } = require('../lib/supabase');
 
 // Get all colors
 async function getColors(req, res) {
     try {
         const { category } = req.query;
-        const supabase = createClient();
+        // Use the imported supabase client
         
         let query = supabase
             .from('colors')
@@ -20,7 +20,23 @@ async function getColors(req, res) {
         
         if (error) {
             console.error('Error fetching colors:', error);
-            return res.status(500).json({ error: 'Failed to fetch colors' });
+            console.error('Error details:', {
+                message: error.message,
+                details: error.details,
+                hint: error.hint,
+                code: error.code
+            });
+            
+            // If table doesn't exist, return empty array instead of error
+            if (error.code === 'PGRST116' || error.message.includes('relation "colors" does not exist')) {
+                console.log('⚠️ Colors table does not exist, returning empty array');
+                return res.json([]);
+            }
+            
+            return res.status(500).json({ 
+                error: 'Failed to fetch colors',
+                details: error.message 
+            });
         }
         
         console.log('✅ Colors fetched successfully:', data);
@@ -44,7 +60,7 @@ async function createColor(req, res) {
             return res.status(400).json({ error: 'Category must be either "shirt" or "trouser"' });
         }
         
-        const supabase = createClient();
+        // Use the imported supabase client
         
         // Generate unique ID
         const id = `${category}_${Date.now()}`;
@@ -80,7 +96,7 @@ async function updateColor(req, res) {
         const { id } = req.params;
         const { name, hex_code, category, quantity, is_active } = req.body;
         
-        const supabase = createClient();
+        // Use the imported supabase client
         
         const updateData = {};
         if (name !== undefined) updateData.name = name;
@@ -116,7 +132,7 @@ async function updateColor(req, res) {
 async function deleteColor(req, res) {
     try {
         const { id } = req.params;
-        const supabase = createClient();
+        // Use the imported supabase client
         
         const { error } = await supabase
             .from('colors')
