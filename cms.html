@@ -1787,18 +1787,26 @@
         async function editProduct(productId) {
             try {
                 console.log('🔄 Loading product for editing:', productId);
-                console.log('🔄 ProductsAPI available:', typeof ProductsAPI);
-                console.log('🔄 ProductsAPI.getById available:', typeof ProductsAPI.getById);
+                console.log('🔄 Product ID type:', typeof productId);
+                console.log('🔄 Product ID length:', productId ? productId.length : 'undefined');
                 
-                // Fetch product details from Supabase
-                const product = await ProductsAPI.getById(productId);
+                // First, let's check if the product exists by fetching all products
+                console.log('🔄 Checking if product exists in all products...');
+                const allProducts = await ProductsAPI.getAll();
+                console.log('📦 All products:', allProducts);
                 
-                console.log('📦 Product data received:', product);
+                const existingProduct = allProducts.find(p => p.id === productId);
+                console.log('🔍 Found existing product:', existingProduct);
                 
-                if (!product) {
-                    showNotification('Không tìm thấy sản phẩm!', 'error');
+                if (!existingProduct) {
+                    showNotification(`Không tìm thấy sản phẩm với ID: ${productId}`, 'error');
                     return;
                 }
+                
+                // Use the existing product data instead of making another API call
+                const product = existingProduct;
+                
+                console.log('📦 Using product data:', product);
 
             currentEditingProductId = productId;
             document.getElementById('product-modal-title').textContent = 'Sửa sản phẩm';

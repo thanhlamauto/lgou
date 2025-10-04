@@ -35,15 +35,24 @@ async function getProducts(req, res) {
   const { id, category, collection_id } = req.query;
 
   if (id) {
+    console.log('🔍 Searching for product with ID:', id);
+    console.log('🔍 ID type:', typeof id);
+    console.log('🔍 ID length:', id.length);
+    
     const { data, error } = await supabase
       .from('products')
       .select('*')
       .eq('id', id)
       .single();
 
+    console.log('🔍 Supabase response:', { data, error });
+
     if (error) {
+      console.log('❌ Product not found error:', error);
       return res.status(404).json({ error: 'Product not found' });
     }
+    
+    console.log('✅ Product found:', data);
     return res.status(200).json(data);
   }
 
