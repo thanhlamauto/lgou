@@ -2546,15 +2546,15 @@
                             <div class="form-group">
                                 <label for="delivery-date">Ngày nhận hàng <span class="required-star">*</span></label>
                                 <div class="date-picker-container">
-                                    <input
-                                        type="text"
-                                        id="delivery-date"
-                                        name="delivery_date"
+                                <input
+                                    type="text"
+                                    id="delivery-date"
+                                    name="delivery_date"
                                         class="date-picker-input"
                                         placeholder="Chọn ngày nhận hàng"
                                         readonly
-                                        required
-                                    >
+                                    required
+                                >
                                     <div class="date-picker-calendar" id="date-picker-calendar">
                                         <div class="calendar-header">
                                             <button type="button" class="calendar-nav" id="prev-month">‹</button>
@@ -2711,7 +2711,9 @@
             // Convert array to object keyed by id
             collections = {};
             fetchedCollections.forEach(col => {
-                collections[col.id] = {
+                const cleanId = col.id.trim();
+                collections[cleanId] = {
+                    id: cleanId,
                     name: col.name,
                     description: col.description,
                     endDate: col.end_date,
@@ -2888,7 +2890,7 @@
         
         const card = document.createElement('div');
         card.className = `collection-card limited ${isActive ? 'active' : 'expired'}`;
-        card.dataset.collection = collection.id;
+        card.dataset.collection = collection.id.trim();
         
         card.innerHTML = `
             <div class="collection-header">
@@ -2957,6 +2959,8 @@
     }
     
     function selectCollection(collectionId) {
+        // Trim whitespace and newlines from collection ID
+        collectionId = collectionId.trim();
         console.log('🎯 selectCollection called with:', collectionId);
         
         // Remove active class from all cards
@@ -3874,8 +3878,8 @@
             
             if (selectedDate < minDate) {
                 document.getElementById('delivery-date-error').textContent = 'Ngày nhận hàng phải ít nhất 3 ngày kể từ hôm nay';
-                document.getElementById('delivery-date-error').style.display = 'block';
-                isValid = false;
+            document.getElementById('delivery-date-error').style.display = 'block';
+            isValid = false;
             }
         }
 
@@ -4626,7 +4630,7 @@
         } else {
             initDatePicker();
         }
-
+        
         // Thêm sự kiện validate real-time
         document.getElementById('customer-name').addEventListener('input', validateForm);
         document.getElementById('customer-phone').addEventListener('input', validateForm);
