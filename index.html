@@ -1240,16 +1240,18 @@
             flex: 1;
             padding: 12px 15px;
             border-radius: 30px;
-            border: 2px solid var(--light-gray);
-            background-color: var(--dark-gray);
-            color: var(--white);
+            border: 2px solid #e0e0e0;
+            background-color: #ffffff;
+            color: #333333;
             font-family: inherit;
             transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
         .discount-input:focus {
             border-color: var(--pink);
             outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 192, 203, 0.3);
         }
 
         .apply-button {
@@ -1329,17 +1331,24 @@
             width: 100%;
             padding: 12px 15px;
             border-radius: 10px;
-            border: 2px solid var(--light-gray);
-            background-color: var(--dark-gray);
-            color: var(--white);
+            border: 2px solid #e0e0e0;
+            background-color: #ffffff;
+            color: #333333;
             font-family: inherit;
-            transition: border-color 0.3s ease;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
             font-size: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         
         .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
             border-color: var(--pink);
             outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 192, 203, 0.3);
+        }
+
+        .form-group input::placeholder, .form-group textarea::placeholder {
+            color: #999999;
+            opacity: 1;
         }
         
         .form-error {
@@ -2288,6 +2297,11 @@
                         </div>
                         
                         <div class="preview-container" id="zoom-image">
+                            <img src="https://inhjan0elby3ojxf.public.blob.vercel-storage.com/logo%20L%27Go%CC%82u%20tra%CC%86%CC%81ng_page-0001%20%282%29.jpg" 
+                                 alt="Preview sản phẩm" 
+                                 class="main-image" 
+                                 id="main-default" 
+                                 loading="lazy">
                         </div>
                         
                         <div class="background-options">
