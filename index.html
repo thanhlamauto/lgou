@@ -2360,7 +2360,7 @@
                 <div class="step-pane" id="step-2">
                     <div class="version-selector">
                         <div class="version-options">
-                            <div class="version-option active" data-version="1" data-price="230000">
+                            <div class="version-option active" data-version="1" data-price="189000">
                                 <div class="version-header">
                                     <h3>Version 1</h3>
                                     <div class="version-price">189.000₫</div>
@@ -2375,7 +2375,7 @@
                                 </div>
                             </div>
                             
-                            <div class="version-option" data-version="2" data-price="240000">
+                            <div class="version-option" data-version="2" data-price="199000">
                                 <div class="version-header">
                                     <h3>Version 2</h3>
                                     <div class="version-price">199.000₫</div>
@@ -3611,7 +3611,7 @@
         const activeVersion = document.querySelector('.version-option.active');
         const version = activeVersion?.dataset.version || '1';
         const versionName = `Version ${version}`;
-        const versionPrice = parseInt(activeVersion?.dataset.price || '230000');
+        const versionPrice = parseInt(activeVersion?.dataset.price || '189000');
         
         html += `<div class="summary-item">
             <span>${versionName}</span>
