@@ -2281,11 +2281,17 @@
                 // Process each collection
                 allCollections.forEach(collection => {
                     console.log(`🔄 Processing collection: ${collection.name} (${collection.id})`);
+                    console.log(`🔍 Collection ID type: ${typeof collection.id}, length: ${collection.id ? collection.id.length : 'undefined'}`);
+                    console.log(`🔍 Collection ID value: "${collection.id}"`);
                     
                     // Find products that belong to this collection
                     const collectionProducts = allProducts.filter(product => {
                         const productCollectionIds = product.collection_ids || [];
-                        return productCollectionIds.includes(collection.id);
+                        console.log(`🔍 Product ${product.name} collection_ids:`, productCollectionIds);
+                        console.log(`🔍 Checking if ${collection.id} is in:`, productCollectionIds);
+                        const isIncluded = productCollectionIds.includes(collection.id);
+                        console.log(`🔍 Is included: ${isIncluded}`);
+                        return isIncluded;
                     });
                     
                     console.log(`📦 Products in ${collection.name}:`, collectionProducts.length);
