@@ -2363,14 +2363,14 @@
                             <div class="version-option active" data-version="1" data-price="230000">
                                 <div class="version-header">
                                     <h3>Version 1</h3>
-                                    <div class="version-price">230.000₫</div>
+                                    <div class="version-price">189.000₫</div>
                                 </div>
                                 <div class="version-features">
                                     <p class="version-subtitle">1 Lego (Nhân vật)</p>
                                     <ul>
                                         <li>Khung tranh với <strong>01 Lego</strong></li>
                                         <li>Thiệp L'Gôu</li>
-                                        <li>Tặng box quà sang trọng</li>
+                                        <li>Thiệp viết tay</li>
                                     </ul>
                                 </div>
                             </div>
@@ -2378,32 +2378,18 @@
                             <div class="version-option" data-version="2" data-price="240000">
                                 <div class="version-header">
                                     <h3>Version 2</h3>
-                                    <div class="version-price">240.000₫</div>
+                                    <div class="version-price">199.000₫</div>
                                 </div>
                                 <div class="version-features">
                                     <p class="version-subtitle">2 Lego (Nhân vật)</p>
                                     <ul>
                                         <li>Khung tranh với <strong>02 Lego</strong></li>
+                                        <li>Thiệp L'Gôu</li>
                                         <li>Thiệp viết tay</li>
-                                        <li>Tặng hộp quà sang trọng</li>
                                     </ul>
                                 </div>
                             </div>
                             
-                            <div class="version-option" data-version="3" data-price="245000">
-                                <div class="version-header">
-                                    <h3>Version 3</h3>
-                                    <div class="version-price">245.000₫</div>
-                                </div>
-                                <div class="version-features">
-                                    <p class="version-subtitle">3 Lego (Nhân vật)</p>
-                                    <ul>
-                                        <li>Khung tranh với <strong>03 Lego</strong></li>
-                                        <li>Thiệp viết tay</li>
-                                        <li>Tặng hộp quà sang trọng</li>
-                                    </ul>
-                                </div>
-                            </div>
                         </div>
                     </div>
                     
@@ -2430,7 +2416,7 @@
                         </div>
                         
                         <div class="background-options">
-                            <h3 class="options-title"><i class="fas fa-image"></i> Nền (Thiết Kế Theo Yêu Cầu) - VD: (Đổi "abc" sang "xyz")</h3>
+                            <h3 class="options-title"><i class="fas fa-image"></i> Nền (Thiết Kế Theo Yêu Cầu) </h3>
                             <div class="options-grid" id="background-grid"></div>
                         </div>
                     </div>
@@ -2926,16 +2912,28 @@
             </div>
         `;
         
-            card.addEventListener('click', () => selectCollection(collection.id));
+            // Add click event listener
+        card.addEventListener('click', (e) => {
+            e.preventDefault();
+            console.log('🎯 Collection card clicked:', collection.id);
+            selectCollection(collection.id);
+        });
         
         return card;
     }
     
     function renderCollections() {
+        console.log('🎨 renderCollections called');
         const container = document.getElementById('collection-options');
+        if (!container) {
+            console.log('❌ Collection options container not found');
+            return;
+        }
         container.innerHTML = '';
         
+        console.log('📦 Collections to render:', Object.keys(collections));
         Object.values(collections).forEach(collection => {
+            console.log('🎯 Creating card for collection:', collection.id);
             const card = createCollectionCard(collection);
             container.appendChild(card);
         });
@@ -2959,6 +2957,8 @@
     }
     
     function selectCollection(collectionId) {
+        console.log('🎯 selectCollection called with:', collectionId);
+        
         // Remove active class from all cards
         document.querySelectorAll('.collection-card').forEach(card => {
             card.classList.remove('active');
@@ -2966,12 +2966,17 @@
         
         // Add active class to selected card
         const selectedCard = document.querySelector(`[data-collection="${collectionId}"]`);
+        console.log('🔍 Selected card found:', selectedCard);
         if (selectedCard) {
             selectedCard.classList.add('active');
+            console.log('✅ Active class added to card');
+        } else {
+            console.log('❌ No card found for collection:', collectionId);
         }
         
         // Update global selected collection
         window.selectedCollection = collectionId;
+        console.log('💾 Global selectedCollection set to:', collectionId);
         
         // Update selected collection UI indicator
         try {
