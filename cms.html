@@ -2238,14 +2238,33 @@
                 
                 // Get all products from Supabase
                 const productsResponse = await fetch('/api/products');
-                const allProducts = await productsResponse.json();
+                
+                if (!productsResponse.ok) {
+                    throw new Error(`Failed to fetch products: ${productsResponse.status} ${productsResponse.statusText}`);
+                }
+                
+                const productsData = await productsResponse.json();
+                
+                // Handle API response format: { products: [...], total: number }
+                const allProducts = productsData.products || productsData || [];
+                
+                // Ensure allProducts is an array
+                if (!Array.isArray(allProducts)) {
+                    console.error('❌ Products data is not an array:', productsData);
+                    throw new Error('Invalid products data format');
+                }
+                
+                if (allProducts.length === 0) {
+                    console.log('⚠️ No products found in Supabase');
+                }
                 
                 console.log('📦 All products from Supabase:', allProducts.length);
+                console.log('📦 Products data type:', typeof productsData, Array.isArray(productsData));
                 
-                container.innerHTML = '';
+            container.innerHTML = '';
 
                 // Process each collection
-                Object.values(collections).forEach(collection => {
+            Object.values(collections).forEach(collection => {
                     console.log(`🔄 Processing collection: ${collection.name} (${collection.id}`);
                     
                     // Find products that belong to this collection
@@ -2260,67 +2279,67 @@
                         return; // Skip collections with no products
                     }
 
-                    const collectionDiv = document.createElement('div');
-                    collectionDiv.style.cssText = `
-                        background: white;
-                        border-radius: 12px;
-                        padding: 20px;
-                        margin-bottom: 20px;
-                        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-                        border-left: 4px solid var(--primary-blue, #4a90a4);
-                    `;
+                const collectionDiv = document.createElement('div');
+                collectionDiv.style.cssText = `
+                    background: white;
+                    border-radius: 12px;
+                    padding: 20px;
+                    margin-bottom: 20px;
+                    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                    border-left: 4px solid var(--primary-blue, #4a90a4);
+                `;
 
-                    const header = document.createElement('div');
-                    header.innerHTML = `
-                        <h5 style="margin: 0 0 15px 0; color: var(--primary-blue, #4a90a4);">
-                            <i class="fas fa-${collection.icon || 'star'}"></i> ${collection.name}
+                const header = document.createElement('div');
+                header.innerHTML = `
+                    <h5 style="margin: 0 0 15px 0; color: var(--primary-blue, #4a90a4);">
+                        <i class="fas fa-${collection.icon || 'star'}"></i> ${collection.name}
                             <span style="font-size: 0.8rem; color: var(--gray-600); margin-left: 10px;">
                                 (${collectionProducts.length} sản phẩm)
                             </span>
-                        </h5>
-                    `;
-                    collectionDiv.appendChild(header);
+                    </h5>
+                `;
+                collectionDiv.appendChild(header);
 
                     collectionProducts.forEach(product => {
-                        const productDiv = document.createElement('div');
-                        productDiv.className = 'inventory-item';
-                        productDiv.style.cssText = `
-                            display: flex;
-                            align-items: center;
-                            gap: 15px;
-                            padding: 10px;
-                            margin-bottom: 10px;
-                            background: #f8f9fa;
-                            border-radius: 8px;
-                        `;
+                    const productDiv = document.createElement('div');
+                    productDiv.className = 'inventory-item';
+                    productDiv.style.cssText = `
+                        display: flex;
+                        align-items: center;
+                        gap: 15px;
+                        padding: 10px;
+                        margin-bottom: 10px;
+                        background: #f8f9fa;
+                        border-radius: 8px;
+                    `;
 
-                        productDiv.innerHTML = `
+                    productDiv.innerHTML = `
                             <img src="${product.image}" alt="${product.name}" 
-                                 style="width: 50px; height: 50px; object-fit: cover; border-radius: 6px;"
-                                 onerror="this.src='data:image/svg+xml,<svg xmlns=\\"http://www.w3.org/2000/svg\\" width=\\"50\\" height=\\"50\\"><rect width=\\"50\\" height=\\"50\\" fill=\\"%23ddd\\"/><text x=\\"50%\\" y=\\"50%\\" text-anchor=\\"middle\\" dy=\\".3em\\" fill=\\"%23999\\">No Image</text></svg>'">
-                            <div style="flex: 1;">
+                             style="width: 50px; height: 50px; object-fit: cover; border-radius: 6px;"
+                             onerror="this.src='data:image/svg+xml,<svg xmlns=\\"http://www.w3.org/2000/svg\\" width=\\"50\\" height=\\"50\\"><rect width=\\"50\\" height=\\"50\\" fill=\\"%23ddd\\"/><text x=\\"50%\\" y=\\"50%\\" text-anchor=\\"middle\\" dy=\\".3em\\" fill=\\"%23999\\">No Image</text></svg>'">
+                        <div style="flex: 1;">
                                 <div style="font-weight: bold;">${product.name}</div>
                                 <div style="color: var(--gray-600); font-size: 0.9rem;">ID: ${product.id} - ${product.category}</div>
-                                <div style="color: var(--gray-600); font-size: 0.9rem;">
-                                    Giá: ${product.price ? product.price.toLocaleString() + '₫' : 'Miễn phí'}
-                                </div>
+                            <div style="color: var(--gray-600); font-size: 0.9rem;">
+                                Giá: ${product.price ? product.price.toLocaleString() + '₫' : 'Miễn phí'}
                             </div>
-                            <div style="text-align: right;">
+                        </div>
+                        <div style="text-align: right;">
                                 <div style="font-weight: bold; color: ${product.stock > 0 ? 'var(--success-green, #4CAF50)' : 'var(--error-red, #f44336)'};">
                                     Tồn kho: ${product.stock || 0}
-                                </div>
-                                <input type="number" value="${product.stock || 0}" min="0" 
-                                       style="width: 80px; margin-top: 5px; padding: 5px; border: 1px solid #ddd; border-radius: 4px;"
-                                       onchange="updateCollectionProductStock('${product.id}', this.value)">
                             </div>
-                        `;
-                        collectionDiv.appendChild(productDiv);
-                    });
-
-                    container.appendChild(collectionDiv);
+                                <input type="number" value="${product.stock || 0}" min="0" 
+                                   style="width: 80px; margin-top: 5px; padding: 5px; border: 1px solid #ddd; border-radius: 4px;"
+                                   onchange="updateCollectionProductStock('${product.id}', this.value)">
+                        </div>
+                    `;
+                    collectionDiv.appendChild(productDiv);
                 });
 
-                if (container.innerHTML === '') {
+                container.appendChild(collectionDiv);
+            });
+
+            if (container.innerHTML === '') {
                     container.innerHTML = '<p style="color: var(--gray-600); text-align: center; padding: 20px;">Chưa có collection nào có sản phẩm.</p>';
                 }
                 
@@ -2344,8 +2363,8 @@
                 
                 // Clear cache to force refresh
                 clearCMSCache();
-                
-                // Refresh displays
+            
+            // Refresh displays
                 await loadCollectionInventories();
                 await loadInventory();
                 await loadDashboard();
