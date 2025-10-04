@@ -2303,6 +2303,12 @@
             if (container.innerHTML === '') {
                 container.innerHTML = '<p style="color: var(--gray-600); text-align: center; padding: 20px;">Chưa có collection nào có sản phẩm riêng.</p>';
             }
+            
+            } catch (error) {
+                console.error('❌ Error loading collection inventories:', error);
+                container.innerHTML = '<p style="text-align: center; color: red;">Lỗi khi tải dữ liệu collections</p>';
+                showNotification('Lỗi khi tải collections: ' + error.message, 'error');
+            }
         }
 
         function updateCollectionProductStock(productId, newStock) {
