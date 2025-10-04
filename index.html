@@ -2663,6 +2663,7 @@
     
     // Load inventory stock from CMS
     let cmsInventory = [];
+    let colorsData = [];
     
     function loadInventoryFromCMS() {
         const savedInventory = localStorage.getItem('lgou_inventory');
@@ -2675,6 +2676,127 @@
                 cmsInventory = [];
             }
         }
+    }
+    
+    // Load colors from Supabase
+    async function loadColorsFromSupabase() {
+        try {
+            console.log('🔄 Loading colors from Supabase...');
+            const response = await fetch('/api/colors');
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            colorsData = Array.isArray(data) ? data : (data.colors || []);
+            console.log('✅ Colors loaded:', colorsData.length, 'items');
+            
+            // Update color displays
+            updateColorDisplays();
+            
+        } catch (error) {
+            console.error('❌ Error loading colors:', error);
+            // Use default colors if API fails
+            colorsData = getDefaultColors();
+            updateColorDisplays();
+        }
+    }
+    
+    // Get default colors as fallback
+    function getDefaultColors() {
+        return [
+            { id: 'shirt_001', name: 'Hồng Pastel', hex_code: '#f8cdea', category: 'shirt', quantity: 50 },
+            { id: 'shirt_002', name: 'Xám', hex_code: '#bfc0c4', category: 'shirt', quantity: 50 },
+            { id: 'shirt_003', name: 'Trắng', hex_code: '#ffffff', category: 'shirt', quantity: 50 },
+            { id: 'shirt_004', name: 'Đen', hex_code: '#2f2f2f', category: 'shirt', quantity: 50 },
+            { id: 'shirt_005', name: 'Hồng đào', hex_code: '#e68fbe', category: 'shirt', quantity: 50 },
+            { id: 'shirt_006', name: 'Xanh dương', hex_code: '#409acd', category: 'shirt', quantity: 50 },
+            { id: 'shirt_007', name: 'Tím', hex_code: '#6b55a1', category: 'shirt', quantity: 50 },
+            { id: 'shirt_008', name: 'Be', hex_code: '#e5d3a5', category: 'shirt', quantity: 50 },
+            { id: 'shirt_009', name: 'Xanh Pastel', hex_code: '#7eaddb', category: 'shirt', quantity: 50 },
+            { id: 'shirt_010', name: 'Xám Đậm', hex_code: '#2e3551', category: 'shirt', quantity: 50 },
+            { id: 'shirt_011', name: 'Vàng Mơ', hex_code: '#887149', category: 'shirt', quantity: 50 },
+            { id: 'shirt_012', name: 'Đỏ Mận', hex_code: '#55070b', category: 'shirt', quantity: 50 },
+            
+            { id: 'trouser_001', name: 'Hồng Pastel', hex_code: '#f8cdea', category: 'trouser', quantity: 50 },
+            { id: 'trouser_002', name: 'Xám', hex_code: '#bfc0c4', category: 'trouser', quantity: 50 },
+            { id: 'trouser_003', name: 'Trắng', hex_code: '#ffffff', category: 'trouser', quantity: 50 },
+            { id: 'trouser_004', name: 'Đen', hex_code: '#2f2f2f', category: 'trouser', quantity: 50 },
+            { id: 'trouser_005', name: 'Hồng đào', hex_code: '#e68fbe', category: 'trouser', quantity: 50 },
+            { id: 'trouser_006', name: 'Xanh dương', hex_code: '#409acd', category: 'trouser', quantity: 50 },
+            { id: 'trouser_007', name: 'Tím', hex_code: '#6b55a1', category: 'trouser', quantity: 50 },
+            { id: 'trouser_008', name: 'Be', hex_code: '#e5d3a5', category: 'trouser', quantity: 50 },
+            { id: 'trouser_009', name: 'Xanh Pastel', hex_code: '#7eaddb', category: 'trouser', quantity: 50 },
+            { id: 'trouser_010', name: 'Xám Đậm', hex_code: '#2e3551', category: 'trouser', quantity: 50 },
+            { id: 'trouser_011', name: 'Vàng Mơ', hex_code: '#887149', category: 'trouser', quantity: 50 }
+        ];
+    }
+    
+    // Update color displays with quantities
+    function updateColorDisplays() {
+        // Update all character color displays
+        document.querySelectorAll('[id^="shirt-colors-"], [id^="pants-colors-"]').forEach(container => {
+            const isShirt = container.id.startsWith('shirt-colors-');
+            const characterId = container.id.replace(/^(shirt|pants)-colors-/, '');
+            const category = isShirt ? 'shirt' : 'trouser';
+            
+            const colors = colorsData.filter(color => color.category === category);
+            container.innerHTML = '';
+            
+            colors.forEach((color, index) => {
+                const isSelected = index === 0; // First color is selected by default
+                const colorElement = createColorOption(color, characterId, isShirt, isSelected);
+                container.appendChild(colorElement);
+            });
+        });
+    }
+    
+    // Create color option with quantity display
+    function createColorOption(color, characterId, isShirt, isSelected = false) {
+        const colorDiv = document.createElement('div');
+        colorDiv.className = `color-option ${isSelected ? 'selected' : ''}`;
+        
+        // Generate unique code for each color
+        const colorIndex = colorsData.filter(c => c.category === color.category).indexOf(color) + 1;
+        const codeSuffix = isShirt ? colorIndex : (colorIndex + 12);
+        colorDiv.dataset.code = `#${characterId}${String(codeSuffix).padStart(2, '0')}`;
+        
+        colorDiv.dataset.color = color.name;
+        colorDiv.dataset.type = `${isShirt ? 'shirt' : 'pants'}${characterId}`;
+        colorDiv.dataset.quantity = color.quantity;
+        colorDiv.style.backgroundColor = color.hex_code;
+        
+        // Add quantity display
+        const quantitySpan = document.createElement('span');
+        quantitySpan.className = 'color-quantity';
+        quantitySpan.textContent = color.quantity;
+        quantitySpan.style.cssText = `
+            position: absolute;
+            bottom: -2px;
+            right: -2px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            font-size: 10px;
+            padding: 2px 4px;
+            border-radius: 8px;
+            min-width: 16px;
+            text-align: center;
+            font-weight: bold;
+        `;
+        
+        colorDiv.appendChild(quantitySpan);
+        
+        // Add click event
+        colorDiv.addEventListener('click', function() {
+            const type = this.dataset.type;
+            const siblings = this.parentElement.querySelectorAll(`.color-option[data-type="${type}"]`);
+            siblings.forEach(sib => sib.classList.remove('selected'));
+            this.classList.add('selected');
+            updateOrderSummary();
+        });
+        
+        return colorDiv;
     }
     
     function getInventoryStock(productId) {
@@ -3283,40 +3405,19 @@
         }
     });
     
-    // Template cho nhân vật
+    // Template cho nhân vật với số lượng màu sắc
     const characterTemplate = (id, title) => `
         <div class="character-column" data-character="${id}">
             <div class="character-title">${title}</div>
             
             <div class="option-group-title">Áo:</div>
-            <div class="color-options-grid">
-                 <div class="color-option selected" data-code="#${id}01" style="background-color: #f8cdea;" data-color="Hồng Pastel" data-type="shirt${id}"></div>
-                <div class="color-option" data-code="#${id}02" style="background-color: #bfc0c4;" data-color="Xám" data-type="shirt${id}"></div>
-                <div class="color-option" data-code="#${id}03" style="background-color: #ffffff;" data-color="Trắng" data-type="shirt${id}"></div>
-                <div class="color-option" data-code="#${id}04" style="background-color: #2f2f2f;" data-color="Đen" data-type="shirt${id}"></div>
-                <div class="color-option" data-code="#${id}05" style="background-color: #e68fbe;" data-color="Hồng đào" data-type="shirt${id}"></div>
-                <div class="color-option" data-code="#${id}06" style="background-color: #409acd;" data-color="Xanh dương" data-type="shirt${id}"></div>
-                <div class="color-option" data-code="#${id}07" style="background-color: #6b55a1;" data-color="Tím" data-type="shirt${id}"></div>
-                <div class="color-option" data-code="#${id}08" style="background-color: #e5d3a5;" data-color="Be" data-type="shirt${id}"></div>
-                <div class="color-option" data-code="#${id}09" style="background-color: #7eaddb;" data-color="Xanh Pastel" data-type="shirt${id}"></div>
-                <div class="color-option" data-code="#${id}10" style="background-color: #2e3551;" data-color="Xám Đậm" data-type="shirt${id}"></div>
-                <div class="color-option" data-code="#${id}11" style="background-color: #887149;" data-color="Vàng Mơ" data-type="shirt${id}"></div>
-                <div class="color-option" data-code="#${id}12" style="background-color: #55070b;" data-color="Đỏ Mận" data-type="shirt${id}"></div>
+            <div class="color-options-grid" id="shirt-colors-${id}">
+                <!-- Shirt colors will be loaded dynamically -->
             </div>
             
             <div class="option-group-title">Quần:</div>
-            <div class="color-options-grid">
-                <div class="color-option selected" data-code="#${id}13" style="background-color: #f8cdea;" data-color="Hồng Pastel" data-type="pants${id}"></div>
-                <div class="color-option" data-code="#${id}14" style="background-color: #bfc0c4;" data-color="Xám" data-type="pants${id}"></div>
-                <div class="color-option" data-code="#${id}15" style="background-color: #ffffff;" data-color="Trắng" data-type="pants${id}"></div>
-                <div class="color-option" data-code="#${id}16" style="background-color: #2f2f2f;" data-color="Đen" data-type="pants${id}"></div>
-                <div class="color-option" data-code="#${id}17" style="background-color: #e68fbe;" data-color="Hồng đào" data-type="pants${id}"></div>
-                <div class="color-option" data-code="#${id}18" style="background-color: #409acd;" data-color="Xanh dương" data-type="pants${id}"></div>
-                <div class="color-option" data-code="#${id}19" style="background-color: #6b55a1;" data-color="Tím" data-type="pants${id}"></div>
-                <div class="color-option" data-code="#${id}20" style="background-color: #e5d3a5;" data-color="Be" data-type="pants${id}"></div>
-                <div class="color-option" data-code="#${id}21" style="background-color: #7eaddb;" data-color="Xanh Pastel" data-type="pants${id}"></div>
-                <div class="color-option" data-code="#${id}22" style="background-color: #2e3551;" data-color="Xám Đậm" data-type="pants${id}"></div>
-                <div class="color-option" data-code="#${id}23" style="background-color: #887149;" data-color="Vàng Mơ" data-type="pants${id}"></div>
+            <div class="color-options-grid" id="pants-colors-${id}">
+                <!-- Pants colors will be loaded dynamically -->
              </div>
         </div>
     `;
@@ -4510,6 +4611,9 @@
         startCollectionTimers();
         initOptions();
         updateCharacterDisplay('1');
+        
+        // Load colors from Supabase
+        loadColorsFromSupabase();
         loadSelections();
         
         // Fetch fresh data from Supabase (will update cache)
