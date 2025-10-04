@@ -4465,8 +4465,11 @@
             }
 
             bindEvents() {
+                console.log('🔧 Binding date picker events...');
+                
                 // Toggle calendar on input click
                 this.input.addEventListener('click', (e) => {
+                    console.log('📅 Date input clicked');
                     e.preventDefault();
                     this.toggleCalendar();
                 });
@@ -4475,6 +4478,13 @@
                 document.addEventListener('click', (e) => {
                     if (!this.calendar.contains(e.target) && !this.input.contains(e.target)) {
                         this.hideCalendar();
+                    }
+                });
+
+                // Handle calendar day clicks using event delegation
+                this.calendar.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('calendar-day') && !e.target.classList.contains('disabled')) {
+                        this.selectDate(e.target);
                     }
                 });
 
@@ -4491,7 +4501,9 @@
             }
 
             toggleCalendar() {
+                console.log('🔄 Toggling calendar...');
                 this.calendar.classList.toggle('show');
+                console.log('📅 Calendar classes:', this.calendar.className);
             }
 
             hideCalendar() {
@@ -4543,7 +4555,7 @@
                     if (isSelected) classes += ' selected';
 
                     calendarHTML += `
-                        <div class="${classes}" data-date="${this.formatDate(date)}" ${isDisabled ? '' : 'onclick="datePicker.selectDate(this)"'}>
+                        <div class="${classes}" data-date="${this.formatDate(date)}">
                             ${day}
                         </div>
                     `;
@@ -4590,9 +4602,25 @@
 
         // Initialize date picker
         let datePicker;
-        document.addEventListener('DOMContentLoaded', function() {
-            datePicker = new DatePicker('delivery-date', 'date-picker-calendar');
-        });
+        
+        // Initialize date picker when DOM is ready
+        function initDatePicker() {
+            if (document.getElementById('delivery-date') && document.getElementById('date-picker-calendar')) {
+                datePicker = new DatePicker('delivery-date', 'date-picker-calendar');
+                window.datePicker = datePicker; // Make it globally accessible
+                console.log('✅ Date picker initialized');
+            } else {
+                console.log('❌ Date picker elements not found, retrying...');
+                setTimeout(initDatePicker, 100);
+            }
+        }
+        
+        // Try to initialize immediately
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initDatePicker);
+        } else {
+            initDatePicker();
+        }
 
         // Thêm sự kiện validate real-time
         document.getElementById('customer-name').addEventListener('input', validateForm);
