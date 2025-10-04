@@ -2231,79 +2231,101 @@
             container.innerHTML = '<p style="text-align: center;">Đang tải...</p>';
 
             try {
-                // Load collections and products first
+                console.log('🔄 Loading collection inventories from Supabase...');
+                
+                // Load collections and products from Supabase
                 await loadCollectionsAndProducts();
                 
-            container.innerHTML = '';
+                // Get all products from Supabase
+                const productsResponse = await fetch('/api/products');
+                const allProducts = await productsResponse.json();
+                
+                console.log('📦 All products from Supabase:', allProducts.length);
+                
+                container.innerHTML = '';
 
-            Object.values(collections).forEach(collection => {
-                if (!collection.limitedProducts || collection.limitedProducts.length === 0) return;
+                // Process each collection
+                Object.values(collections).forEach(collection => {
+                    console.log(`🔄 Processing collection: ${collection.name} (${collection.id}`);
+                    
+                    // Find products that belong to this collection
+                    const collectionProducts = allProducts.filter(product => {
+                        const productCollectionIds = product.collection_ids || [];
+                        return productCollectionIds.includes(collection.id);
+                    });
+                    
+                    console.log(`📦 Products in ${collection.name}:`, collectionProducts.length);
+                    
+                    if (collectionProducts.length === 0) {
+                        return; // Skip collections with no products
+                    }
 
-                const collectionDiv = document.createElement('div');
-                collectionDiv.style.cssText = `
-                    background: white;
-                    border-radius: 12px;
-                    padding: 20px;
-                    margin-bottom: 20px;
-                    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-                    border-left: 4px solid var(--primary-blue, #4a90a4);
-                `;
-
-                const header = document.createElement('div');
-                header.innerHTML = `
-                    <h5 style="margin: 0 0 15px 0; color: var(--primary-blue, #4a90a4);">
-                        <i class="fas fa-${collection.icon || 'star'}"></i> ${collection.name}
-                    </h5>
-                `;
-                collectionDiv.appendChild(header);
-
-                collection.limitedProducts.forEach(product => {
-                    const productDiv = document.createElement('div');
-                    productDiv.className = 'inventory-item';
-                    productDiv.style.cssText = `
-                        display: flex;
-                        align-items: center;
-                        gap: 15px;
-                        padding: 10px;
-                        margin-bottom: 10px;
-                        background: #f8f9fa;
-                        border-radius: 8px;
+                    const collectionDiv = document.createElement('div');
+                    collectionDiv.style.cssText = `
+                        background: white;
+                        border-radius: 12px;
+                        padding: 20px;
+                        margin-bottom: 20px;
+                        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                        border-left: 4px solid var(--primary-blue, #4a90a4);
                     `;
 
-                    // Get current stock from inventory
-                    const inventoryItem = inventory.find(item => item.id === product.id);
-                    const currentStock = inventoryItem ? inventoryItem.stock : 0;
-
-                    productDiv.innerHTML = `
-                        <img src="${product.image}" alt="${product.label}" 
-                             style="width: 50px; height: 50px; object-fit: cover; border-radius: 6px;"
-                             onerror="this.src='data:image/svg+xml,<svg xmlns=\\"http://www.w3.org/2000/svg\\" width=\\"50\\" height=\\"50\\"><rect width=\\"50\\" height=\\"50\\" fill=\\"%23ddd\\"/><text x=\\"50%\\" y=\\"50%\\" text-anchor=\\"middle\\" dy=\\".3em\\" fill=\\"%23999\\">No Image</text></svg>'">
-                        <div style="flex: 1;">
-                            <div style="font-weight: bold;">${product.label}</div>
-                            <div style="color: var(--gray-600); font-size: 0.9rem;">ID: ${product.id} - ${product.type}</div>
-                            <div style="color: var(--gray-600); font-size: 0.9rem;">
-                                Giá: ${product.price ? product.price.toLocaleString() + '₫' : 'Miễn phí'}
-                            </div>
-                        </div>
-                        <div style="text-align: right;">
-                            <div style="font-weight: bold; color: ${currentStock > 0 ? 'var(--success-green, #4CAF50)' : 'var(--error-red, #f44336)'};">
-                                Tồn kho: ${currentStock}
-                            </div>
-                            <input type="number" value="${currentStock}" min="0" 
-                                   style="width: 80px; margin-top: 5px; padding: 5px; border: 1px solid #ddd; border-radius: 4px;"
-                                   onchange="updateCollectionProductStock('${product.id}', this.value)">
-                        </div>
+                    const header = document.createElement('div');
+                    header.innerHTML = `
+                        <h5 style="margin: 0 0 15px 0; color: var(--primary-blue, #4a90a4);">
+                            <i class="fas fa-${collection.icon || 'star'}"></i> ${collection.name}
+                            <span style="font-size: 0.8rem; color: var(--gray-600); margin-left: 10px;">
+                                (${collectionProducts.length} sản phẩm)
+                            </span>
+                        </h5>
                     `;
-                    collectionDiv.appendChild(productDiv);
+                    collectionDiv.appendChild(header);
+
+                    collectionProducts.forEach(product => {
+                        const productDiv = document.createElement('div');
+                        productDiv.className = 'inventory-item';
+                        productDiv.style.cssText = `
+                            display: flex;
+                            align-items: center;
+                            gap: 15px;
+                            padding: 10px;
+                            margin-bottom: 10px;
+                            background: #f8f9fa;
+                            border-radius: 8px;
+                        `;
+
+                        productDiv.innerHTML = `
+                            <img src="${product.image}" alt="${product.name}" 
+                                 style="width: 50px; height: 50px; object-fit: cover; border-radius: 6px;"
+                                 onerror="this.src='data:image/svg+xml,<svg xmlns=\\"http://www.w3.org/2000/svg\\" width=\\"50\\" height=\\"50\\"><rect width=\\"50\\" height=\\"50\\" fill=\\"%23ddd\\"/><text x=\\"50%\\" y=\\"50%\\" text-anchor=\\"middle\\" dy=\\".3em\\" fill=\\"%23999\\">No Image</text></svg>'">
+                            <div style="flex: 1;">
+                                <div style="font-weight: bold;">${product.name}</div>
+                                <div style="color: var(--gray-600); font-size: 0.9rem;">ID: ${product.id} - ${product.category}</div>
+                                <div style="color: var(--gray-600); font-size: 0.9rem;">
+                                    Giá: ${product.price ? product.price.toLocaleString() + '₫' : 'Miễn phí'}
+                                </div>
+                            </div>
+                            <div style="text-align: right;">
+                                <div style="font-weight: bold; color: ${product.stock > 0 ? 'var(--success-green, #4CAF50)' : 'var(--error-red, #f44336)'};">
+                                    Tồn kho: ${product.stock || 0}
+                                </div>
+                                <input type="number" value="${product.stock || 0}" min="0" 
+                                       style="width: 80px; margin-top: 5px; padding: 5px; border: 1px solid #ddd; border-radius: 4px;"
+                                       onchange="updateCollectionProductStock('${product.id}', this.value)">
+                            </div>
+                        `;
+                        collectionDiv.appendChild(productDiv);
+                    });
+
+                    container.appendChild(collectionDiv);
                 });
 
-                container.appendChild(collectionDiv);
-            });
-
-            if (container.innerHTML === '') {
-                container.innerHTML = '<p style="color: var(--gray-600); text-align: center; padding: 20px;">Chưa có collection nào có sản phẩm riêng.</p>';
-            }
-            
+                if (container.innerHTML === '') {
+                    container.innerHTML = '<p style="color: var(--gray-600); text-align: center; padding: 20px;">Chưa có collection nào có sản phẩm.</p>';
+                }
+                
+                console.log('✅ Collection inventories loaded successfully');
+                
             } catch (error) {
                 console.error('❌ Error loading collection inventories:', error);
                 container.innerHTML = '<p style="text-align: center; color: red;">Lỗi khi tải dữ liệu collections</p>';
@@ -2311,44 +2333,29 @@
             }
         }
 
-        function updateCollectionProductStock(productId, newStock) {
+        async function updateCollectionProductStock(productId, newStock) {
             const stock = parseInt(newStock) || 0;
             
-            // Find or create inventory item
-            let inventoryItem = inventory.find(item => item.id === productId);
-            if (!inventoryItem) {
-                // Find product info from collections
-                let productInfo = null;
-                Object.values(collections).forEach(collection => {
-                    if (collection.limitedProducts) {
-                        const found = collection.limitedProducts.find(p => p.id === productId);
-                        if (found) productInfo = found;
-                    }
-                });
+            try {
+                console.log(`🔄 Updating stock for product ${productId} to ${stock}`);
                 
-                if (productInfo) {
-                    inventoryItem = {
-                        id: productInfo.id,
-                        name: productInfo.label,
-                        category: getCategoryFromType(productInfo.type),
-                        price: productInfo.price || 0,
-                        stock: stock,
-                        image: productInfo.image
-                    };
-                    inventory.push(inventoryItem);
-                }
-            } else {
-                inventoryItem.stock = stock;
+                // Update stock in Supabase
+                await ProductsAPI.updateStock(productId, stock);
+                
+                // Clear cache to force refresh
+                clearCMSCache();
+                
+                // Refresh displays
+                await loadCollectionInventories();
+                await loadInventory();
+                await loadDashboard();
+                
+                showNotification(`Cập nhật tồn kho thành công: ${stock}`, 'success');
+                
+            } catch (error) {
+                console.error('❌ Error updating product stock:', error);
+                showNotification('Lỗi khi cập nhật tồn kho: ' + error.message, 'error');
             }
-            
-            // Save to localStorage
-            localStorage.setItem('lgou_inventory', JSON.stringify(inventory));
-            
-            // Refresh displays
-            loadCollectionInventories();
-            loadInventory();
-            
-            showNotification(`Cập nhật tồn kho cho ${productInfo?.label || productId}: ${stock}`, 'success');
         }
 
         function getCategoryFromType(type) {
