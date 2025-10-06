@@ -2223,7 +2223,7 @@
             if (!confirm('Bạn có chắc chắn muốn xóa màu này?')) return;
             
             try {
-                const response = await fetch(`/api/colors/${encodeURIComponent(colorId)}`, { method: 'DELETE' });
+                const response = await fetch(`/api/colors/${encodeURIComponent(colorId)}?id=${encodeURIComponent(colorId)}`, { method: 'DELETE' });
                 
                 if (response.ok) {
                     showNotification('Xóa màu thành công!', 'success');
@@ -2261,7 +2261,7 @@
                 let response;
                 if (id) {
                     // Update existing color
-                    response = await fetch(`/api/colors/${encodeURIComponent(id)}`, {
+                    response = await fetch(`/api/colors/${encodeURIComponent(id)}?id=${encodeURIComponent(id)}`, {
                         method: 'PUT',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ name, hex_code, category, quantity })

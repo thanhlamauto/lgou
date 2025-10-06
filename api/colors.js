@@ -176,6 +176,8 @@ module.exports = async (req, res) => {
             req.params = { id };
         }
 
+        console.log('[colors API] Method:', req.method, 'URL:', req.url, 'Resolved ID:', id);
+
         switch (req.method) {
             case 'GET':
                 await getColors(req, res);
