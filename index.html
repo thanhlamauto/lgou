@@ -3149,6 +3149,13 @@
         console.log(`🎯 Collection selected: ${collectionId}`);
         fetchProductsFromSupabase(true, collectionId);
         
+        // Re-render clothing colors so colors remain visible for all collections
+        try {
+            updateColorDisplays();
+        } catch (e) {
+            console.warn('Could not re-render clothing colors after collection change:', e);
+        }
+        
         // Save selection
         saveSelections();
     }
@@ -3496,6 +3503,14 @@
             container.innerHTML = characterTemplate('1', 'Nhân vật 1');
             container.innerHTML += characterTemplate('2', 'Nhân vật 2');
             container.innerHTML += characterTemplate('3', 'Nhân vật 3');
+        }
+
+        // After building character containers, (re)render clothing colors so they
+        // are always visible when switching versions
+        try {
+            updateColorDisplays();
+        } catch (e) {
+            console.warn('Could not render clothing colors after version change:', e);
         }
         
         document.querySelectorAll('.color-option').forEach(option => {
