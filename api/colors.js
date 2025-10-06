@@ -166,8 +166,12 @@ module.exports = async (req, res) => {
         // Parse URL to get ID for PUT/DELETE operations
         const url = new URL(req.url, `http://${req.headers.host}`);
         const pathParts = url.pathname.split('/');
-        const id = pathParts[pathParts.length - 1];
-        
+        let id = pathParts[pathParts.length - 1];
+        // Support both /api/colors/:id and /api/colors?id=:id
+        if (!id || id === 'colors') {
+            const qp = url.searchParams.get('id');
+            if (qp) id = qp;
+        }
         if (id && id !== 'colors') {
             req.params = { id };
         }
