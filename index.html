@@ -2678,18 +2678,28 @@
         }
     }
     
-    // Load colors from Supabase
+    // Load colors from products API (colors are now products with category 'clothing_color')
     async function loadColorsFromSupabase() {
         try {
-            console.log('🔄 Loading colors from Supabase...');
-            const response = await fetch('/api/colors');
+            console.log('🔄 Loading colors from products API...');
+            const response = await fetch('/api/products?category=clothing_color');
             
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             
             const data = await response.json();
-            colorsData = Array.isArray(data) ? data : (data.colors || []);
+            const products = Array.isArray(data) ? data : (data.products || []);
+            
+            // Convert products to colors format
+            colorsData = products.map(product => ({
+                id: product.id,
+                name: product.name,
+                hex_code: product.color_hex || '#cccccc',
+                category: product.color_type || 'shirt',
+                quantity: product.stock || 0
+            }));
+            
             console.log('✅ Colors loaded:', colorsData.length, 'items');
             
             // Update color displays
@@ -3789,15 +3799,18 @@
         }
         
         const selectedHairs = document.querySelectorAll('#hair-options-container .option-item.selected');
-        const hairCount = selectedHairs.length;
-        const hairTotal = hairCount * 25000;
-        if (hairCount > 0) {
-            const hairNames = Array.from(selectedHairs).map(hair => 
-                hair.querySelector('.option-name').textContent
-            ).join(', ');
+        let hairTotal = 0;
+        if (selectedHairs.length > 0) {
+            const hairNames = [];
+            selectedHairs.forEach(hair => {
+                const name = hair.querySelector('.option-name').textContent;
+                const price = parseInt(hair.dataset.price || 0);
+                hairTotal += price;
+                hairNames.push(name);
+            });
             
             html += `<div class="summary-item">
-                <span>Tóc: ${hairNames}</span>
+                <span>Tóc: ${hairNames.join(', ')}</span>
                 <span>+${hairTotal.toLocaleString()}₫</span>
             </div>`;
         }
@@ -4130,7 +4143,7 @@
                 id: item.dataset.id || 'hair',
                 name: item.querySelector('.option-name').textContent,
                 type: 'hair',
-                price: parseInt(item.dataset.price || 25000)
+                price: parseInt(item.dataset.price || 0)
             });
         });
         

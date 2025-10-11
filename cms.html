@@ -602,11 +602,11 @@
                 <button class="tab-btn" onclick="showTab('collections')">
                     <i class="fas fa-star"></i> Collections
                 </button>
-                <button class="tab-btn" onclick="showTab('colors')">
-                    <i class="fas fa-palette"></i> Màu sắc
-                </button>
                 <button class="tab-btn" onclick="showTab('inventory')">
                     <i class="fas fa-boxes"></i> Quản lý kho
+                </button>
+                <button class="tab-btn" onclick="showTab('colors')">
+                    <i class="fas fa-palette"></i> Màu quần áo
                 </button>
                 <button class="tab-btn" onclick="showTab('customers')">
                     <i class="fas fa-users"></i> Khách hàng
@@ -662,9 +662,12 @@
 
             <!-- Colors Tab -->
             <div id="colors-tab" class="tab-content">
-                <h3>Quản lý Màu sắc</h3>
+                <h3>Quản lý Màu quần áo</h3>
+                <p style="color: var(--gray-600); margin-bottom: 20px;">
+                    Màu sắc được quản lý như sản phẩm với category "clothing_color"
+                </p>
                 <div style="margin-bottom: 20px;">
-                    <button class="btn btn-primary" onclick="openColorModal()">
+                    <button class="btn btn-primary" onclick="openColorProductModal()">
                         <i class="fas fa-plus"></i> Thêm màu mới
                     </button>
                     <button class="btn btn-secondary" onclick="loadColors()" style="margin-left: 10px;">
@@ -789,7 +792,7 @@
                 </div>
                 <div class="form-group">
                     <label for="product-category">Danh mục <span style="color: red;">*</span></label>
-                    <select id="product-category" required>
+                    <select id="product-category" required onchange="toggleColorFields()">
                         <option value="">Chọn danh mục</option>
                         <option value="face">Khuôn Mặt</option>
                         <option value="male_hair">Tóc Nam</option>
@@ -798,6 +801,23 @@
                         <option value="accessories">Phụ Kiện</option>
                         <option value="pets">Thú Cưng</option>
                         <option value="background">Nền (Thiết Kế Theo Yêu Cầu)</option>
+                        <option value="clothing_color">Màu Quần Áo</option>
+                    </select>
+                </div>
+                <div class="form-group" id="color-fields" style="display: none;">
+                    <label for="product-color-hex">Mã màu HEX <span style="color: red;">*</span></label>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <input type="text" id="product-color-hex" placeholder="#e3b0bc" pattern="^#[0-9A-Fa-f]{6}$" style="flex: 1;">
+                        <input type="color" id="product-color-picker" style="width: 50px; height: 38px; border: 1px solid #ddd; border-radius: 4px; cursor: pointer;" onchange="updateHexFromPicker()">
+                    </div>
+                    <small style="color: var(--gray-600);">Định dạng: #RRGGBB (vd: #e3b0bc)</small>
+                </div>
+                <div class="form-group" id="color-type-field" style="display: none;">
+                    <label for="product-color-type">Loại màu <span style="color: red;">*</span></label>
+                    <select id="product-color-type">
+                        <option value="">Chọn loại</option>
+                        <option value="shirt">Áo</option>
+                        <option value="trouser">Quần</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -886,45 +906,6 @@
 
     <!-- Include inventory data files -->
     <script src="cms-supabase-integration.js"></script>
-    <!-- Color Modal -->
-    <div id="color-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
-        <div style="background: white; padding: 30px; border-radius: 12px; max-width: 500px; width: 90%; max-height: 80vh; overflow-y: auto;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                <h3 id="color-modal-title">Thêm màu mới</h3>
-                <span onclick="closeColorModal()" style="cursor: pointer; font-size: 24px; color: var(--gray-500);">&times;</span>
-            </div>
-            <form id="color-form">
-                <input type="hidden" id="color-id">
-                <div class="form-group">
-                    <label for="color-name">Tên màu <span style="color: red;">*</span></label>
-                    <input type="text" id="color-name" required placeholder="vd: Hồng Pastel, Xanh Dương">
-                </div>
-                <div class="form-group">
-                    <label for="color-hex">Mã màu HEX <span style="color: red;">*</span></label>
-                    <input type="text" id="color-hex" required placeholder="#e3b0bc" pattern="^#[0-9A-Fa-f]{6}$">
-                    <small style="color: var(--gray-600);">Định dạng: #RRGGBB (vd: #e3b0bc)</small>
-                </div>
-                <div class="form-group">
-                    <label for="color-category">Loại <span style="color: red;">*</span></label>
-                    <select id="color-category" required>
-                        <option value="">Chọn loại</option>
-                        <option value="shirt">Áo</option>
-                        <option value="trouser">Quần</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="color-quantity">Số lượng <span style="color: red;">*</span></label>
-                    <input type="number" id="color-quantity" min="0" required placeholder="50" value="50">
-                    <small style="color: var(--gray-600);">Số lượng tồn kho cho màu này</small>
-                </div>
-                <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
-                    <button type="button" class="btn btn-secondary" onclick="closeColorModal()">Hủy</button>
-                    <button type="submit" class="btn btn-primary" id="color-submit-text">Thêm màu</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
     <script src="inventory-data.js"></script>
     <script src="accessories-pets-data.js"></script>
     
@@ -1853,6 +1834,16 @@
                 document.getElementById('product-stock').value = product.stock || 0;
                 document.getElementById('product-image-url').value = product.image || '';
                 
+                // Handle color-specific fields
+                if (product.category === 'clothing_color') {
+                    toggleColorFields();
+                    document.getElementById('product-color-hex').value = product.color_hex || '';
+                    document.getElementById('product-color-picker').value = product.color_hex || '#cccccc';
+                    document.getElementById('product-color-type').value = product.color_type || '';
+                } else {
+                    toggleColorFields();
+                }
+                
                 // Load collections and check the ones this product belongs to
                 await loadCollectionsForProduct();
                 
@@ -1867,7 +1858,7 @@
             
             // Show preview
             const previewImg = document.getElementById('preview-img');
-                if (product.image) {
+                if (product.image && product.category !== 'clothing_color') {
             previewImg.src = product.image;
             previewImg.style.display = 'block';
                 } else {
@@ -2043,6 +2034,22 @@
                     stock: parseInt(stock) || 0,
                 image: imageUrl
             };
+            
+            // Add color-specific fields if category is clothing_color
+            if (category === 'clothing_color') {
+                const colorHex = document.getElementById('product-color-hex').value;
+                const colorType = document.getElementById('product-color-type').value;
+                
+                if (!colorHex || !colorType) {
+                    showNotification('Vui lòng nhập đầy đủ thông tin màu sắc!', 'error');
+                    return;
+                }
+                
+                productData.color_hex = colorHex;
+                productData.color_type = colorType;
+                // Generate placeholder image for color
+                productData.image = `https://via.placeholder.com/60x60/${colorHex.substring(1)}/${colorHex.substring(1)}?text=${name.charAt(0)}`;
+            }
 
             if (currentEditingProductId) {
                 // Update existing product
@@ -2057,8 +2064,11 @@
                 // Clear cache to force refresh
                 clearCMSCache();
             
-            // Refresh inventory display
+            // Refresh inventory display and colors if it's a color product
                 await loadInventory(true); // Force refresh
+                if (category === 'clothing_color') {
+                    await loadColors();
+                }
                 await loadDashboard();
             
             // Close modal
@@ -2102,24 +2112,24 @@
             }, 3000);
         }
 
-        // Colors Management
+        // Colors Management (now using products API)
         async function loadColors() {
             const container = document.getElementById('colors-list');
             container.innerHTML = '<p style="text-align: center;">Đang tải...</p>';
 
             try {
-                const response = await fetch('/api/colors');
-                console.log('🔄 Colors API response status:', response.status);
+                const response = await fetch('/api/products?category=clothing_color');
+                console.log('🔄 Colors (products) API response status:', response.status);
                 
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 
                 const data = await response.json();
-                console.log('🔄 Colors API response data:', data);
+                console.log('🔄 Colors (products) API response data:', data);
                 
                 // Ensure we have an array
-                const colors = Array.isArray(data) ? data : (data.colors || []);
+                const colors = Array.isArray(data) ? data : (data.products || []);
                 console.log('🔄 Processed colors array:', colors);
                 
                 if (colors.length === 0) {
@@ -2133,17 +2143,17 @@
                     colorDiv.className = 'inventory-item';
                     colorDiv.innerHTML = `
                         <div style="display: flex; align-items: center; gap: 15px;">
-                            <div style="width: 40px; height: 40px; border-radius: 50%; background-color: ${color.hex_code}; border: 2px solid #ddd; flex-shrink: 0;"></div>
+                            <div style="width: 40px; height: 40px; border-radius: 50%; background-color: ${color.color_hex || '#cccccc'}; border: 2px solid #ddd; flex-shrink: 0;"></div>
                             <div style="flex: 1;">
                                 <h4>${color.name}</h4>
-                                <p style="color: var(--gray-600); margin: 5px 0;">${color.hex_code} - ${color.category === 'shirt' ? 'Áo' : 'Quần'}</p>
-                                <p class="color-quantity" style="color: var(--gray-600); margin: 5px 0; font-size: 0.9rem;">Số lượng: ${color.quantity || 0}</p>
+                                <p style="color: var(--gray-600); margin: 5px 0;">${color.color_hex || '#cccccc'} - ${color.color_type === 'shirt' ? 'Áo' : 'Quần'}</p>
+                                <p class="color-quantity" style="color: var(--gray-600); margin: 5px 0; font-size: 0.9rem;">Số lượng: ${color.stock || 0}</p>
                             </div>
                             <div style="display: flex; gap: 10px;">
-                                <button class="btn btn-sm btn-secondary" onclick="editColor('${color.id}')">
+                                <button class="btn btn-sm btn-secondary" onclick="editProduct('${color.id}')">
                                     <i class="fas fa-edit"></i> Sửa
                                 </button>
-                                <button class="btn btn-sm btn-danger" onclick="deleteColor('${color.id}')">
+                                <button class="btn btn-sm btn-danger" onclick="deleteProduct('${color.id}')">
                                     <i class="fas fa-trash"></i> Xóa
                                 </button>
                             </div>
@@ -2162,6 +2172,42 @@
                 container.innerHTML = '<p style="text-align: center; color: red;">Lỗi khi tải màu sắc. Vui lòng thử lại.</p>';
                 showNotification('Lỗi khi tải màu sắc: ' + error.message, 'error');
             }
+        }
+        
+        // Open product modal for adding a color
+        async function openColorProductModal() {
+            await openAddProductModal();
+            // Pre-select clothing_color category
+            document.getElementById('product-category').value = 'clothing_color';
+            toggleColorFields();
+            document.getElementById('product-modal-title').textContent = 'Thêm màu mới';
+        }
+        
+        // Toggle color-specific fields based on category
+        function toggleColorFields() {
+            const category = document.getElementById('product-category').value;
+            const colorFields = document.getElementById('color-fields');
+            const colorTypeField = document.getElementById('color-type-field');
+            const imageField = document.querySelector('[for="product-image"]').parentElement;
+            
+            if (category === 'clothing_color') {
+                colorFields.style.display = 'block';
+                colorTypeField.style.display = 'block';
+                imageField.style.display = 'none'; // Hide image for colors
+                // Set price to 0 for colors
+                document.getElementById('product-price').value = '0';
+            } else {
+                colorFields.style.display = 'none';
+                colorTypeField.style.display = 'none';
+                imageField.style.display = 'block';
+            }
+        }
+        
+        // Update HEX from color picker
+        function updateHexFromPicker() {
+            const colorPicker = document.getElementById('product-color-picker');
+            const hexInput = document.getElementById('product-color-hex');
+            hexInput.value = colorPicker.value;
         }
 
         function filterColorsByCategory() {
@@ -2184,110 +2230,6 @@
                 }
             });
         }
-
-        function openColorModal() {
-            document.getElementById('color-modal').style.display = 'flex';
-            document.getElementById('color-form').reset();
-            document.getElementById('color-id').value = '';
-            document.getElementById('color-quantity').value = '50';
-        }
-
-        function editColor(colorId) {
-            // Find color in the list and populate form
-            const colorItems = document.querySelectorAll('#colors-list .inventory-item');
-            let colorData = null;
-            
-            colorItems.forEach(item => {
-                const editBtn = item.querySelector('button[onclick*="editColor"]');
-                if (editBtn && editBtn.getAttribute('onclick').includes(colorId)) {
-                    const name = item.querySelector('h4').textContent;
-                    const hexCode = item.querySelector('p').textContent.split(' - ')[0];
-                    const category = item.querySelector('p').textContent.includes('Áo') ? 'shirt' : 'trouser';
-                    const quantity = item.querySelector('.color-quantity') ? item.querySelector('.color-quantity').textContent.replace('Số lượng: ', '') : '50';
-                    
-                    colorData = { id: colorId, name, hex_code: hexCode, category, quantity };
-                }
-            });
-            
-            if (colorData) {
-                document.getElementById('color-id').value = colorData.id;
-                document.getElementById('color-name').value = colorData.name;
-                document.getElementById('color-hex').value = colorData.hex_code;
-                document.getElementById('color-category').value = colorData.category;
-                document.getElementById('color-quantity').value = colorData.quantity;
-                document.getElementById('color-modal').style.display = 'flex';
-            }
-        }
-
-        async function deleteColor(colorId) {
-            if (!confirm('Bạn có chắc chắn muốn xóa màu này?')) return;
-            
-            try {
-                const response = await fetch(`/api/colors/${encodeURIComponent(colorId)}?id=${encodeURIComponent(colorId)}`, { method: 'DELETE' });
-                
-                if (response.ok) {
-                    showNotification('Xóa màu thành công!', 'success');
-                    loadColors();
-                } else {
-                    const error = await response.json();
-                    showNotification('Lỗi khi xóa màu: ' + error.error, 'error');
-                }
-            } catch (error) {
-                console.error('Error deleting color:', error);
-                showNotification('Lỗi khi xóa màu: ' + error.message, 'error');
-            }
-        }
-
-        function closeColorModal() {
-            document.getElementById('color-modal').style.display = 'none';
-        }
-
-        // Color form submission
-        document.getElementById('color-form').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const id = document.getElementById('color-id').value;
-            const name = document.getElementById('color-name').value.trim();
-            const hex_code = document.getElementById('color-hex').value.trim();
-            const category = document.getElementById('color-category').value;
-            const quantity = parseInt(document.getElementById('color-quantity').value) || 0;
-            
-            if (!name || !hex_code || !category) {
-                showNotification('Vui lòng điền đầy đủ thông tin!', 'error');
-                return;
-            }
-            
-            try {
-                let response;
-                if (id) {
-                    // Update existing color
-                    response = await fetch(`/api/colors/${encodeURIComponent(id)}?id=${encodeURIComponent(id)}`, {
-                        method: 'PUT',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ name, hex_code, category, quantity })
-                    });
-                } else {
-                    // Create new color
-                    response = await fetch('/api/colors', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ name, hex_code, category, quantity })
-                    });
-                }
-                
-                if (response.ok) {
-                    showNotification(id ? 'Cập nhật màu thành công!' : 'Thêm màu thành công!', 'success');
-                    closeColorModal();
-                    loadColors();
-                } else {
-                    const error = await response.json();
-                    showNotification('Lỗi: ' + error.error, 'error');
-                }
-            } catch (error) {
-                console.error('Error saving color:', error);
-                showNotification('Lỗi khi lưu màu: ' + error.message, 'error');
-            }
-        });
 
         // Collections Management
         async function loadCollectionInventories() {
